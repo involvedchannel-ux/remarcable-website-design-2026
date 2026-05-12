@@ -114,6 +114,7 @@
     .ba-label.before-label{left:20px;} .ba-label.after-label{right:20px;}
     .ba-instruction { text-align:center; font-size:11px; color:var(--light); font-weight:300; margin-top:12px; }
     /* DESIGN FEATURES */
+    .hotspot-outer { padding: 0 var(--pad-outer); }
     .hotspot-inner { display:grid; grid-template-columns:58fr 42fr; min-height:600px; }
     .hotspot-img-wrap { position:relative; overflow:hidden; background:#c0bcb4; }
     .hs-img-bg { position:absolute; inset:0; background:#c0bcb4; }
@@ -126,7 +127,7 @@
     @keyframes dot-pulse{0%,100%{transform:scale(0.9);opacity:0.8}50%{transform:scale(1.2);opacity:0.3}}
     .hs-img-label{position:absolute;font-size:9px;letter-spacing:0.14em;font-weight:600;text-transform:uppercase;color:var(--black);background:rgba(255,255,255,0.9);padding:5px 10px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.4s;z-index:6;}
     .hs-img-label.visible{opacity:1;}
-    .hotspot-list{padding:48px var(--pad-outer) 48px 56px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--border);}
+    .hotspot-list{padding:48px 0 48px 56px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--border);}
     .hl-heading{font-size:9px;letter-spacing:0.16em;font-weight:600;text-transform:uppercase;color:var(--light);margin-bottom:32px;}
     .hs-feature{border-top:1px solid var(--border);cursor:pointer;transition:opacity 0.25s;}
     .hs-feature:last-child{border-bottom:1px solid var(--border);}
@@ -175,6 +176,7 @@
       .hl-text{padding:40px 24px;}
       .test-wrap{grid-template-columns:1fr;padding:56px 24px;gap:32px;}
       .test-right-img{height:240px;}
+      .hotspot-outer{padding:0 24px;}
       .hotspot-inner{grid-template-columns:1fr;}
       .hotspot-img-wrap{height:400px;}
       .hotspot-list{padding:40px 24px;border-left:none;border-top:1px solid var(--border);}
@@ -302,6 +304,7 @@
   <section class="section-block">
     <div class="drag-handle">⠿</div>
     <div class="section-label">Design Features</div>
+    <div class="hotspot-outer">
     <div class="hotspot-inner" id="hotspot-inner">
       <div class="hotspot-img-wrap">
         <div class="hs-img-bg"></div>
@@ -320,6 +323,7 @@
         <div class="hs-feature" data-f="2"><div class="hs-feat-header"><div class="hs-feat-num">3</div><div class="hs-feat-name-wrap"><div class="hs-feat-cat">Joinery</div><div class="hs-feat-name">Bespoke Cabinetry</div></div><span class="hs-feat-arrow">›</span></div><div class="hs-feat-body"><div class="hs-feat-body-inner"><p class="hs-feat-text">Custom reception desk and storage built to exacting staff workflow requirements. Higher upstand creates privacy delineation while integrated storage maintains visual calm.</p><div class="hs-feat-spec">FSC certified timber &nbsp;·&nbsp; Custom fabrication &nbsp;·&nbsp; Staff-workflow driven</div></div></div></div>
         <div class="hs-feature" data-f="3"><div class="hs-feat-header"><div class="hs-feat-num">4</div><div class="hs-feat-name-wrap"><div class="hs-feat-cat">Lighting</div><div class="hs-feat-name">Layered Warmth</div></div><span class="hs-feat-arrow">›</span></div><div class="hs-feat-body"><div class="hs-feat-body-inner"><p class="hs-feat-text">Ambient, task, and accent layers reinforcing the clinic's calming atmosphere while meeting medical-grade luminance requirements throughout the space.</p><div class="hs-feat-spec">CIBSE healthcare guidelines &nbsp;·&nbsp; LED &nbsp;·&nbsp; 3000K warm white</div></div></div></div>
       </div>
+    </div>
     </div>
   </section>
 
