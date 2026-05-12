@@ -20,6 +20,11 @@
     { "source": "/about/key-elements", "destination": "/about-key-elements.html" },
     { "source": "/about/team", "destination": "/about-team.html" },
     { "source": "/testimonials", "destination": "/testimonials.html" },
-    { "source": "/contact", "destination": "/contact.html" }
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/project-detail", "destination": "/project-detail.html" },
+    { "source": "/cost-calculator", "destination": "/cost-calculator.html" },
+    { "source": "/handoff", "destination": "/handoff.html" }
   ]
 }

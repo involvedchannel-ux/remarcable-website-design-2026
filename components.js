@@ -989,10 +989,45 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inject);
-  } else {
+  function injectHandoffHighlightStyles() {
+    if (document.getElementById('rd-handoff-css')) return;
+    const s = document.createElement('style');
+    s.id = 'rd-handoff-css';
+    s.textContent =
+      '.rd-handoff-target{outline:3px solid #b84343!important;outline-offset:6px!important;box-shadow:0 0 0 4px rgba(184,67,67,0.15);animation:rd-handoff-pulse 1.1s ease-in-out 3;}@keyframes rd-handoff-pulse{0%,100%{outline-color:#b84343;box-shadow:0 0 0 4px rgba(184,67,67,0.12)}50%{outline-color:#e08585;box-shadow:0 0 0 8px rgba(224,133,133,0.2)}}';
+    document.head.appendChild(s);
+  }
+
+  /** Scroll + pulse outline for `#id` (hash) or `?handoff=id` (used in HANDOFF deep links). */
+  function applyHandoffHighlight() {
+    const params = new URLSearchParams(window.location.search);
+    const fromQuery = params.get('handoff');
+    const fromHash = window.location.hash && window.location.hash.length > 1
+      ? decodeURIComponent(window.location.hash.slice(1))
+      : '';
+    const id = (fromQuery || fromHash || '').replace(/^#/, '');
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    window.requestAnimationFrame(function () {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('rd-handoff-target');
+      window.setTimeout(function () {
+        el.classList.remove('rd-handoff-target');
+      }, 9000);
+    });
+  }
+
+  function boot() {
     inject();
+    injectHandoffHighlightStyles();
+    applyHandoffHighlight();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 
 })();
