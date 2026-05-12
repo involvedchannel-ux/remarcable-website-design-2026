@@ -2,6 +2,8 @@
 
 This folder is the **primary wireframe prototype source** and the folder pushed to GitHub.
 
+IA drafts, client comms, `design-notes/`, and extended internal docs live in the **parent** `Remarcable Design` workspace on Zsolt’s machine — they are **not** duplicated in this repo (see root `AGENTS.md`).
+
 ## What is inside
 
 - Route-level wireframe pages as static HTML (`index.html`, `projects.html`, `project-detail.html`, etc.)
