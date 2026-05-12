@@ -68,15 +68,16 @@
     .gallery-hijack-wrap { position:relative; }
     .gallery-hijack-sticky { position:sticky; top:var(--nav-h); height:calc(100vh - var(--nav-h)); overflow:hidden; background:var(--bg); }
     .gallery-strip { display:flex; align-items:center; height:100%; gap:88px; padding:0 88px; will-change:transform; }
-    .gs-tile { flex:0 0 auto; height:72%; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 8px 48px rgba(0,0,0,0.09); }
+    .gs-tile { flex:0 0 auto; height:72%; position:relative; cursor:pointer; box-shadow:0 8px 48px rgba(0,0,0,0.09); }
+    .gs-tile-clip { overflow:hidden; height:100%; position:relative; }
     .gs-tile:hover .gs-fill { transform:scale(1.03); }
-    .gs-fill { width:100%; height:100%; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .gs-fill { position:absolute; inset:0; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
     .gs-landscape{aspect-ratio:4/3;} .gs-wide{aspect-ratio:16/9;} .gs-portrait{aspect-ratio:2/3;} .gs-square{aspect-ratio:1/1;} .gs-cinema{aspect-ratio:21/9;}
-    .gs-pair { flex:0 0 auto; height:72%; display:flex; flex-direction:column; gap:12px; aspect-ratio:3/4; box-shadow:none; }
+    .gs-pair { flex:0 0 auto; height:72%; display:flex; flex-direction:column; gap:88px; aspect-ratio:3/4; position:relative; }
     .gs-pair .gs-tile { height:auto; flex:1; box-shadow:0 4px 24px rgba(0,0,0,0.08); }
     .gf1{background:#c8c4bd;} .gf2{background:#d0cdc6;} .gf3{background:#bfbcb5;} .gf4{background:#cac7c0;} .gf5{background:#d5d2cb;} .gf6{background:#b8b5ae;} .gf7{background:#c2bfb8;} .gf8{background:#cfccc5;} .gf9{background:#c6c3bb;} .gf10{background:#d2cfc8;}
     .gs-tile .img-label{color:rgba(0,0,0,0.18);}
-    .gs-index { position:absolute; top:-22px; left:0; font-size:9px; letter-spacing:0.14em; font-weight:600; text-transform:uppercase; color:var(--xlight); }
+    .gs-index { position:absolute; top:-22px; left:0; font-size:9px; letter-spacing:0.14em; font-weight:600; text-transform:uppercase; color:var(--xlight); white-space:nowrap; }
     .gallery-progress-bar { position:absolute; bottom:0; left:0; right:0; height:1px; background:var(--border); }
     .gallery-progress-fill { height:100%; background:var(--black); width:0%; transition:width 0.08s linear; }
     .gallery-cue { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:10px; font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); transition:opacity 0.4s; pointer-events:none; }
@@ -84,6 +85,7 @@
     @keyframes cue-pulse{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
     .gallery-counter { position:absolute; bottom:20px; right:48px; font-size:11px; letter-spacing:0.08em; font-weight:400; color:var(--light); }
     /* HIGHLIGHTS */
+    .hl-outer { padding: 0 var(--pad-outer); }
     .hl-block { display:grid; grid-template-columns:1fr 1fr; }
     .hl-block.rev { direction:rtl; }
     .hl-block.rev > * { direction:ltr; }
@@ -93,14 +95,7 @@
     .hl-kicker { font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:16px; }
     .hl-title { font-family:'DM Serif Display',serif; font-size:32px; font-weight:400; line-height:1.2; margin-bottom:16px; }
     .hl-body { font-size:14px; font-weight:300; line-height:1.8; color:var(--mid); }
-    /* TESTIMONIAL */
-    .test-wrap { padding:80px var(--pad-outer); background:var(--white); display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-    .test-kicker { font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:28px; }
-    .test-stars { font-size:18px; letter-spacing:4px; margin-bottom:24px; }
-    .test-quote { font-family:'DM Serif Display',serif; font-style:italic; font-size:clamp(18px,2.5vw,24px); font-weight:400; line-height:1.5; margin-bottom:24px; }
-    .test-attr { font-size:11px; letter-spacing:0.12em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:20px; }
-    .test-link { font-size:11px; letter-spacing:0.1em; font-weight:500; color:var(--black); text-decoration:none; border-bottom:1px solid var(--black); padding-bottom:2px; }
-    .test-right-img { background:#c8c4bd; height:320px; display:flex; align-items:center; justify-content:center; }
+    /* BEFORE / AFTER (was TESTIMONIAL — now component) */
     /* BEFORE / AFTER */
     .admin-badge { display:inline-flex; align-items:center; gap:6px; font-size:9px; letter-spacing:0.12em; font-weight:600; text-transform:uppercase; padding:5px 12px; background:#fff3cd; border:1px solid #ffc107; color:#856404; margin:24px 48px 0; }
     .admin-badge::before { content:'⚙'; font-size:10px; }
@@ -171,12 +166,11 @@
       .index-chapter{padding:48px 24px;min-height:auto;}
       .gallery-strip{gap:40px;padding:0 32px;}
       .gallery-hijack-sticky{height:56vw;}
+      .hl-outer{padding:0 24px;}
       .hl-block,.hl-block.rev{grid-template-columns:1fr;direction:ltr;}
       .hl-img{height:300px;}
       .hl-text{padding:40px 24px;}
-      .test-wrap{grid-template-columns:1fr;padding:56px 24px;gap:32px;}
-      .test-right-img{height:240px;}
-      .hotspot-outer{padding:0 24px;}
+.hotspot-outer{padding:0 24px;}
       .hotspot-inner{grid-template-columns:1fr;}
       .hotspot-img-wrap{height:400px;}
       .hotspot-list{padding:40px 24px;border-left:none;border-top:1px solid var(--border);}
@@ -245,16 +239,16 @@
     <div class="gallery-hijack-wrap" id="gallery-wrap">
       <div class="gallery-hijack-sticky" id="gallery-sticky">
         <div class="gallery-strip" id="gallery-strip">
-          <div class="gs-tile gs-cinema" style="position:relative;"><span class="gs-index">01</span><div class="gs-fill gf1"></div></div>
-          <div class="gs-tile gs-portrait" style="position:relative;"><span class="gs-index">02</span><div class="gs-fill gf2"></div></div>
-          <div class="gs-pair" style="position:relative;"><span class="gs-index" style="position:absolute;top:-22px;left:0;">03</span><div class="gs-tile"><div class="gs-fill gf3"></div></div><div class="gs-tile"><div class="gs-fill gf4"></div></div></div>
-          <div class="gs-tile gs-landscape" style="position:relative;"><span class="gs-index">04</span><div class="gs-fill gf5"></div></div>
-          <div class="gs-tile gs-portrait" style="position:relative;"><span class="gs-index">05</span><div class="gs-fill gf6"></div></div>
-          <div class="gs-tile gs-wide" style="position:relative;"><span class="gs-index">06</span><div class="gs-fill gf7"></div></div>
-          <div class="gs-pair" style="position:relative;"><span class="gs-index" style="position:absolute;top:-22px;left:0;">07</span><div class="gs-tile"><div class="gs-fill gf8"></div></div><div class="gs-tile"><div class="gs-fill gf9"></div></div></div>
-          <div class="gs-tile gs-landscape" style="position:relative;"><span class="gs-index">08</span><div class="gs-fill gf10"></div></div>
-          <div class="gs-tile gs-square" style="position:relative;"><span class="gs-index">09</span><div class="gs-fill gf2"></div></div>
-          <div class="gs-tile gs-cinema" style="position:relative;"><span class="gs-index">10</span><div class="gs-fill gf5"></div></div>
+          <div class="gs-tile gs-cinema"><span class="gs-index">01 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf1"></div></div></div>
+          <div class="gs-tile gs-portrait"><span class="gs-index">02 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf2"></div></div></div>
+          <div class="gs-pair"><div class="gs-tile"><span class="gs-index">03 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf3"></div></div></div><div class="gs-tile"><span class="gs-index">04 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf4"></div></div></div></div>
+          <div class="gs-tile gs-landscape"><span class="gs-index">05 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf5"></div></div></div>
+          <div class="gs-tile gs-portrait"><span class="gs-index">06 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf6"></div></div></div>
+          <div class="gs-tile gs-wide"><span class="gs-index">07 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf7"></div></div></div>
+          <div class="gs-pair"><div class="gs-tile"><span class="gs-index">08 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf8"></div></div></div><div class="gs-tile"><span class="gs-index">09 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf9"></div></div></div></div>
+          <div class="gs-tile gs-landscape"><span class="gs-index">10 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf10"></div></div></div>
+          <div class="gs-tile gs-square"><span class="gs-index">11 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf2"></div></div></div>
+          <div class="gs-tile gs-cinema"><span class="gs-index">12 / 12</span><div class="gs-tile-clip"><div class="gs-fill gf5"></div></div></div>
         </div>
         <div class="gallery-progress-bar"><div class="gallery-progress-fill" id="gallery-progress"></div></div>
         <div class="gallery-cue" id="gallery-cue"><span>Scroll to explore</span><span class="gallery-cue-arrow">→</span></div>
@@ -266,25 +260,13 @@
   <section class="section-block">
     <div class="drag-handle">⠿</div>
     <div class="section-label">Section Highlights</div>
-    <div class="hl-block"><div class="hl-img a"><span class="img-label">Reception Desk Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 01</div><h3 class="hl-title">Bespoke Reception Desk</h3><p class="hl-body">The focal design piece features a higher upstand for privacy and space delineation with enhanced storage capabilities. The upstand creates a clear separation between client and staff areas while reducing visual clutter throughout the reception zone.</p></div></div>
-    <div class="hl-block rev"><div class="hl-img b"><span class="img-label">Seating Area Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 02</div><h3 class="hl-title">Seating Installation</h3><p class="hl-body">Black and white artwork complemented comfortable bench seating with soft cushions, backrests, and open-bottom design. Design priorities: decluttering, privacy, safety, and support — ensuring patients feel at ease from the moment they arrive.</p></div></div>
-    <div class="hl-block"><div class="hl-img c"><span class="img-label">Second Floor Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 03</div><h3 class="hl-title">Second Floor Integration</h3><p class="hl-body">When the client acquired the upper floor, design elements were seamlessly integrated to ensure continuity in both the aesthetic and atmosphere — extending the same spatial language across both clinic levels.</p></div></div>
-  </section>
-
-  <section class="section-block">
-    <div class="drag-handle">⠿</div>
-    <div class="section-label">Client Testimonial</div>
-    <div class="test-wrap">
-      <div>
-        <div class="test-kicker">What the client said</div>
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"The thought-to-execution process was seamless while keeping our space open during the refurbishment. The project justified our investment, and the result has received positive feedback from our clients."</p>
-        <p class="test-attr">Dr. Pippa Rollitt &nbsp;·&nbsp; Co-Founder, Richmond Physiotherapy</p>
-        <a class="test-link" href="testimonials.html">View all client testimonials →</a>
-      </div>
-      <div class="test-right-img"><span class="img-label">Client / Clinic Image</span></div>
+    <div class="hl-outer">
+      <div class="hl-block"><div class="hl-img a"><span class="img-label">Reception Desk Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 01</div><h3 class="hl-title">Bespoke Reception Desk</h3><p class="hl-body">The focal design piece features a higher upstand for privacy and space delineation with enhanced storage capabilities. The upstand creates a clear separation between client and staff areas while reducing visual clutter throughout the reception zone.</p></div></div>
+      <div class="hl-block rev"><div class="hl-img b"><span class="img-label">Seating Area Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 02</div><h3 class="hl-title">Seating Installation</h3><p class="hl-body">Black and white artwork complemented comfortable bench seating with soft cushions, backrests, and open-bottom design. Design priorities: decluttering, privacy, safety, and support — ensuring patients feel at ease from the moment they arrive.</p></div></div>
     </div>
   </section>
+
+  <div id="tc-mount"></div>
 
   <section class="section-block">
     <div class="drag-handle">⠿</div>
@@ -342,6 +324,8 @@
   <div id="site-footer"></div>
   <script src="components.js"></script>
   <script>
+    RD.render.testimonialCarousel(document.getElementById('tc-mount'), { kicker: 'What the client said' });
+
     const chapters = document.querySelectorAll('.index-chapter');
     const navItems = document.querySelectorAll('.index-nav-item');
     const stickyImgs = document.querySelectorAll('.is-image');

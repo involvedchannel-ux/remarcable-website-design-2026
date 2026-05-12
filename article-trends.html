@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing for Warmth, Wellness, and Purpose: 2026 Design Trends — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    .art-breadcrumb { padding: 20px var(--pad-outer); font-size: 10px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase; color: var(--light); display: flex; gap: 10px; align-items: center; background: var(--white); border-bottom: 1px solid var(--border); }
+    .art-breadcrumb a { color: inherit; text-decoration: none; }
+    .art-breadcrumb a:hover { color: var(--black); }
+    .art-bc-sep { opacity: 0.35; }
+
+    .art-header { padding: 56px var(--pad-outer) 48px; background: var(--white); border-bottom: 1px solid var(--border); }
+    .art-cat { font-size: 9px; letter-spacing: 0.2em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 20px; }
+    .art-title { font-family: 'DM Serif Display', serif; font-size: clamp(30px, 5vw, 62px); font-weight: 400; letter-spacing: -0.02em; line-height: 1.06; margin-bottom: 32px; max-width: 880px; }
+    .art-meta-bar { display: flex; gap: 20px; align-items: center; font-size: 11px; letter-spacing: 0.06em; color: var(--light); }
+    .art-meta-dot { opacity: 0.3; }
+
+    .art-hero-img { background: #c8c4bd; height: 500px; display: flex; align-items: center; justify-content: center; }
+    .art-hero-img.tall { height: 620px; }
+    .img-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+    .art-body { padding: 72px var(--pad-outer) 80px; }
+    .art-lead { font-size: 18px; font-weight: 300; line-height: 1.75; color: var(--black); margin-bottom: 36px; }
+    .art-body p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--mid); margin-bottom: 24px; }
+    .art-body p:last-child { margin-bottom: 0; }
+    .art-body h2 { font-family: 'DM Serif Display', serif; font-size: clamp(22px, 2.5vw, 30px); font-weight: 400; letter-spacing: -0.01em; color: var(--black); margin: 56px 0 18px; }
+    .art-body h3 { font-size: 10px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--light); margin: 40px 0 14px; }
+
+    .art-pullquote { margin: 56px 0; padding: 36px 48px; border-left: 3px solid var(--black); background: var(--white); }
+    .art-pullquote p { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(19px, 2.2vw, 26px) !important; font-weight: 400 !important; line-height: 1.45 !important; color: var(--black) !important; margin-bottom: 0 !important; }
+
+    .art-figure { margin: 56px 0; }
+    .art-fig-img { background: #c8c4bd; height: 420px; display: flex; align-items: center; justify-content: center; }
+    .art-fig-caption { font-size: 11px; letter-spacing: 0.06em; color: var(--xlight); margin-top: 12px; }
+
+    .art-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin: 56px 0; }
+    .art-gal-item { aspect-ratio: 2/3; display: flex; align-items: center; justify-content: center; }
+    .art-gal-item:nth-child(1) { background: #bfbcb5; }
+    .art-gal-item:nth-child(2) { background: #c8c4bd; }
+    .art-gal-item:nth-child(3) { background: #d2cfc8; }
+
+    .art-numbered { display: flex; flex-direction: column; gap: 3px; margin: 40px 0; }
+    .art-num-item { padding: 32px 36px; border: 1px solid var(--border); background: var(--white); display: grid; grid-template-columns: 48px 1fr; gap: 24px; align-items: start; }
+    .art-num-index { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--xlight); padding-top: 3px; }
+    .art-num-content h3 { font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--black); margin: 0 0 10px; }
+    .art-num-content p { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); margin: 0; }
+
+    .art-cta-strip { padding: 80px var(--pad-outer); background: var(--black); color: var(--white); }
+    .art-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+    .art-cta-title { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 3vw, 38px); font-weight: 400; line-height: 1.2; margin-bottom: 10px; }
+    .art-cta-sub { font-size: 14px; font-weight: 300; opacity: 0.65; }
+    .art-cta-btn { background: var(--white); color: var(--black); font-size: 11px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; padding: 18px 32px; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: opacity 0.2s; display: inline-block; }
+    .art-cta-btn:hover { opacity: 0.85; }
+
+    .art-related { padding: 72px var(--pad-outer); background: var(--white); border-top: 1px solid var(--border); }
+    .art-related-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+    .art-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .art-rel-card { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 12px; }
+    .art-rel-thumb { aspect-ratio: 3/2; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+    .art-rel-thumb.t1 { background: #c8c4bd; }
+    .art-rel-thumb.t2 { background: #bfbcb5; }
+    .art-rel-thumb.t3 { background: #d2cfc8; }
+    .art-rel-cat { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); }
+    .art-rel-title { font-size: 15px; font-weight: 400; line-height: 1.4; }
+    .art-rel-title:hover { text-decoration: underline; text-decoration-color: var(--border); }
+    .art-rel-meta { font-size: 11px; color: var(--xlight); }
+
+    @media (max-width: 900px) {
+      .art-header { padding: 40px 24px 36px; }
+      .art-hero-img, .art-hero-img.tall { height: 300px; }
+      .art-body { padding: 48px 24px 64px; }
+      .art-pullquote { padding: 24px 28px; margin: 40px 0; }
+      .art-gallery { grid-template-columns: 1fr 1fr; }
+      .art-num-item { grid-template-columns: 1fr; gap: 8px; }
+      .art-cta-inner { flex-direction: column; align-items: flex-start; }
+      .art-related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-active-page="resources">
+
+  <div id="site-header"></div>
+
+  <nav class="art-breadcrumb">
+    <a href="resources.html">Resources</a>
+    <span class="art-bc-sep">/</span>
+    <a href="resources.html">Articles</a>
+    <span class="art-bc-sep">/</span>
+    2026 Design Trends
+  </nav>
+
+  <header class="art-header">
+    <div class="art-cat">Design</div>
+    <h1 class="art-title">Designing for Warmth, Wellness, and Purpose: 2026 Design Trends</h1>
+    <div class="art-meta-bar">
+      <span>Remarcable Design</span>
+      <span class="art-meta-dot">·</span>
+      <span>27th January, 2026</span>
+      <span class="art-meta-dot">·</span>
+      <span>5 min read</span>
+    </div>
+  </header>
+
+  <div class="art-hero-img">
+    <span class="img-label">Article Image</span>
+  </div>
+
+  <div class="art-body">
+
+    <p class="art-lead">Moving away from sterile minimalism, the most ambitious spaces of 2026 are grounded, tactile, and deliberately human. Here are the five shifts shaping interior design across healthcare, commercial, and residential sectors this year.</p>
+
+    <p>Design doesn't happen in isolation. The spaces we occupy shape how we feel, how we work, and how we recover. The five trends below aren't aesthetic fads — they represent a deeper cultural shift toward environments that genuinely support the people within them.</p>
+
+    <div class="art-numbered">
+
+      <div class="art-num-item">
+        <div class="art-num-index">01</div>
+        <div class="art-num-content">
+          <h3>Grounded Colour Palettes</h3>
+          <p>Warm, nature-inspired hues — terracotta, rust, sage, ochre — are replacing the cool greys that dominated the last decade. These colours demonstrably reduce stress and create approachable environments. Across healthcare, commercial, and residential settings, we're specifying warmer base tones as standard.</p>
+        </div>
+      </div>
+
+      <div class="art-num-item">
+        <div class="art-num-index">02</div>
+        <div class="art-num-content">
+          <h3>Haptic Materiality</h3>
+          <p>Texture is moving to the foreground. Matte finishes, rattan, bamboo, limewash plaster, and curved geometries create a sense of safety and comfort that polished surfaces cannot. In high-stress environments particularly, tactile richness communicates care.</p>
+        </div>
+      </div>
+
+      <div class="art-num-item">
+        <div class="art-num-index">03</div>
+        <div class="art-num-content">
+          <h3>Biophilia 2.0</h3>
+          <p>Beyond decorative plants, true biophilic design now encompasses maximised natural light, improved air quality, and circadian rhythm lighting systems that adapt throughout the day. We're designing for biology, not just aesthetics.</p>
+        </div>
+      </div>
+
+      <div class="art-num-item">
+        <div class="art-num-index">04</div>
+        <div class="art-num-content">
+          <h3>Statement Surfaces</h3>
+          <p>Floors and ceilings are becoming central design elements. Bold patterns, colour blocking, and custom tile work are being used for wayfinding, zoning, and visual interest — especially valuable in large, open-plan environments where walls offer limited canvas.</p>
+        </div>
+      </div>
+
+      <div class="art-num-item">
+        <div class="art-num-index">05</div>
+        <div class="art-num-content">
+          <h3>Intentional Maximalism</h3>
+          <p>Curated, meaningful layering is replacing empty minimalism. Adaptive, modular spaces now reflect brand personality while remaining flexible for evolving needs. Every element earns its place — but there is no fear of richness.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p>The common thread across all five: design should actively support the physical and emotional wellbeing of its occupants. Whether you're fitting out a dental practice, an office, or a family home, these principles apply. The bar has moved — and the best spaces of 2026 will feel it.</p>
+
+    <div class="art-pullquote">
+      <p>Design should actively support the physical and emotional wellbeing of its occupants. The bar has moved — and the best spaces of 2026 will feel it.</p>
+    </div>
+
+  </div>
+
+  <div class="art-cta-strip">
+    <div class="art-cta-inner">
+      <div>
+        <div class="art-cta-title">Ready to transform your space?</div>
+        <div class="art-cta-sub">Book a free consultation and let's talk through your project.</div>
+      </div>
+      <a href="contact.html" class="art-cta-btn">Book free consultation →</a>
+    </div>
+  </div>
+
+  <div class="art-related">
+    <div class="art-related-head">
+      <div class="rd-eyebrow">More from the Studio</div>
+      <a href="resources.html" class="rd-more-link">All resources →</a>
+    </div>
+    <div class="art-related-grid">
+      <a class="art-rel-card" href="article-waste.html">
+        <div class="art-rel-thumb t1"><span class="img-label">Article Image</span></div>
+        <div class="art-rel-cat">Sustainability</div>
+        <div class="art-rel-title">25 Metric Tons of Waste: That's How Much This Art Installation Aims to Bring Awareness To</div>
+        <div class="art-rel-meta">Jun 2023 · 3 min read</div>
+      </a>
+      <a class="art-rel-card" href="article-healthcare.html">
+        <div class="art-rel-thumb t2"><span class="img-label">Article Image</span></div>
+        <div class="art-rel-cat">Healthcare</div>
+        <div class="art-rel-title">What Does the Next Generation of Healthcare Design Look Like?</div>
+        <div class="art-rel-meta">Nov 2020 · 2 min read</div>
+      </a>
+      <a class="art-rel-card" href="resources.html">
+        <div class="art-rel-thumb t3"><span class="img-label">Guide Cover</span></div>
+        <div class="art-rel-cat">Guide</div>
+        <div class="art-rel-title">The Complete Brief Template for Commercial Interior Projects</div>
+        <div class="art-rel-meta">Free PDF · Mar 2026</div>
+      </a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+
+</body>
+</html>

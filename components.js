@@ -376,6 +376,28 @@
     .rd-ts-role { font-size: 12px; font-weight: 300; color: var(--mid); margin-top: 4px; }
     .rd-ts-footer { display: flex; justify-content: flex-end; margin-top: 40px; }
 
+    /* ── TESTIMONIAL CAROUSEL (rd-tc-*) ── */
+    .rd-tc-section { padding: 80px var(--pad-outer); background: var(--white); }
+    .rd-tc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .rd-tc-left { display: flex; flex-direction: column; }
+    .rd-tc-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .rd-tc-stars { font-size: 18px; letter-spacing: 4px; margin-bottom: 24px; color: var(--black); }
+    .rd-tc-quote { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(18px, 2.5vw, 24px); font-weight: 400; line-height: 1.5; margin-bottom: 20px; color: var(--black); transition: opacity 0.3s; }
+    .rd-tc-attr { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 28px; transition: opacity 0.3s; }
+    .rd-tc-footer { display: flex; align-items: center; justify-content: space-between; }
+    .rd-tc-link { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--black); text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 2px; }
+    .rd-tc-nav { display: flex; align-items: center; gap: 16px; }
+    .rd-tc-counter { font-size: 10px; letter-spacing: 0.12em; font-weight: 500; color: var(--light); }
+    .rd-tc-controls { display: flex; gap: 8px; }
+    .rd-tc-btn { width: 36px; height: 36px; border: 1px solid var(--border); background: none; cursor: pointer; font-size: 14px; transition: background 0.2s, color 0.2s; }
+    .rd-tc-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .rd-tc-img { background: #c8c4bd; height: 360px; display: flex; align-items: center; justify-content: center; }
+    .rd-tc-quote.fading, .rd-tc-attr.fading { opacity: 0; }
+    @media (max-width: 900px) {
+      .rd-tc-wrap { grid-template-columns: 1fr; gap: 32px; }
+      .rd-tc-img { height: 240px; }
+    }
+
     /* ── SERVICES BLOCKS (rd-sv-*) ── */
     .rd-sv-section { padding: 100px var(--pad-outer); }
     .rd-sv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin-top: 48px; }
@@ -759,6 +781,64 @@
         </div>
         ${!showAll ? `<div class="rd-ts-footer"><a href="testimonials.html" class="rd-more-link">See all testimonials →</a></div>` : ''}
       </div>`;
+  };
+
+  /* ── Testimonial Carousel ── */
+  RD.render.testimonialCarousel = function (container, opts) {
+    opts = opts || {};
+    const kicker = opts.kicker || 'Client Testimonials';
+    const items = RD.data.testimonials;
+    let current = 0;
+
+    function pad(n) { return String(n + 1).padStart(2, '0'); }
+
+    function show(idx) {
+      const t = items[idx];
+      const quoteEl = container.querySelector('.rd-tc-quote');
+      const attrEl  = container.querySelector('.rd-tc-attr');
+      const counter = container.querySelector('.rd-tc-counter');
+      quoteEl.classList.add('fading');
+      attrEl.classList.add('fading');
+      setTimeout(function () {
+        quoteEl.textContent = '“' + t.quote + '”';
+        attrEl.textContent  = t.name + '  ·  ' + t.role + ', ' + t.company;
+        counter.textContent = pad(idx) + ' / ' + pad(items.length - 1);
+        quoteEl.classList.remove('fading');
+        attrEl.classList.remove('fading');
+      }, 280);
+    }
+
+    container.innerHTML = `
+      <div class="rd-tc-section">
+        <div class="rd-tc-wrap">
+          <div class="rd-tc-left">
+            <div class="rd-tc-kicker">${kicker}</div>
+            <div class="rd-tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="rd-tc-quote">“${items[0].quote}”</p>
+            <p class="rd-tc-attr">${items[0].name} &nbsp;&middot;&nbsp; ${items[0].role}, ${items[0].company}</p>
+            <div class="rd-tc-footer">
+              <a class="rd-tc-link" href="testimonials.html">View all client testimonials &rarr;</a>
+              <div class="rd-tc-nav">
+                <span class="rd-tc-counter">${pad(0)} / ${pad(items.length - 1)}</span>
+                <div class="rd-tc-controls">
+                  <button class="rd-tc-btn rd-tc-prev">&#8592;</button>
+                  <button class="rd-tc-btn rd-tc-next">&#8594;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rd-tc-img"><span class="img-label">Client / Clinic Image</span></div>
+        </div>
+      </div>`;
+
+    container.querySelector('.rd-tc-prev').addEventListener('click', function () {
+      current = (current - 1 + items.length) % items.length;
+      show(current);
+    });
+    container.querySelector('.rd-tc-next').addEventListener('click', function () {
+      current = (current + 1) % items.length;
+      show(current);
+    });
   };
 
   /* ── Services Blocks ── */
