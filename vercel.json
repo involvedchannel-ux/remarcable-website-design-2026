@@ -1,0 +1,25 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/projects", "destination": "/projects.html" },
+    { "source": "/services", "destination": "/services.html" },
+    { "source": "/resources", "destination": "/resources.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/about/why", "destination": "/about-why.html" },
+    { "source": "/about/how-we-work", "destination": "/about-how-we-work.html" },
+    { "source": "/about/key-elements", "destination": "/about-key-elements.html" },
+    { "source": "/about/team", "destination": "/about-team.html" },
+    { "source": "/testimonials", "destination": "/testimonials.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ]
+}

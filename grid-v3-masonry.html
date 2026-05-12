@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — V3 Masonry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --mid: #666;
+      --light: #999;
+      --border: #e0ddd8;
+      --bg: #faf9f7;
+      --white: #fff;
+      --gap: 14px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--black);
+    }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 72px;
+      border-bottom: 1px solid var(--border); background: var(--white);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-size: 11px; letter-spacing: 0.18em; font-weight: 600; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 400; color: var(--black); text-decoration: none; }
+    .nav-links a.active { border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
+    .nav-cta {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--black); color: var(--white); padding: 12px 22px; text-decoration: none;
+    }
+
+    .page-header { padding: 64px 48px 0; }
+
+    .version-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 0.12em; font-weight: 600;
+      text-transform: uppercase; color: var(--light); margin-bottom: 20px;
+    }
+    .version-badge::before { content: ''; display: block; width: 24px; height: 1px; background: var(--light); }
+
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 48px;
+    }
+
+    .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+    .tab {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      padding: 14px 0; margin-right: 40px; cursor: pointer; color: var(--light);
+      border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+    }
+    .tab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; padding-bottom: 48px; }
+    .pill {
+      font-size: 11px; letter-spacing: 0.08em; font-weight: 500;
+      padding: 8px 18px; border: 1px solid var(--border); cursor: pointer;
+      transition: all 0.18s; color: var(--mid); background: transparent;
+    }
+    .pill.active, .pill:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    /* ── MASONRY via CSS columns ── */
+    .grid-wrap { padding: 0 48px 80px; }
+
+    .masonry {
+      column-count: 3;
+      column-gap: var(--gap);
+    }
+
+    /* ── TILE ── */
+    .tile {
+      break-inside: avoid;
+      margin-bottom: var(--gap);
+      background: var(--white);
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+    }
+
+    .tile-img {
+      width: 100%;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      overflow: hidden;
+    }
+
+    .tile:hover .tile-img-inner { transform: scale(1.04); }
+
+    .tile-img-inner {
+      width: 100%;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* varying heights via padding-bottom on a ratio box */
+    .ratio-tall   { padding-bottom: 130%; }
+    .ratio-square { padding-bottom: 100%; }
+    .ratio-land   { padding-bottom: 68%;  }
+    .ratio-wide   { padding-bottom: 56%;  }
+    .ratio-port   { padding-bottom: 115%; }
+
+    .img-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img-fill {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .tile:hover .img-fill { transform: scale(1.04); }
+
+    .img-fill.tone-a { background: #c8c4bd; }
+    .img-fill.tone-b { background: #d5d2cb; }
+    .img-fill.tone-c { background: #bfbcb5; }
+    .img-fill.tone-d { background: #cac7c0; }
+    .img-fill.tone-e { background: #b8b5ae; }
+    .img-fill.tone-f { background: #d8d5ce; }
+    .img-fill.tone-g { background: #c2bfb8; }
+    .img-fill.tone-h { background: #cfccc5; }
+    .img-fill.tone-i { background: #c6c3bb; }
+
+    .tile-ph-label {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 9px; letter-spacing: 0.14em; font-weight: 600;
+      color: rgba(255,255,255,0.4); text-transform: uppercase; white-space: nowrap;
+    }
+
+    .tile-info {
+      padding: 16px 20px 20px;
+    }
+
+    .tile-cat {
+      font-size: 9px; letter-spacing: 0.14em; font-weight: 600;
+      color: var(--light); text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    .tile-title {
+      font-size: 16px; font-weight: 300; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 6px;
+    }
+
+    .tile-desc {
+      font-size: 12px; color: var(--mid); font-weight: 300; line-height: 1.55; margin-bottom: 10px;
+    }
+
+    .tile-meta {
+      font-size: 9px; letter-spacing: 0.1em; color: var(--light); font-weight: 500; text-transform: uppercase;
+    }
+
+    /* hide desc on short tiles */
+    .tile.no-desc .tile-desc { display: none; }
+
+    .back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500;
+      text-decoration: none; color: var(--light);
+      padding: 20px 48px; border-bottom: 1px solid var(--border); transition: color 0.2s;
+    }
+    .back:hover { color: var(--black); }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .page-header { padding: 40px 24px 0; }
+      .grid-wrap { padding: 0 24px 60px; }
+      .back { padding: 16px 24px; }
+      .masonry { column-count: 2; }
+    }
+
+    @media (max-width: 540px) {
+      .masonry { column-count: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back" href="index.html">← Back to all iterations</a>
+
+  <nav>
+    <div class="nav-logo">REMARCABLE DESIGN</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#" class="active">Projects</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Book Free Consultation</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="version-badge">03 — Masonry Flow</div>
+    <h1 class="page-title">Selected Works</h1>
+
+    <div class="tabs">
+      <div class="tab active">Healthcare &amp; Dental</div>
+      <div class="tab">Commercial &amp; Offices</div>
+      <div class="tab">Residential</div>
+    </div>
+
+    <div class="filters">
+      <button class="pill active">All Specialties</button>
+      <button class="pill">Orthodontic</button>
+      <button class="pill">Surgical</button>
+      <button class="pill">General Practice</button>
+      <button class="pill">Laboratory</button>
+    </div>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="masonry">
+
+      <div class="tile">
+        <div class="img-box ratio-tall">
+          <div class="img-fill tone-a"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Commercial / Medical</div>
+          <div class="tile-title">Meridian Health Plaza</div>
+          <div class="tile-desc">A multi-disciplinary health hub where structural integrity meets wellness-focused interior design.</div>
+          <div class="tile-meta">Manchester, UK &nbsp;·&nbsp; Shortlisted 2023</div>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="img-box ratio-land">
+          <div class="img-fill tone-b"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Research &amp; Lab</div>
+          <div class="tile-title">Novus Lab Annex</div>
+          <div class="tile-desc">Translating complex technical requirements into a cohesive, high-end architectural language.</div>
+          <div class="tile-meta">London, UK</div>
+        </div>
+      </div>
+
+      <div class="tile no-desc">
+        <div class="img-box ratio-square">
+          <div class="img-fill tone-c"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Residential / Luxury</div>
+          <div class="tile-title">Vertex Tower Suites</div>
+          <div class="tile-meta">London, UK</div>
+        </div>
+      </div>
+
+      <div class="tile no-desc">
+        <div class="img-box ratio-land">
+          <div class="img-fill tone-d"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Healthcare / GP</div>
+          <div class="tile-title">Kensington Clinic</div>
+          <div class="tile-meta">Birmingham, UK</div>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="img-box ratio-port">
+          <div class="img-fill tone-e"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Healthcare / Orthodontic</div>
+          <div class="tile-title">Albright Orthodontic Studio</div>
+          <div class="tile-desc">A calm, precision-led environment designed to reduce patient anxiety through material warmth.</div>
+          <div class="tile-meta">Leeds, UK &nbsp;·&nbsp; Award Winner 2024</div>
+        </div>
+      </div>
+
+      <div class="tile no-desc">
+        <div class="img-box ratio-square">
+          <div class="img-fill tone-f"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Commercial / Offices</div>
+          <div class="tile-title">Pacific Crest Offices</div>
+          <div class="tile-meta">Edinburgh, UK</div>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="img-box ratio-wide">
+          <div class="img-fill tone-g"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Residential</div>
+          <div class="tile-title">Cairn House</div>
+          <div class="tile-desc">A remote Highland residence built around views, silence, and a stripped-back material palette.</div>
+          <div class="tile-meta">Glasgow, UK</div>
+        </div>
+      </div>
+
+      <div class="tile no-desc">
+        <div class="img-box ratio-tall">
+          <div class="img-fill tone-h"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Healthcare / Surgical</div>
+          <div class="tile-title">Morrow Surgical Centre</div>
+          <div class="tile-meta">Bristol, UK</div>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="img-box ratio-land">
+          <div class="img-fill tone-i"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Commercial / Mixed-use</div>
+          <div class="tile-title">Harlow Quarter Redevelopment</div>
+          <div class="tile-desc">Transforming a post-industrial block into a layered live-work environment with precision detailing.</div>
+          <div class="tile-meta">Sheffield, UK &nbsp;·&nbsp; Completed 2024</div>
+        </div>
+      </div>
+
+      <div class="tile no-desc">
+        <div class="img-box ratio-square">
+          <div class="img-fill tone-a"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Residential / Luxury</div>
+          <div class="tile-title">The Fenwick Residences</div>
+          <div class="tile-meta">Edinburgh, UK &nbsp;·&nbsp; 2025</div>
+        </div>
+      </div>
+
+      <div class="tile no-desc">
+        <div class="img-box ratio-port">
+          <div class="img-fill tone-b"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Healthcare / GP</div>
+          <div class="tile-title">Ashford Practice</div>
+          <div class="tile-meta">Kent, UK</div>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="img-box ratio-land">
+          <div class="img-fill tone-c"></div>
+          <span class="tile-ph-label">Image / Video</span>
+        </div>
+        <div class="tile-info">
+          <div class="tile-cat">Commercial / Offices</div>
+          <div class="tile-title">Sable Studio</div>
+          <div class="tile-desc">A boutique creative agency fit-out — raw concrete and refined walnut in careful counterpoint.</div>
+          <div class="tile-meta">London, UK</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.pill').forEach(p => {
+      p.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

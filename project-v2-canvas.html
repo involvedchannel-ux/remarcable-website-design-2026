@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — Project Detail V2 Canvas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --mid: #666;
+      --light: #999;
+      --xlight: #ccc;
+      --border: #e0ddd8;
+      --bg: #faf9f7;
+      --white: #fff;
+      --nav-h: 72px;
+    }
+
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: var(--nav-h);
+      border-bottom: 1px solid var(--border); background: var(--white);
+      position: sticky; top: 0; z-index: 200;
+    }
+    .nav-logo { font-size: 11px; letter-spacing: 0.18em; font-weight: 600; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 400; color: var(--black); text-decoration: none; }
+    .nav-links a.active { border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
+    .nav-cta { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 12px 22px; text-decoration: none; }
+
+    .back { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.1em; font-weight: 500; text-decoration: none; color: var(--light); padding: 20px 48px; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .back:hover { color: var(--black); }
+
+    .breadcrumb { display: flex; align-items: center; gap: 10px; padding: 16px 48px; border-bottom: 1px solid var(--border); font-size: 11px; letter-spacing: 0.1em; color: var(--light); font-weight: 500; }
+    .breadcrumb a { color: var(--light); text-decoration: none; }
+    .breadcrumb span { color: var(--xlight); }
+
+    .version-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 16px 48px; }
+    .version-chip::before { content: ''; display: block; width: 20px; height: 1px; background: var(--light); }
+
+    .section-block { position: relative; border-bottom: 1px solid var(--border); }
+    .drag-handle { position: absolute; left: 14px; top: 24px; font-size: 14px; color: var(--xlight); cursor: grab; user-select: none; z-index: 10; }
+    .section-label { display: flex; align-items: center; gap: 12px; font-size: 9px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 28px 48px 0 48px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── HERO — compact + full bleed image ── */
+    .hero-compact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .hero-left {
+      padding: 64px 56px 64px 48px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      background: var(--white);
+    }
+    .hero-tag { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 20px; }
+    .hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 5vw, 68px); font-weight: 400; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .hero-tagline { font-family: 'DM Serif Display', serif; font-size: 18px; font-style: italic; font-weight: 400; color: var(--mid); margin-bottom: 40px; }
+    .hero-overview { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); margin-bottom: 40px; max-width: 440px; }
+    .hero-meta-list { display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--border); padding-top: 28px; }
+    .hm-row { display: flex; align-items: baseline; gap: 16px; }
+    .hm-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: var(--light); width: 100px; flex-shrink: 0; }
+    .hm-value { font-size: 13px; font-weight: 300; }
+    .stars { font-size: 14px; letter-spacing: 3px; }
+    .pillars { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pillar { font-size: 9px; letter-spacing: 0.1em; font-weight: 600; padding: 4px 10px; border: 1px solid var(--border); text-transform: uppercase; color: var(--mid); }
+
+    .hero-right {
+      background: #c0bcb4;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .img-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.38); text-transform: uppercase; }
+
+    /* ── CANVAS SCROLL SECTION ── */
+    /*
+      height: 300vh container, sticky inner fills 100vh.
+      JS tracks scroll progress 0→1 across the 300vh,
+      maps to 3 chapters (0→0.33, 0.33→0.66, 0.66→1).
+      Each chapter fades its image in and slides its text up.
+    */
+    .canvas-section {
+      position: relative;
+      height: 300vh;
+    }
+    .canvas-sticky {
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow: hidden;
+    }
+
+    /* full-bleed background images, crossfade */
+    .canvas-bg {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .canvas-bg.active { opacity: 1; }
+    .canvas-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.2) 60%, transparent 100%);
+    }
+    .cbg1 { background: #b8b4ad; }
+    .cbg2 { background: #aeaaa3; }
+    .cbg3 { background: #c4c0b9; }
+
+    /* text panel — bottom left overlay */
+    .canvas-text-wrap {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end;
+      padding: 0 0 56px 64px;
+      pointer-events: none;
+    }
+    .canvas-chapter {
+      position: absolute; bottom: 56px; left: 64px;
+      max-width: 520px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: auto;
+    }
+    .canvas-chapter.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .cc-num { font-size: 11px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.45); margin-bottom: 16px; text-transform: uppercase; }
+    .cc-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 400; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+    .cc-body { font-size: 14px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.78); max-width: 460px; }
+
+    /* chapter nav — right side */
+    .canvas-nav {
+      position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 12px; align-items: center;
+    }
+    .cn-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .cn-dot.active { background: var(--white); width: 8px; height: 8px; }
+    .cn-label {
+      position: absolute; right: 20px;
+      font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); white-space: nowrap;
+      opacity: 0; pointer-events: none;
+    }
+
+    /* progress bar — bottom */
+    .canvas-progress {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: rgba(255,255,255,0.15);
+    }
+    .canvas-progress-fill {
+      height: 100%; background: var(--white);
+      width: 0%; transition: width 0.1s linear;
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute; bottom: 56px; right: 64px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      animation: cue-fade 2s ease-in-out infinite;
+    }
+    .scroll-cue-arrow { font-size: 18px; }
+    @keyframes cue-fade { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+    /* ── GALLERY — bento editorial mix ── */
+    .gallery-wrap { padding: 48px; }
+    .gallery-bento {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 3px;
+    }
+    .gb { background: #ccc; overflow: hidden; cursor: pointer; position: relative; }
+    .gb:hover .gb-fill { transform: scale(1.04); }
+    .gb-fill { width: 100%; height: 100%; transition: transform 0.5s; }
+    .gb.c21 { grid-column: span 2; }
+    .gb.c31 { grid-column: span 3; }
+    .gb.r2  { grid-row: span 2; }
+    .gbf1 { background: #c8c4bd; }
+    .gbf2 { background: #d0cdc6; }
+    .gbf3 { background: #bfbcb5; }
+    .gbf4 { background: #cac7c0; }
+    .gbf5 { background: #d5d2cb; }
+    .gbf6 { background: #b8b5ae; }
+    .gbf7 { background: #c2bfb8; }
+    .gbf8 { background: #cfccc5; }
+    .gb-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; pointer-events: none; white-space: nowrap; }
+
+    .load-more { display: flex; align-items: center; justify-content: center; margin-top: 28px; }
+    .load-more-btn { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; padding: 14px 32px; border: 1px solid var(--black); background: transparent; cursor: pointer; text-transform: uppercase; transition: all 0.18s; color: var(--black); }
+    .load-more-btn:hover { background: var(--black); color: var(--white); }
+
+    /* ── HIGHLIGHTS — offset / overlapping ── */
+    .hl-section { }
+    .hl-block {
+      display: grid;
+      grid-template-columns: 55fr 45fr;
+      min-height: 520px;
+    }
+    .hl-block.rev { grid-template-columns: 45fr 55fr; }
+    .hl-img { background: #c0bcb4; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .hl-img.b { background: #b5b2aa; }
+    .hl-img.c { background: #c8c4bd; }
+    .hl-text {
+      padding: 72px 56px; display: flex; flex-direction: column; justify-content: center;
+      background: var(--white);
+    }
+    .hl-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 18px; }
+    .hl-title { font-family: 'DM Serif Display', serif; font-size: 34px; font-weight: 400; line-height: 1.2; margin-bottom: 20px; }
+    .hl-body { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); }
+
+    /* ── TESTIMONIAL — full bleed dark ── */
+    .test-wrap { background: var(--black); color: var(--white); padding: 100px 48px; }
+    .test-inner { max-width: 820px; margin: 0 auto; }
+    .test-stars { font-size: 20px; letter-spacing: 5px; margin-bottom: 36px; color: var(--white); }
+    .test-quote { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(22px, 3vw, 32px); font-weight: 400; line-height: 1.5; margin-bottom: 36px; }
+    .test-attr { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 28px; }
+    .test-link { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--white); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; }
+
+    /* ── BEFORE / AFTER ── */
+    .admin-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; padding: 5px 12px; background: #fff3cd; border: 1px solid #ffc107; color: #856404; margin: 24px 48px 0; }
+    .admin-badge::before { content: '⚙'; font-size: 10px; }
+    .ba-wrap { padding: 40px 48px 56px; }
+
+    /* V2: tab-style before/after */
+    .ba-tabs { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .ba-tab { font-size: 11px; letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; padding: 12px 24px; cursor: pointer; border-bottom: 2px solid transparent; color: var(--light); transition: all 0.2s; }
+    .ba-tab.active { color: var(--black); border-bottom-color: var(--black); }
+    .ba-panels { position: relative; }
+    .ba-panel { display: none; }
+    .ba-panel.active { display: block; }
+    .ba-img { height: 480px; display: flex; align-items: center; justify-content: center; position: relative; }
+    .ba-img.before { background: #aeaaa2; }
+    .ba-img.after { background: #c4c1ba; }
+    .ba-tag { position: absolute; top: 20px; left: 20px; font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; background: rgba(255,255,255,0.9); color: var(--black); padding: 5px 12px; }
+
+    /* ── DESIGN FEATURES — 2 col cards ── */
+    .feat-wrap { padding: 64px 48px; }
+    .feat-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 40px; }
+    .feat-title { font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400; }
+    .feat-subtitle { font-size: 12px; color: var(--light); font-weight: 300; }
+    .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+    .feat-card { display: grid; grid-template-columns: 180px 1fr; background: var(--white); overflow: hidden; }
+    .feat-card-img { background: #c8c4bd; display: flex; align-items: center; justify-content: center; }
+    .feat-card-img.b { background: #bfbcb5; }
+    .feat-card-img.c { background: #d0cdc6; }
+    .feat-card-img.d { background: #c4c1ba; }
+    .feat-card-body { padding: 28px 28px; }
+    .feat-kicker { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 8px; }
+    .feat-name { font-size: 16px; font-weight: 300; margin-bottom: 10px; }
+    .feat-desc { font-size: 12px; font-weight: 300; line-height: 1.7; color: var(--mid); }
+    .feat-spec { margin-top: 12px; font-size: 10px; letter-spacing: 0.08em; font-weight: 500; color: var(--xlight); text-transform: uppercase; }
+
+    /* ── RELATED ── */
+    .related-wrap { padding: 64px 48px; }
+    .related-heading { font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .related-tile { height: 300px; position: relative; cursor: pointer; overflow: hidden; }
+    .rt-fill { position: absolute; inset: 0; transition: transform 0.5s; }
+    .related-tile:hover .rt-fill { transform: scale(1.04); }
+    .r1 { background: #c0bcb4; } .r2 { background: #b5b2aa; } .r3 { background: #cac7c0; }
+    .related-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px; background: var(--white); }
+    .ri-cat { font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 4px; }
+    .ri-title { font-size: 15px; font-weight: 300; }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .breadcrumb, .back, .version-chip { padding-left: 24px; padding-right: 24px; }
+      .section-label { padding-left: 24px; padding-right: 24px; }
+      .hero-compact { grid-template-columns: 1fr; }
+      .hero-right { height: 340px; }
+      .hero-left { padding: 40px 24px; }
+      .canvas-chapter { left: 24px; bottom: 32px; max-width: calc(100vw - 100px); }
+      .gallery-wrap, .ba-wrap, .feat-wrap, .related-wrap { padding-left: 24px; padding-right: 24px; }
+      .gallery-bento { grid-template-columns: repeat(2, 1fr); }
+      .gb.c31 { grid-column: span 2; }
+      .hl-block, .hl-block.rev { grid-template-columns: 1fr; min-height: auto; }
+      .hl-img { height: 300px; }
+      .hl-text { padding: 40px 24px; }
+      .test-wrap { padding: 60px 24px; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back" href="project-hub.html">← Back to project iterations</a>
+
+  <nav>
+    <div class="nav-logo">REMARCABLE DESIGN</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#" class="active">Projects</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Book Free Consultation</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="#">Projects</a>
+    <span>/</span>
+    <a href="#">Healthcare &amp; Dental</a>
+    <span>/</span>
+    Richmond Physiotherapy
+  </div>
+
+  <div class="version-chip">02 — Canvas</div>
+
+  <!-- ── HERO: compact left + full image right ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="hero-compact">
+      <div class="hero-left">
+        <div>
+          <div class="hero-tag">Healthcare &nbsp;|&nbsp; Medical</div>
+          <h1 class="hero-title">Richmond<br>Physiotherapy</h1>
+          <p class="hero-tagline">"Human-centric design, colour &amp; space psychology"</p>
+          <p class="hero-overview">Independent physiotherapy clinic operating for 25+ years. The brief focused on enhancing a multi-room clinic without disrupting operations — improving comfort, privacy, and future scalability.</p>
+        </div>
+        <div class="hero-meta-list">
+          <div class="hm-row"><span class="hm-label">Location</span><span class="hm-value">Richmond, London</span></div>
+          <div class="hm-row"><span class="hm-label">Rating</span><span class="hm-value stars">★★★★★</span></div>
+          <div class="hm-row"><span class="hm-label">Website</span><span class="hm-value">richmondphysio.co.uk ↗</span></div>
+          <div class="hm-row">
+            <span class="hm-label">Pillars</span>
+            <div class="pillars">
+              <span class="pillar">Functional</span>
+              <span class="pillar">Sustainable</span>
+              <span class="pillar">Client-Exp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <span class="img-label">Featured Project Image</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CANVAS SCROLL NARRATIVE ── -->
+  <section class="section-block" id="canvas-section">
+    <div class="drag-handle" style="color:rgba(255,255,255,0.3);">⠿</div>
+    <div class="section-label" style="position:absolute;top:0;left:0;right:0;z-index:5;mix-blend-mode:normal;background:transparent;padding:20px 48px;color:rgba(255,255,255,0.4);">Project Explanation — Scroll to read</div>
+    <div class="canvas-section">
+      <div class="canvas-sticky">
+
+        <!-- Background images -->
+        <div class="canvas-bg cbg1 active" data-ch="0"></div>
+        <div class="canvas-bg cbg2" data-ch="1"></div>
+        <div class="canvas-bg cbg3" data-ch="2"></div>
+
+        <!-- Chapter text overlays -->
+        <div class="canvas-chapter active" data-ch="0">
+          <div class="cc-num">01 / 03 &nbsp;·&nbsp; The Brief</div>
+          <h3 class="cc-title">A clinic ready for the next chapter</h3>
+          <p class="cc-body">The established clinic sought additional space to enhance safety and comfort for patients and staff — improving the reception desk, seating, staff corner, and merchandise layout without disrupting ongoing operations.</p>
+        </div>
+        <div class="canvas-chapter" data-ch="1">
+          <div class="cc-num">02 / 03 &nbsp;·&nbsp; Our Concept</div>
+          <h3 class="cc-title">Sustainability woven into every decision</h3>
+          <p class="cc-body">We integrated building features to minimise wasted space and optimise workflow. Sustainability was emphasised through natural materials and eco-certified textured wallpaper — colour psychology applied to each room based on natural light and desired emotional impact.</p>
+        </div>
+        <div class="canvas-chapter" data-ch="2">
+          <div class="cc-num">03 / 03 &nbsp;·&nbsp; Our Thinking</div>
+          <h3 class="cc-title">Tranquility through restraint</h3>
+          <p class="cc-body">Curated soft tones inspired by the client's brand palette evoke a tranquil atmosphere. Functionality and minimalism work in counterpoint — the space feels purposeful, calm, and quietly confident.</p>
+        </div>
+
+        <!-- Chapter nav dots -->
+        <div class="canvas-nav">
+          <div class="cn-dot active" data-ch="0"></div>
+          <div class="cn-dot" data-ch="1"></div>
+          <div class="cn-dot" data-ch="2"></div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="canvas-progress">
+          <div class="canvas-progress-fill" id="canvas-fill"></div>
+        </div>
+
+        <!-- Scroll cue -->
+        <div class="scroll-cue" id="scroll-cue">
+          <span>Scroll</span>
+          <span class="scroll-cue-arrow">↓</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY — bento editorial ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Gallery</div>
+    <div class="gallery-wrap">
+      <div class="gallery-bento">
+        <div class="gb c21 r2"><div class="gb-fill gbf1"></div><span class="gb-ph">Image / Video</span></div>
+        <div class="gb"><div class="gb-fill gbf2"></div><span class="gb-ph">Image</span></div>
+        <div class="gb"><div class="gb-fill gbf3"></div><span class="gb-ph">Image</span></div>
+        <div class="gb c21"><div class="gb-fill gbf4"></div><span class="gb-ph">Image / Video</span></div>
+        <div class="gb"><div class="gb-fill gbf5"></div><span class="gb-ph">Image</span></div>
+        <div class="gb"><div class="gb-fill gbf6"></div><span class="gb-ph">Image</span></div>
+        <div class="gb c31"><div class="gb-fill gbf7"></div><span class="gb-ph">Image / Video</span></div>
+        <div class="gb"><div class="gb-fill gbf8"></div><span class="gb-ph">Image</span></div>
+      </div>
+      <div class="load-more"><button class="load-more-btn">Load More</button></div>
+    </div>
+  </section>
+
+  <!-- ── HIGHLIGHTS ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Section Highlights</div>
+    <div class="hl-section">
+      <div class="hl-block">
+        <div class="hl-img"><span class="img-label">Reception Desk</span></div>
+        <div class="hl-text">
+          <div class="hl-kicker">Highlight 01</div>
+          <h3 class="hl-title">Bespoke Reception Desk</h3>
+          <p class="hl-body">The focal design piece features a higher upstand for privacy and space delineation, with enhanced storage capabilities. The upstand creates a clear separation between client and staff areas while reducing visual clutter throughout the reception zone.</p>
+        </div>
+      </div>
+      <div class="hl-block rev">
+        <div class="hl-img b"><span class="img-label">Seating Area</span></div>
+        <div class="hl-text">
+          <div class="hl-kicker">Highlight 02</div>
+          <h3 class="hl-title">Seating Installation</h3>
+          <p class="hl-body">Black and white artwork complemented comfortable bench seating with soft cushions, backrests, and open-bottom design. Design priorities: decluttering, privacy, safety, and support — ensuring patients feel at ease from the moment they arrive.</p>
+        </div>
+      </div>
+      <div class="hl-block">
+        <div class="hl-img c"><span class="img-label">Second Floor</span></div>
+        <div class="hl-text">
+          <div class="hl-kicker">Highlight 03</div>
+          <h3 class="hl-title">Second Floor Integration</h3>
+          <p class="hl-body">When the client acquired the upper floor, design elements were seamlessly integrated to ensure continuity in both the aesthetic and atmosphere — extending the same spatial language across both levels of the clinic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIAL — dark full bleed ── -->
+  <section class="section-block">
+    <div class="drag-handle" style="color:rgba(255,255,255,0.25);">⠿</div>
+    <div class="test-wrap">
+      <div class="test-inner">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"The thought-to-execution process was seamless while keeping our space open during the refurbishment. The project justified our investment, and the result has received positive feedback from our clients. We are delighted with the outcome."</p>
+        <p class="test-attr">Dr. Pippa Rollitt &nbsp;·&nbsp; Co-Founder, Richmond Physiotherapy</p>
+        <a class="test-link" href="#">View all client testimonials →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BEFORE / AFTER ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Before &amp; After</div>
+    <div class="admin-badge">Admin Toggle — This section is ON. Disable if no before/after photography available.</div>
+    <div class="ba-wrap">
+      <div class="ba-tabs">
+        <div class="ba-tab active" data-target="before">Before</div>
+        <div class="ba-tab" data-target="after">After</div>
+      </div>
+      <div class="ba-panels">
+        <div class="ba-panel active" id="panel-before">
+          <div class="ba-img before">
+            <span class="img-label">Before Photography</span>
+            <span class="ba-tag">Before</span>
+          </div>
+        </div>
+        <div class="ba-panel" id="panel-after">
+          <div class="ba-img after">
+            <span class="img-label">After Photography</span>
+            <span class="ba-tag">After</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DESIGN FEATURES ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Design Features</div>
+    <div class="feat-wrap">
+      <div class="feat-header">
+        <h3 class="feat-title">Materials &amp; Design Detail</h3>
+        <span class="feat-subtitle">Specification references for each feature</span>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-card-img"><span class="img-label" style="font-size:8px;">Image</span></div>
+          <div class="feat-card-body">
+            <div class="feat-kicker">Wallpaper</div>
+            <div class="feat-name">Eco-Certified Texture</div>
+            <div class="feat-desc">Hand-crafted design featuring coloured petals on a white base. Carbon-neutral production in Tyrol. Suitable for large-area applications.</div>
+            <div class="feat-spec">STANDARD 100 OEKO TEX · Recycled cellulose</div>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card-img b"><span class="img-label" style="font-size:8px;">Image</span></div>
+          <div class="feat-card-body">
+            <div class="feat-kicker">Colour Palette</div>
+            <div class="feat-name">Tonal Calm</div>
+            <div class="feat-desc">Soft tones drawn from the client's brand palette, selected using colour psychology principles mapped to each space's natural light.</div>
+            <div class="feat-spec">Colour psychology · Wellness-focused</div>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card-img c"><span class="img-label" style="font-size:8px;">Image</span></div>
+          <div class="feat-card-body">
+            <div class="feat-kicker">Joinery</div>
+            <div class="feat-name">Bespoke Cabinetry</div>
+            <div class="feat-desc">Custom reception desk and storage built to exacting staff workflow requirements, balancing aesthetics with operational efficiency.</div>
+            <div class="feat-spec">FSC certified timber · Custom fabrication</div>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card-img d"><span class="img-label" style="font-size:8px;">Image</span></div>
+          <div class="feat-card-body">
+            <div class="feat-kicker">Lighting</div>
+            <div class="feat-name">Layered Warmth</div>
+            <div class="feat-desc">Ambient, task, and accent layers combining to reinforce the clinic's calming atmosphere while meeting medical-grade luminance requirements.</div>
+            <div class="feat-spec">CIBSE healthcare guidelines · LED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RELATED ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="related-wrap">
+      <div class="related-heading">Related Projects</div>
+      <div class="related-grid">
+        <div class="related-tile"><div class="rt-fill r1"></div><div class="related-info"><div class="ri-cat">Healthcare / GP</div><div class="ri-title">Kensington Clinic</div></div></div>
+        <div class="related-tile"><div class="rt-fill r2"></div><div class="related-info"><div class="ri-cat">Healthcare / Orthodontic</div><div class="ri-title">Albright Orthodontic Studio</div></div></div>
+        <div class="related-tile"><div class="rt-fill r3"></div><div class="related-info"><div class="ri-cat">Research &amp; Lab</div><div class="ri-title">Novus Lab Annex</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ── Canvas scroll — progress through 300vh maps to 3 chapters ──
+    const canvasSection = document.getElementById('canvas-section');
+    const fill = document.getElementById('canvas-fill');
+    const scrollCue = document.getElementById('scroll-cue');
+    const bgs = document.querySelectorAll('.canvas-bg');
+    const chapters = document.querySelectorAll('.canvas-chapter');
+    const dots = document.querySelectorAll('.cn-dot');
+
+    function activateCanvasChapter(idx) {
+      bgs.forEach((b, i) => b.classList.toggle('active', i === idx));
+      chapters.forEach((c, i) => c.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    window.addEventListener('scroll', () => {
+      const rect = canvasSection.getBoundingClientRect();
+      const sectionH = canvasSection.offsetHeight;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / (sectionH - window.innerHeight)));
+
+      fill.style.width = (progress * 100) + '%';
+
+      if (progress > 0.05) scrollCue.style.opacity = '0';
+      else scrollCue.style.opacity = '1';
+
+      const chapterIdx = Math.min(2, Math.floor(progress * 3));
+      activateCanvasChapter(chapterIdx);
+    }, { passive: true });
+
+    // ── Before/After tabs ──
+    document.querySelectorAll('.ba-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.ba-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.ba-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

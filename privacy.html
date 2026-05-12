@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    .hero {
+      padding: 80px var(--pad-outer) 56px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .hero-kicker {
+      font-size: 10px; letter-spacing: 0.22em; font-weight: 500;
+      text-transform: uppercase; color: var(--xlight);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .hero-kicker::before { content: ''; display: block; width: 24px; height: 1px; background: var(--border); }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(44px, 6vw, 80px);
+      line-height: 0.97; letter-spacing: -0.02em; font-weight: 400;
+      margin-bottom: 24px;
+    }
+    .hero-sub {
+      max-width: 640px; font-size: 15px; line-height: 1.8;
+      color: var(--mid); font-weight: 300;
+    }
+
+    .policy-wrap {
+      padding: 64px var(--pad-outer) 100px;
+      max-width: calc(1440px + 2 * var(--pad-outer));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 48px;
+    }
+
+    /* ── Sticky nav ── */
+    .policy-nav {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: start;
+    }
+    .policy-nav-label {
+      font-size: 10px; letter-spacing: 0.2em; font-weight: 500;
+      text-transform: uppercase; color: var(--xlight); margin-bottom: 16px;
+    }
+    .policy-nav a {
+      display: block; text-decoration: none; color: var(--mid);
+      font-size: 12px; letter-spacing: 0.04em; font-weight: 400;
+      line-height: 1.5; padding: 7px 0;
+      border-top: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+    .policy-nav a:last-child { border-bottom: 1px solid var(--border); }
+    .policy-nav a:hover { color: var(--black); }
+
+    /* ── Content ── */
+    .policy-content {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .policy-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .policy-section:first-child { padding-top: 0; }
+
+    .policy-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 400; letter-spacing: -0.01em;
+      color: var(--black); margin-bottom: 18px;
+    }
+    .policy-section p {
+      color: var(--mid); font-size: 14px;
+      line-height: 1.9; font-weight: 300; margin-bottom: 14px;
+    }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-section ol {
+      counter-reset: policy-ol;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .policy-section ol li {
+      counter-increment: policy-ol;
+      display: grid; grid-template-columns: 28px 1fr;
+      color: var(--mid); font-size: 14px; line-height: 1.8; font-weight: 300;
+    }
+    .policy-section ol li::before {
+      content: counter(policy-ol) '.';
+      font-size: 11px; font-weight: 500; color: var(--xlight);
+      padding-top: 3px;
+    }
+
+    .inline-link {
+      color: inherit; text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px; transition: text-decoration-color 0.15s;
+    }
+    .inline-link:hover { text-decoration-color: var(--black); }
+
+    @media (max-width: 900px) {
+      .hero { padding: 56px 24px 40px; }
+      .policy-wrap { padding: 40px 24px 72px; grid-template-columns: 1fr; gap: 32px; }
+      .policy-nav { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <section class="hero">
+    <p class="hero-kicker">Legal</p>
+    <h1 class="hero-title">Privacy Policy</h1>
+    <p class="hero-sub">How Remarcable Design collects and processes information across our website, CRM systems, and marketing communications.</p>
+  </section>
+
+  <main class="policy-wrap">
+    <aside class="policy-nav">
+      <div class="policy-nav-label">On this page</div>
+      <a href="#google-analytics">Google Analytics</a>
+      <a href="#google-adwords">Google AdWords</a>
+      <a href="#crm-analytics">CRM &amp; Performance Analytics</a>
+      <a href="#marketing-comms">Marketing Communications</a>
+      <a href="#campaign-terms">Campaign Terms &amp; Conditions</a>
+    </aside>
+
+    <div class="policy-content">
+      <section class="policy-section" id="google-analytics">
+        <h2>Google Analytics</h2>
+        <p>We may collect information about your computer, including your IP address, operating system, and browser type, for system administration and reporting. This is statistical data about browsing actions and patterns and does not identify an individual.</p>
+        <p>Google Analytics cookies help us understand how visitors engage with the website so we can improve performance and usability. These cookies can store information such as visit time, whether a visitor has been to the site before, and referral source.</p>
+        <p>Google Analytics reports trends anonymously. You can opt out of Google Analytics tracking via your Google account settings or by contacting Google directly.</p>
+      </section>
+
+      <section class="policy-section" id="google-adwords">
+        <h2>Google AdWords</h2>
+        <p>This website may use Google AdWords remarketing services to advertise on third-party websites (including Google) to previous visitors — for example where a visitor did not complete a contact form.</p>
+        <p>Google Analytics conversion tracking may also be used to understand whether users who clicked ads completed actions on the website.</p>
+        <p>Cookies used in this process do not personally identify you, and you can opt out through Google settings at any time.</p>
+      </section>
+
+      <section class="policy-section" id="crm-analytics">
+        <h2>CRM Software &amp; Performance Analytics</h2>
+        <p>We may collect technical data (such as IP address, OS, and browser type) for system and performance analytics. Unless you have explicitly provided consent through forms collecting personal details, this data does not identify an individual.</p>
+        <p>We may use CRM and behaviour analytics tools to understand interaction across digital services and communications. These systems can use first- and third-party cookies for reporting and service improvement.</p>
+        <p>To opt out or request deletion of data collected from your activity, contact: <a class="inline-link" href="mailto:crew@remarcable.co.uk">crew@remarcable.co.uk</a>.</p>
+      </section>
+
+      <section class="policy-section" id="marketing-comms">
+        <h2>Marketing Communications</h2>
+        <p>Remarcable Design aims to provide relevant and personalised communications (including phone or email) based on your preferences and consent.</p>
+        <p>Marketing information is processed and stored only with consent, usually provided via website forms. You may opt out at any time.</p>
+        <p>For opt-out or deletion requests, contact: <a class="inline-link" href="mailto:crew@remarcable.co.uk">crew@remarcable.co.uk</a>.</p>
+      </section>
+
+      <section class="policy-section" id="campaign-terms">
+        <h2>Campaign Terms &amp; Conditions</h2>
+        <p>Holiday 2022 Giveaway — 1 December 2022 to 10 January 2023.</p>
+        <ol>
+          <li>The promoter is Remarcable Design Ltd.</li>
+          <li>Giveaway period: 1 December 2022 to 10 January 2023.</li>
+          <li>No entry fee and no purchase necessary.</li>
+          <li>Entry implies acceptance of these terms.</li>
+          <li>Entry route and details were provided on remarcable.co.uk/giveaway.</li>
+          <li>The promoter is not responsible for entries not received.</li>
+          <li>Newsletter sign-up and social engagements counted toward entries.</li>
+          <li>Instagram/LinkedIn interactions were counted as entry engagements.</li>
+          <li>Only active social accounts qualified for entry.</li>
+          <li>The promoter reserved the right to amend or cancel due to external events.</li>
+          <li>The promoter was not responsible for inaccurate third-party prize details.</li>
+          <li>Prizes included a preserved flower arrangement and a Banning Dental package.</li>
+          <li>No cash alternative; prizes were non-transferable and subject to availability.</li>
+          <li>Winners were selected from recorded entries and manually verified.</li>
+          <li>Winners were contacted by email and/or social DM after close date.</li>
+          <li>The promoter notified winner collection/delivery details.</li>
+          <li>The promoter's decision was final.</li>
+          <li>Entry confirmed acceptance of terms.</li>
+          <li>Entry also confirmed acceptance of the Privacy Policy.</li>
+          <li>Terms governed by English law.</li>
+          <li>Winners agreed to publicity use of name/image where applicable.</li>
+          <li>Second-place entrants agreed to data sharing with Banning Dental for booking.</li>
+          <li>Entry was deemed acceptance of all terms and conditions.</li>
+          <li>The promotion was not sponsored by Instagram, LinkedIn, or other social networks.</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+</body>
+</html>

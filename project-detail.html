@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Richmond Physiotherapy — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:#1a1a1a;--mid:#666;--light:#999;--xlight:#ccc;
+      --border:#e0ddd8;--bg:#faf9f7;--white:#fff;--nav-h:72px;
+    }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--black); }
+    .breadcrumb { display:flex; align-items:center; gap:10px; padding:16px var(--pad-outer); border-bottom:1px solid var(--border); font-size:11px; letter-spacing:0.1em; color:var(--light); font-weight:500; }
+    .breadcrumb a { color:var(--light); text-decoration:none; }
+    .breadcrumb a:hover { color:var(--black); }
+    .breadcrumb span { color:var(--xlight); }
+    .section-block { position:relative; border-bottom:1px solid var(--border); }
+    .drag-handle { position:absolute; left:14px; top:24px; font-size:14px; color:var(--xlight); cursor:grab; user-select:none; z-index:10; }
+    .section-label { display:flex; align-items:center; gap:12px; font-size:9px; letter-spacing:0.18em; font-weight:600; text-transform:uppercase; color:var(--light); padding:28px var(--pad-outer) 0; }
+    .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+    .img-label { font-size:9px; letter-spacing:0.14em; font-weight:600; color:rgba(255,255,255,0.38); text-transform:uppercase; }
+    /* HERO */
+    .hero-image { width:100%; height:480px; background:#bfbcb5; display:flex; align-items:center; justify-content:center; }
+    .hero-bar { display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; border-bottom:1px solid var(--border); background:var(--white); }
+    .hb-cell { padding:24px 28px; border-right:1px solid var(--border); }
+    .hb-cell:last-child { border-right:none; }
+    .hb-label { font-size:9px; letter-spacing:0.14em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:6px; }
+    .hb-value { font-size:14px; font-weight:300; }
+    .stars { font-size:15px; letter-spacing:3px; }
+    .pillars { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+    .pillar { font-size:9px; letter-spacing:0.08em; font-weight:600; padding:3px 8px; border:1px solid var(--border); text-transform:uppercase; color:var(--mid); }
+    .hero-content { padding:48px var(--pad-outer) 56px; display:grid; grid-template-columns:1fr 1fr; gap:80px; background:var(--white); }
+    .hero-tag { font-size:10px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:16px; }
+    .hero-title { font-family:'DM Serif Display',serif; font-size:clamp(38px,5vw,64px); font-weight:400; line-height:1.0; letter-spacing:-0.02em; margin-bottom:16px; }
+    .hero-tagline { font-family:'DM Serif Display',serif; font-size:17px; font-style:italic; color:var(--mid); font-weight:400; }
+    .hero-overview { font-size:14px; font-weight:300; line-height:1.8; color:var(--mid); align-self:end; }
+    /* SCROLL NARRATIVE */
+    .index-wrap { display:grid; grid-template-columns:280px 1fr; }
+    .index-nav { position:sticky; top:var(--nav-h); height:calc(100vh - var(--nav-h)); border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; padding:48px 32px; background:var(--white); }
+    .index-nav-label { font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--xlight); margin-bottom:32px; }
+    .index-nav-item { display:flex; align-items:flex-start; gap:16px; padding:20px 0; cursor:pointer; border-top:1px solid var(--border); transition:opacity 0.3s; opacity:0.35; }
+    .index-nav-item:last-child { border-bottom:1px solid var(--border); }
+    .index-nav-item.active { opacity:1; }
+    .ini-num { font-size:11px; letter-spacing:0.1em; font-weight:600; color:var(--light); padding-top:2px; flex-shrink:0; width:20px; }
+    .ini-title { font-size:14px; font-weight:400; line-height:1.3; margin-bottom:4px; }
+    .ini-sub { font-size:11px; font-weight:300; color:var(--light); }
+    .ini-progress { width:100%; height:2px; background:var(--border); margin-top:10px; overflow:hidden; }
+    .ini-progress-fill { height:100%; background:var(--black); width:0%; transition:width 0.8s ease; }
+    .index-nav-item.active .ini-progress-fill { width:100%; }
+    .index-content-wrap { display:grid; grid-template-columns:1fr 1fr; }
+    .index-sticky-img { position:sticky; top:var(--nav-h); height:calc(100vh - var(--nav-h)); overflow:hidden; border-left:1px solid var(--border); }
+    .is-image { position:absolute; inset:0; opacity:0; transition:opacity 0.5s ease; display:flex; align-items:center; justify-content:center; }
+    .is-image.active { opacity:1; }
+    .isi1{background:#c4c0b8;} .isi2{background:#b8b4ac;} .isi3{background:#cac6be;}
+    .is-caption { position:absolute; bottom:24px; left:24px; right:24px; font-size:9px; letter-spacing:0.12em; font-weight:600; color:rgba(255,255,255,0.4); text-transform:uppercase; }
+    .index-chapter { padding:72px 56px; min-height:80vh; border-bottom:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; }
+    .index-chapter:last-child { border-bottom:none; }
+    .ic-num { font-size:11px; letter-spacing:0.14em; font-weight:600; color:var(--xlight); margin-bottom:24px; }
+    .ic-title { font-family:'DM Serif Display',serif; font-size:clamp(28px,3vw,42px); font-weight:400; line-height:1.2; margin-bottom:28px; }
+    .ic-body { font-size:14px; font-weight:300; line-height:1.85; color:var(--mid); max-width:380px; }
+    .ic-divider { width:40px; height:1px; background:var(--border); margin:28px 0; }
+    .ic-tags { display:flex; gap:8px; flex-wrap:wrap; }
+    .ic-tag { font-size:9px; letter-spacing:0.1em; font-weight:600; padding:4px 10px; border:1px solid var(--border); text-transform:uppercase; color:var(--mid); }
+    /* GALLERY */
+    .gallery-hijack-wrap { position:relative; }
+    .gallery-hijack-sticky { position:sticky; top:var(--nav-h); height:calc(100vh - var(--nav-h)); overflow:hidden; background:var(--bg); }
+    .gallery-strip { display:flex; align-items:center; height:100%; gap:88px; padding:0 88px; will-change:transform; }
+    .gs-tile { flex:0 0 auto; height:72%; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 8px 48px rgba(0,0,0,0.09); }
+    .gs-tile:hover .gs-fill { transform:scale(1.03); }
+    .gs-fill { width:100%; height:100%; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .gs-landscape{aspect-ratio:4/3;} .gs-wide{aspect-ratio:16/9;} .gs-portrait{aspect-ratio:2/3;} .gs-square{aspect-ratio:1/1;} .gs-cinema{aspect-ratio:21/9;}
+    .gs-pair { flex:0 0 auto; height:72%; display:flex; flex-direction:column; gap:12px; aspect-ratio:3/4; box-shadow:none; }
+    .gs-pair .gs-tile { height:auto; flex:1; box-shadow:0 4px 24px rgba(0,0,0,0.08); }
+    .gf1{background:#c8c4bd;} .gf2{background:#d0cdc6;} .gf3{background:#bfbcb5;} .gf4{background:#cac7c0;} .gf5{background:#d5d2cb;} .gf6{background:#b8b5ae;} .gf7{background:#c2bfb8;} .gf8{background:#cfccc5;} .gf9{background:#c6c3bb;} .gf10{background:#d2cfc8;}
+    .gs-tile .img-label{color:rgba(0,0,0,0.18);}
+    .gs-index { position:absolute; top:-22px; left:0; font-size:9px; letter-spacing:0.14em; font-weight:600; text-transform:uppercase; color:var(--xlight); }
+    .gallery-progress-bar { position:absolute; bottom:0; left:0; right:0; height:1px; background:var(--border); }
+    .gallery-progress-fill { height:100%; background:var(--black); width:0%; transition:width 0.08s linear; }
+    .gallery-cue { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:10px; font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); transition:opacity 0.4s; pointer-events:none; }
+    .gallery-cue-arrow { animation:cue-pulse 1.6s ease-in-out infinite; }
+    @keyframes cue-pulse{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+    .gallery-counter { position:absolute; bottom:20px; right:48px; font-size:11px; letter-spacing:0.08em; font-weight:400; color:var(--light); }
+    /* HIGHLIGHTS */
+    .hl-block { display:grid; grid-template-columns:1fr 1fr; }
+    .hl-block.rev { direction:rtl; }
+    .hl-block.rev > * { direction:ltr; }
+    .hl-img { height:480px; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+    .hl-img.a{background:#c8c4bd;} .hl-img.b{background:#bfbcb5;} .hl-img.c{background:#d0cdc6;}
+    .hl-text { padding:64px 56px; display:flex; flex-direction:column; justify-content:center; background:var(--white); }
+    .hl-kicker { font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:16px; }
+    .hl-title { font-family:'DM Serif Display',serif; font-size:32px; font-weight:400; line-height:1.2; margin-bottom:16px; }
+    .hl-body { font-size:14px; font-weight:300; line-height:1.8; color:var(--mid); }
+    /* TESTIMONIAL */
+    .test-wrap { padding:80px var(--pad-outer); background:var(--white); display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+    .test-kicker { font-size:9px; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:28px; }
+    .test-stars { font-size:18px; letter-spacing:4px; margin-bottom:24px; }
+    .test-quote { font-family:'DM Serif Display',serif; font-style:italic; font-size:clamp(18px,2.5vw,24px); font-weight:400; line-height:1.5; margin-bottom:24px; }
+    .test-attr { font-size:11px; letter-spacing:0.12em; font-weight:600; text-transform:uppercase; color:var(--light); margin-bottom:20px; }
+    .test-link { font-size:11px; letter-spacing:0.1em; font-weight:500; color:var(--black); text-decoration:none; border-bottom:1px solid var(--black); padding-bottom:2px; }
+    .test-right-img { background:#c8c4bd; height:320px; display:flex; align-items:center; justify-content:center; }
+    /* BEFORE / AFTER */
+    .admin-badge { display:inline-flex; align-items:center; gap:6px; font-size:9px; letter-spacing:0.12em; font-weight:600; text-transform:uppercase; padding:5px 12px; background:#fff3cd; border:1px solid #ffc107; color:#856404; margin:24px 48px 0; }
+    .admin-badge::before { content:'⚙'; font-size:10px; }
+    .ba-wrap { padding:40px var(--pad-outer) 56px; }
+    .ba-slider-wrap { position:relative; height:460px; overflow:hidden; cursor:ew-resize; user-select:none; }
+    .ba-after-full { position:absolute; inset:0; background:#c4c1b8; display:flex; align-items:center; justify-content:center; }
+    .ba-before-clip { position:absolute; inset:0; background:#aeaaa2; clip-path:inset(0 50% 0 0); display:flex; align-items:center; justify-content:center; }
+    .ba-divider-line { position:absolute; top:0; bottom:0; left:50%; width:2px; background:var(--white); transform:translateX(-50%); }
+    .ba-handle-btn { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:40px; height:40px; border-radius:50%; background:var(--white); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; letter-spacing:-1px; box-shadow:0 2px 12px rgba(0,0,0,0.18); }
+    .ba-label { position:absolute; font-size:9px; letter-spacing:0.14em; font-weight:600; text-transform:uppercase; background:rgba(255,255,255,0.9); color:var(--black); padding:5px 12px; top:20px; }
+    .ba-label.before-label{left:20px;} .ba-label.after-label{right:20px;}
+    .ba-instruction { text-align:center; font-size:11px; color:var(--light); font-weight:300; margin-top:12px; }
+    /* DESIGN FEATURES */
+    .hotspot-inner { display:grid; grid-template-columns:58fr 42fr; min-height:600px; }
+    .hotspot-img-wrap { position:relative; overflow:hidden; background:#c0bcb4; }
+    .hs-img-bg { position:absolute; inset:0; background:#c0bcb4; }
+    .hs-dim { position:absolute; inset:0; background:rgba(10,10,10,0); transition:background 0.5s; pointer-events:none; }
+    .hotspot-inner.feature-active .hs-dim { background:rgba(10,10,10,0.35); }
+    .hs-dot { position:absolute; width:32px; height:32px; border-radius:50%; background:var(--white); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--black); cursor:pointer; transform:translate(-50%,-50%); transition:all 0.3s; box-shadow:0 2px 16px rgba(0,0,0,0.2); z-index:5; }
+    .hs-dot:not(.active){background:rgba(255,255,255,0.55);color:rgba(0,0,0,0.5);box-shadow:0 1px 8px rgba(0,0,0,0.12);}
+    .hs-dot.active{background:var(--black);color:var(--white);}
+    .hs-dot.active::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1.5px solid rgba(26,26,26,0.3);animation:dot-pulse 2s ease-in-out infinite;}
+    @keyframes dot-pulse{0%,100%{transform:scale(0.9);opacity:0.8}50%{transform:scale(1.2);opacity:0.3}}
+    .hs-img-label{position:absolute;font-size:9px;letter-spacing:0.14em;font-weight:600;text-transform:uppercase;color:var(--black);background:rgba(255,255,255,0.9);padding:5px 10px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.4s;z-index:6;}
+    .hs-img-label.visible{opacity:1;}
+    .hotspot-list{padding:48px var(--pad-outer) 48px 56px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--border);}
+    .hl-heading{font-size:9px;letter-spacing:0.16em;font-weight:600;text-transform:uppercase;color:var(--light);margin-bottom:32px;}
+    .hs-feature{border-top:1px solid var(--border);cursor:pointer;transition:opacity 0.25s;}
+    .hs-feature:last-child{border-bottom:1px solid var(--border);}
+    .hs-feature:not(.active){opacity:0.45;}
+    .hs-feature:hover:not(.active){opacity:0.7;}
+    .hs-feat-header{display:flex;align-items:center;gap:16px;padding:20px 0;}
+    .hs-feat-num{width:28px;height:28px;border-radius:50%;background:var(--border);color:var(--mid);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;transition:all 0.25s;}
+    .hs-feature.active .hs-feat-num{background:var(--black);color:var(--white);}
+    .hs-feat-name-wrap{flex:1;}
+    .hs-feat-cat{font-size:9px;letter-spacing:0.12em;font-weight:600;text-transform:uppercase;color:var(--light);margin-bottom:3px;}
+    .hs-feat-name{font-size:15px;font-weight:300;}
+    .hs-feat-arrow{font-size:12px;color:var(--xlight);transition:transform 0.3s;}
+    .hs-feature.active .hs-feat-arrow{transform:rotate(90deg);color:var(--black);}
+    .hs-feat-body{max-height:0;overflow:hidden;transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1),opacity 0.35s;opacity:0;}
+    .hs-feature.active .hs-feat-body{max-height:240px;opacity:1;}
+    .hs-feat-body-inner{padding:0 0 24px 44px;}
+    .hs-feat-text{font-size:13px;font-weight:300;line-height:1.8;color:var(--mid);margin-bottom:12px;}
+    .hs-feat-spec{font-size:10px;letter-spacing:0.08em;font-weight:500;text-transform:uppercase;color:var(--xlight);}
+    /* RELATED */
+    .related-wrap{padding:64px var(--pad-outer);}
+    .related-heading{font-size:11px;letter-spacing:0.16em;font-weight:600;text-transform:uppercase;color:var(--light);margin-bottom:32px;}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+    .related-tile{height:280px;position:relative;cursor:pointer;overflow:hidden;text-decoration:none;color:inherit;display:block;}
+    .rt-fill{position:absolute;inset:0;transition:transform 0.5s;}
+    .related-tile:hover .rt-fill{transform:scale(1.04);}
+    .r1{background:#c0bcb4;} .r2{background:#b5b2aa;} .r3{background:#cac7c0;}
+    .related-info{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;background:var(--white);}
+    .ri-cat{font-size:9px;letter-spacing:0.12em;font-weight:600;text-transform:uppercase;color:var(--light);margin-bottom:4px;}
+    .ri-title{font-size:15px;font-weight:300;}
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      :root{--pad-h:24px;}
+      .breadcrumb{padding-left:24px;padding-right:24px;}
+      .section-label{padding-left:24px;padding-right:24px;}
+      .hero-bar{grid-template-columns:1fr 1fr;}
+      .hero-content{grid-template-columns:1fr;gap:32px;padding:40px 24px;}
+      .index-wrap{grid-template-columns:1fr;}
+      .index-nav{display:none;}
+      .index-content-wrap{grid-template-columns:1fr;}
+      .index-sticky-img{display:none;}
+      .index-chapter{padding:48px 24px;min-height:auto;}
+      .gallery-strip{gap:40px;padding:0 32px;}
+      .gallery-hijack-sticky{height:56vw;}
+      .hl-block,.hl-block.rev{grid-template-columns:1fr;direction:ltr;}
+      .hl-img{height:300px;}
+      .hl-text{padding:40px 24px;}
+      .test-wrap{grid-template-columns:1fr;padding:56px 24px;gap:32px;}
+      .test-right-img{height:240px;}
+      .hotspot-inner{grid-template-columns:1fr;}
+      .hotspot-img-wrap{height:400px;}
+      .hotspot-list{padding:40px 24px;border-left:none;border-top:1px solid var(--border);}
+      .related-grid{grid-template-columns:1fr 1fr;}
+      .ba-wrap,.related-wrap{padding-left:24px;padding-right:24px;}
+    }
+  </style>
+</head>
+<body data-active-page="projects">
+  <div id="site-header"></div>
+
+  <div class="breadcrumb">
+    <a href="projects.html">Projects</a><span>/</span>
+    <a href="projects.html">Healthcare &amp; Dental</a><span>/</span>
+    Richmond Physiotherapy
+  </div>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="hero-image"><span class="img-label">Featured Project Image / Video</span></div>
+    <div class="hero-bar">
+      <div class="hb-cell"><div class="hb-label">Category</div><div class="hb-value">Healthcare · Medical</div></div>
+      <div class="hb-cell"><div class="hb-label">Location</div><div class="hb-value">Richmond, London</div></div>
+      <div class="hb-cell"><div class="hb-label">Rating</div><div class="hb-value stars">★★★★★</div></div>
+      <div class="hb-cell"><div class="hb-label">Pillars</div><div class="pillars"><span class="pillar">Functional</span><span class="pillar">Sustainable</span><span class="pillar">Client-Exp</span></div></div>
+      <div class="hb-cell"><div class="hb-label">Website</div><div class="hb-value">richmondphysio.co.uk ↗</div></div>
+    </div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag">Healthcare &nbsp;|&nbsp; Medical</div>
+        <h1 class="hero-title">Richmond<br>Physiotherapy</h1>
+        <p class="hero-tagline">"Human-centric design, colour &amp; space psychology"</p>
+      </div>
+      <p class="hero-overview">Independent physiotherapy clinic operating for 25+ years. The brief focused on enhancing comfort and privacy across a multi-room clinic without disrupting daily operations.</p>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Explanation</div>
+    <div class="index-wrap">
+      <div class="index-nav">
+        <div class="index-nav-label">Contents</div>
+        <div class="index-nav-item active" data-ch="0"><span class="ini-num">01</span><div><div class="ini-title">The Brief</div><div class="ini-sub">Scope &amp; goals</div><div class="ini-progress"><div class="ini-progress-fill"></div></div></div></div>
+        <div class="index-nav-item" data-ch="1"><span class="ini-num">02</span><div><div class="ini-title">Our Concept</div><div class="ini-sub">Strategy &amp; materials</div><div class="ini-progress"><div class="ini-progress-fill"></div></div></div></div>
+        <div class="index-nav-item" data-ch="2"><span class="ini-num">03</span><div><div class="ini-title">Our Thinking</div><div class="ini-sub">Colour &amp; atmosphere</div><div class="ini-progress"><div class="ini-progress-fill"></div></div></div></div>
+      </div>
+      <div class="index-content-wrap">
+        <div>
+          <div class="index-chapter" data-ch="0"><div class="ic-num">01 / 03</div><h3 class="ic-title">The Brief</h3><p class="ic-body">The established clinic sought additional space to enhance safety and comfort for both patients and staff — improving reception, seating, staff corner, and merchandise layout without operational disruption.</p><div class="ic-divider"></div><div class="ic-tags"><span class="ic-tag">Reception</span><span class="ic-tag">Seating</span><span class="ic-tag">Staff Areas</span></div></div>
+          <div class="index-chapter" data-ch="1"><div class="ic-num">02 / 03</div><h3 class="ic-title">Our Concept</h3><p class="ic-body">We integrated existing building features to minimise unused space. Sustainability was emphasised through natural materials and eco-certified wallpaper. Colour psychology applied based on space purpose and natural light.</p><div class="ic-divider"></div><div class="ic-tags"><span class="ic-tag">Minimalism</span><span class="ic-tag">Sustainability</span><span class="ic-tag">Colour Psychology</span></div></div>
+          <div class="index-chapter" data-ch="2"><div class="ic-num">03 / 03</div><h3 class="ic-title">Our Thinking</h3><p class="ic-body">Curated light colours and soft tones inspired by the client's brand palette evoke a tranquil atmosphere — functionality and minimalism working in quiet counterpoint.</p><div class="ic-divider"></div><div class="ic-tags"><span class="ic-tag">Tranquility</span><span class="ic-tag">Brand Palette</span><span class="ic-tag">Patient Experience</span></div></div>
+        </div>
+        <div class="index-sticky-img">
+          <div class="is-image isi1 active" data-ch="0"><span class="img-label">The Brief</span><div class="is-caption">01 · The Brief</div></div>
+          <div class="is-image isi2" data-ch="1"><span class="img-label">Our Concept</span><div class="is-caption">02 · Our Concept</div></div>
+          <div class="is-image isi3" data-ch="2"><span class="img-label">Our Thinking</span><div class="is-caption">03 · Our Thinking</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Gallery</div>
+    <div class="gallery-hijack-wrap" id="gallery-wrap">
+      <div class="gallery-hijack-sticky" id="gallery-sticky">
+        <div class="gallery-strip" id="gallery-strip">
+          <div class="gs-tile gs-cinema" style="position:relative;"><span class="gs-index">01</span><div class="gs-fill gf1"></div></div>
+          <div class="gs-tile gs-portrait" style="position:relative;"><span class="gs-index">02</span><div class="gs-fill gf2"></div></div>
+          <div class="gs-pair" style="position:relative;"><span class="gs-index" style="position:absolute;top:-22px;left:0;">03</span><div class="gs-tile"><div class="gs-fill gf3"></div></div><div class="gs-tile"><div class="gs-fill gf4"></div></div></div>
+          <div class="gs-tile gs-landscape" style="position:relative;"><span class="gs-index">04</span><div class="gs-fill gf5"></div></div>
+          <div class="gs-tile gs-portrait" style="position:relative;"><span class="gs-index">05</span><div class="gs-fill gf6"></div></div>
+          <div class="gs-tile gs-wide" style="position:relative;"><span class="gs-index">06</span><div class="gs-fill gf7"></div></div>
+          <div class="gs-pair" style="position:relative;"><span class="gs-index" style="position:absolute;top:-22px;left:0;">07</span><div class="gs-tile"><div class="gs-fill gf8"></div></div><div class="gs-tile"><div class="gs-fill gf9"></div></div></div>
+          <div class="gs-tile gs-landscape" style="position:relative;"><span class="gs-index">08</span><div class="gs-fill gf10"></div></div>
+          <div class="gs-tile gs-square" style="position:relative;"><span class="gs-index">09</span><div class="gs-fill gf2"></div></div>
+          <div class="gs-tile gs-cinema" style="position:relative;"><span class="gs-index">10</span><div class="gs-fill gf5"></div></div>
+        </div>
+        <div class="gallery-progress-bar"><div class="gallery-progress-fill" id="gallery-progress"></div></div>
+        <div class="gallery-cue" id="gallery-cue"><span>Scroll to explore</span><span class="gallery-cue-arrow">→</span></div>
+        <div class="gallery-counter" id="gallery-counter">1 / 10</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Section Highlights</div>
+    <div class="hl-block"><div class="hl-img a"><span class="img-label">Reception Desk Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 01</div><h3 class="hl-title">Bespoke Reception Desk</h3><p class="hl-body">The focal design piece features a higher upstand for privacy and space delineation with enhanced storage capabilities. The upstand creates a clear separation between client and staff areas while reducing visual clutter throughout the reception zone.</p></div></div>
+    <div class="hl-block rev"><div class="hl-img b"><span class="img-label">Seating Area Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 02</div><h3 class="hl-title">Seating Installation</h3><p class="hl-body">Black and white artwork complemented comfortable bench seating with soft cushions, backrests, and open-bottom design. Design priorities: decluttering, privacy, safety, and support — ensuring patients feel at ease from the moment they arrive.</p></div></div>
+    <div class="hl-block"><div class="hl-img c"><span class="img-label">Second Floor Image</span></div><div class="hl-text"><div class="hl-kicker">Highlight 03</div><h3 class="hl-title">Second Floor Integration</h3><p class="hl-body">When the client acquired the upper floor, design elements were seamlessly integrated to ensure continuity in both the aesthetic and atmosphere — extending the same spatial language across both clinic levels.</p></div></div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Client Testimonial</div>
+    <div class="test-wrap">
+      <div>
+        <div class="test-kicker">What the client said</div>
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"The thought-to-execution process was seamless while keeping our space open during the refurbishment. The project justified our investment, and the result has received positive feedback from our clients."</p>
+        <p class="test-attr">Dr. Pippa Rollitt &nbsp;·&nbsp; Co-Founder, Richmond Physiotherapy</p>
+        <a class="test-link" href="testimonials.html">View all client testimonials →</a>
+      </div>
+      <div class="test-right-img"><span class="img-label">Client / Clinic Image</span></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Before &amp; After</div>
+    <div class="admin-badge">Admin Toggle — ON. Disable if no before/after photography available.</div>
+    <div class="ba-wrap">
+      <div class="ba-slider-wrap" id="ba-slider">
+        <div class="ba-after-full"><span class="img-label">After Photography</span><span class="ba-label after-label">After</span></div>
+        <div class="ba-before-clip" id="ba-before"><span class="img-label">Before Photography</span><span class="ba-label before-label">Before</span></div>
+        <div class="ba-divider-line" id="ba-line"></div>
+        <div class="ba-handle-btn" id="ba-handle">⇄</div>
+      </div>
+      <p class="ba-instruction">Drag left / right to compare</p>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Design Features</div>
+    <div class="hotspot-inner" id="hotspot-inner">
+      <div class="hotspot-img-wrap">
+        <div class="hs-img-bg"></div>
+        <span class="img-label" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;">Feature Image</span>
+        <div class="hs-dim" id="hs-dim"></div>
+        <div class="hs-dot active" data-f="0" style="left:22%;top:18%;">1</div>
+        <div class="hs-dot" data-f="1" style="left:55%;top:42%;">2</div>
+        <div class="hs-dot" data-f="2" style="left:35%;top:72%;">3</div>
+        <div class="hs-dot" data-f="3" style="left:70%;top:12%;">4</div>
+        <div class="hs-img-label visible" id="hs-img-label" style="left:27%;top:24%;">Eco-Certified Wallpaper</div>
+      </div>
+      <div class="hotspot-list">
+        <div class="hl-heading">Design Features — Click to explore</div>
+        <div class="hs-feature active" data-f="0"><div class="hs-feat-header"><div class="hs-feat-num">1</div><div class="hs-feat-name-wrap"><div class="hs-feat-cat">Wallpaper</div><div class="hs-feat-name">Eco-Certified Texture</div></div><span class="hs-feat-arrow">›</span></div><div class="hs-feat-body"><div class="hs-feat-body-inner"><p class="hs-feat-text">Hand-crafted design featuring coloured petals — cornflowers, roses, sunflowers, moss — on a white base. Carbon-neutral production in Tyrol.</p><div class="hs-feat-spec">STANDARD 100 OEKO TEX &nbsp;·&nbsp; Recycled cellulose &amp; textile fibres</div></div></div></div>
+        <div class="hs-feature" data-f="1"><div class="hs-feat-header"><div class="hs-feat-num">2</div><div class="hs-feat-name-wrap"><div class="hs-feat-cat">Colour Palette</div><div class="hs-feat-name">Tonal Calm</div></div><span class="hs-feat-arrow">›</span></div><div class="hs-feat-body"><div class="hs-feat-body-inner"><p class="hs-feat-text">Soft tones drawn from the client's brand palette, selected using colour psychology principles mapped to each room's natural light and therapeutic purpose.</p><div class="hs-feat-spec">Colour psychology &nbsp;·&nbsp; Wellness-focused &nbsp;·&nbsp; Brand-aligned</div></div></div></div>
+        <div class="hs-feature" data-f="2"><div class="hs-feat-header"><div class="hs-feat-num">3</div><div class="hs-feat-name-wrap"><div class="hs-feat-cat">Joinery</div><div class="hs-feat-name">Bespoke Cabinetry</div></div><span class="hs-feat-arrow">›</span></div><div class="hs-feat-body"><div class="hs-feat-body-inner"><p class="hs-feat-text">Custom reception desk and storage built to exacting staff workflow requirements. Higher upstand creates privacy delineation while integrated storage maintains visual calm.</p><div class="hs-feat-spec">FSC certified timber &nbsp;·&nbsp; Custom fabrication &nbsp;·&nbsp; Staff-workflow driven</div></div></div></div>
+        <div class="hs-feature" data-f="3"><div class="hs-feat-header"><div class="hs-feat-num">4</div><div class="hs-feat-name-wrap"><div class="hs-feat-cat">Lighting</div><div class="hs-feat-name">Layered Warmth</div></div><span class="hs-feat-arrow">›</span></div><div class="hs-feat-body"><div class="hs-feat-body-inner"><p class="hs-feat-text">Ambient, task, and accent layers reinforcing the clinic's calming atmosphere while meeting medical-grade luminance requirements throughout the space.</p><div class="hs-feat-spec">CIBSE healthcare guidelines &nbsp;·&nbsp; LED &nbsp;·&nbsp; 3000K warm white</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="related-wrap">
+      <div class="related-heading">Related Projects</div>
+      <div class="related-grid">
+        <a class="related-tile" href="project-detail.html"><div class="rt-fill r1"></div><div class="related-info"><div class="ri-cat">Healthcare / GP</div><div class="ri-title">Kensington Clinic</div></div></a>
+        <a class="related-tile" href="project-detail.html"><div class="rt-fill r2"></div><div class="related-info"><div class="ri-cat">Healthcare / Orthodontic</div><div class="ri-title">Albright Orthodontic Studio</div></div></a>
+        <a class="related-tile" href="project-detail.html"><div class="rt-fill r3"></div><div class="related-info"><div class="ri-cat">Research &amp; Lab</div><div class="ri-title">Novus Lab Annex</div></div></a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    const chapters = document.querySelectorAll('.index-chapter');
+    const navItems = document.querySelectorAll('.index-nav-item');
+    const stickyImgs = document.querySelectorAll('.is-image');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) activate(parseInt(e.target.dataset.ch)); });
+    }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+    chapters.forEach(c => io.observe(c));
+    navItems.forEach((n, i) => n.addEventListener('click', () => chapters[i].scrollIntoView({ behavior: 'smooth', block: 'center' })));
+    function activate(idx) {
+      navItems.forEach((n, i) => n.classList.toggle('active', i === idx));
+      stickyImgs.forEach((s, i) => s.classList.toggle('active', i === idx));
+    }
+
+    const galleryWrap = document.getElementById('gallery-wrap');
+    const galleryStrip = document.getElementById('gallery-strip');
+    const galleryProg = document.getElementById('gallery-progress');
+    const galleryCue = document.getElementById('gallery-cue');
+    const galleryCount = document.getElementById('gallery-counter');
+    function setGalleryHeight() {
+      const excess = Math.max(0, galleryStrip.scrollWidth - window.innerWidth);
+      galleryWrap.style.height = (window.innerHeight - 72 + excess) + 'px';
+    }
+    function updateGallery() {
+      const rect = galleryWrap.getBoundingClientRect();
+      const scrolled = Math.max(0, -rect.top);
+      const maxV = galleryWrap.offsetHeight - (window.innerHeight - 72);
+      if (maxV <= 0) return;
+      const progress = Math.min(1, scrolled / maxV);
+      galleryStrip.style.transform = `translateX(-${progress * (galleryStrip.scrollWidth - window.innerWidth)}px)`;
+      galleryProg.style.width = (progress * 100) + '%';
+      galleryCue.style.opacity = progress > 0.04 ? '0' : '1';
+      galleryCount.textContent = Math.min(10, Math.ceil(progress * 10) + 1) + ' / 10';
+    }
+    window.addEventListener('load', () => { setGalleryHeight(); updateGallery(); });
+    window.addEventListener('resize', () => { setGalleryHeight(); updateGallery(); }, { passive: true });
+    window.addEventListener('scroll', updateGallery, { passive: true });
+
+    const slider = document.getElementById('ba-slider');
+    const before = document.getElementById('ba-before');
+    const line = document.getElementById('ba-line');
+    const handle = document.getElementById('ba-handle');
+    let dragging = false;
+    function setPos(x) { const r = slider.getBoundingClientRect(); const p = Math.max(5, Math.min(95, ((x - r.left) / r.width) * 100)); before.style.clipPath = `inset(0 ${100-p}% 0 0)`; line.style.left = handle.style.left = p + '%'; }
+    slider.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
+    window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', () => { dragging = false; });
+    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', () => { dragging = false; });
+
+    const hsFeatures = document.querySelectorAll('.hs-feature');
+    const hsDots = document.querySelectorAll('.hs-dot');
+    const hsInner = document.getElementById('hotspot-inner');
+    const hsImgLabel = document.getElementById('hs-img-label');
+    const fLabels = [
+      { text: 'Eco-Certified Wallpaper', left: '27%', top: '24%' },
+      { text: 'Tonal Colour Palette', left: '60%', top: '48%' },
+      { text: 'Bespoke Joinery', left: '40%', top: '65%' },
+      { text: 'Layered Lighting', left: '75%', top: '18%' },
+    ];
+    function activateFeature(idx) {
+      hsFeatures.forEach((f, i) => f.classList.toggle('active', i === idx));
+      hsDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      hsInner.classList.add('feature-active');
+      hsImgLabel.textContent = fLabels[idx].text;
+      hsImgLabel.style.left = fLabels[idx].left;
+      hsImgLabel.style.top = fLabels[idx].top;
+      hsImgLabel.classList.add('visible');
+    }
+    hsFeatures.forEach((f, i) => f.addEventListener('click', () => activateFeature(i)));
+    hsDots.forEach((d, i) => d.addEventListener('click', () => activateFeature(i)));
+  </script>
+</body>
+</html>

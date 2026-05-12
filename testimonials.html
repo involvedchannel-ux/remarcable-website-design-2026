@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── HERO ── */
+    .ts-hero { padding: 96px var(--pad-outer) 80px; background: var(--white); border-bottom: 1px solid var(--border); }
+    .ts-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-top: 24px; }
+    .ts-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 88px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em;
+    }
+    .ts-hero-right { padding-bottom: 4px; }
+    .ts-hero-lead { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--mid); margin-bottom: 32px; }
+    .ts-hero-rating {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .ts-hero-stars { font-size: 20px; letter-spacing: 4px; color: var(--black); }
+    .ts-hero-rating-text { font-size: 13px; font-weight: 300; color: var(--mid); }
+    .ts-hero-rating-text strong { font-weight: 500; color: var(--black); }
+
+    /* ── STATS ── */
+    /* uses .rd-stats-bar */
+
+    /* ── FEATURED QUOTE ── */
+    .ts-featured { padding: 96px var(--pad-outer); background: var(--black); }
+    .ts-featured-inner { max-width: 920px; margin: 0 auto; }
+    .ts-featured-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(28px, 4vw, 52px); font-weight: 400;
+      color: var(--white); line-height: 1.25; margin-bottom: 40px;
+      letter-spacing: -0.01em;
+    }
+    .ts-featured-attr-row { display: flex; align-items: center; gap: 24px; }
+    .ts-featured-avatar { width: 56px; height: 56px; border-radius: 50%; background: #555; flex-shrink: 0; position: relative; overflow: hidden; }
+    .ts-featured-avatar-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 8px; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+    .ts-featured-name { font-size: 13px; font-weight: 500; color: var(--white); letter-spacing: 0.04em; }
+    .ts-featured-role { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.45); margin-top: 3px; }
+    .ts-featured-project { margin-left: auto; font-size: 10px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.28); text-transform: uppercase; }
+
+    /* ── FILTER TABS ── */
+    .ts-filter-bar { padding: 0 var(--pad-outer); background: var(--white); border-bottom: 1px solid var(--border); }
+    .ts-filter-tabs { display: flex; }
+    .ts-filter-tab {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      padding: 18px 0; margin-right: 40px; cursor: pointer; color: var(--light);
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+    }
+    .ts-filter-tab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    /* ── ALL TESTIMONIALS ── */
+    .ts-all { padding: 72px var(--pad-outer) 100px; }
+
+    /* ── EXTENDED CARDS ── */
+    .ts-ext-card {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border: 1px solid var(--border); margin-bottom: 24px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .ts-ext-card:hover { border-color: var(--black); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .ts-ext-left { padding: 52px 56px; background: var(--white); }
+    .ts-ext-right { padding: 52px 56px; background: var(--bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+    .ts-ext-stars { font-size: 14px; letter-spacing: 3px; color: var(--black); margin-bottom: 24px; }
+    .ts-ext-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(18px, 2.2vw, 26px); font-weight: 400;
+      line-height: 1.5; color: var(--black);
+    }
+    .ts-ext-attr-name { font-size: 13px; font-weight: 500; color: var(--black); margin-top: 32px; letter-spacing: 0.02em; }
+    .ts-ext-attr-role { font-size: 12px; font-weight: 300; color: var(--mid); margin-top: 3px; }
+    .ts-ext-project-label { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; color: var(--light); text-transform: uppercase; margin-bottom: 8px; }
+    .ts-ext-project-name { font-size: 18px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 12px; }
+    .ts-ext-project-meta { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+    .ts-ext-project-link { margin-top: auto; }
+
+    /* ── VIDEO TESTIMONIALS (placeholder) ── */
+    .ts-video-section { padding: 100px var(--pad-outer); background: #edeae4; }
+    .ts-video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin-top: 48px; }
+    .ts-video-card { position: relative; aspect-ratio: 16/9; overflow: hidden; cursor: pointer; }
+    .ts-video-fill { position: absolute; inset: 0; }
+    .ts-video-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.22); }
+    .ts-video-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.75);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ts-video-play::after { content: ''; border-left: 14px solid rgba(255,255,255,0.88); border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 4px; }
+    .ts-video-label { position: absolute; bottom: 16px; left: 20px; font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.85); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .ts-hero { padding: 64px 24px; }
+      .ts-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .ts-featured { padding: 64px 24px; }
+      .ts-filter-bar { padding: 0 24px; }
+      .ts-all { padding: 48px 24px 72px; }
+      .ts-ext-card { grid-template-columns: 1fr; }
+      .ts-ext-right { border-left: none; border-top: 1px solid var(--border); }
+      .ts-ext-left, .ts-ext-right { padding: 40px 32px; }
+      .ts-video-section { padding: 64px 24px; }
+      .ts-video-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-active-page="testimonials">
+  <div id="site-header"></div>
+
+  <!-- ── HERO ── -->
+  <section class="ts-hero">
+    <div class="rd-eyebrow">Client Stories</div>
+    <div class="ts-hero-grid">
+      <h1 class="ts-hero-title">What our clients say</h1>
+      <div class="ts-hero-right">
+        <p class="ts-hero-lead">Every project is a relationship, not just a commission. These are the words of the people who trusted us with their spaces.</p>
+        <div class="ts-hero-rating">
+          <div class="ts-hero-stars">★★★★★</div>
+          <div class="ts-hero-rating-text"><strong>5.0</strong> average rating across all completed projects</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS BAR ── -->
+  <div class="rd-stats-bar">
+    <div class="rd-stat">
+      <div class="rd-stat-num">5.0</div>
+      <div class="rd-stat-label">★ Average client rating</div>
+    </div>
+    <div class="rd-stat">
+      <div class="rd-stat-num">150+</div>
+      <div class="rd-stat-label">Projects completed</div>
+    </div>
+    <div class="rd-stat">
+      <div class="rd-stat-num">94%</div>
+      <div class="rd-stat-label">Repeat or referred clients</div>
+    </div>
+    <div class="rd-stat">
+      <div class="rd-stat-num">100%</div>
+      <div class="rd-stat-label">On time &amp; on budget</div>
+    </div>
+  </div>
+
+  <!-- ── FEATURED QUOTE ── -->
+  <section class="ts-featured">
+    <div class="ts-featured-inner">
+      <p class="ts-featured-quote">"Always on time, on budget and with minimum fuss. They continue to be our first port of call for all clinical and commercial interior work across our network."</p>
+      <div class="ts-featured-attr-row">
+        <div class="ts-featured-avatar"><span class="ts-featured-avatar-ph">Photo</span></div>
+        <div>
+          <div class="ts-featured-name">Dr. Seth Rankin</div>
+          <div class="ts-featured-role">Founder — London Doctors Clinic</div>
+        </div>
+        <div class="ts-featured-project">Healthcare / GP Network</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FILTER ── -->
+  <div class="ts-filter-bar">
+    <div class="ts-filter-tabs" id="tsFilterTabs">
+      <div class="ts-filter-tab active" data-filter="all">All Sectors</div>
+      <div class="ts-filter-tab" data-filter="healthcare">Healthcare</div>
+      <div class="ts-filter-tab" data-filter="commercial">Commercial</div>
+      <div class="ts-filter-tab" data-filter="residential">Residential</div>
+    </div>
+  </div>
+
+  <!-- ── ALL TESTIMONIALS ── -->
+  <section class="ts-all" id="tsAll">
+    <!-- Rendered by script -->
+  </section>
+
+  <!-- ── VIDEO TESTIMONIALS ── -->
+  <section class="ts-video-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">In Their Own Words</div>
+        <h2 class="rd-section-title">Video testimonials</h2>
+      </div>
+    </div>
+    <div class="ts-video-grid">
+      <div class="ts-video-card">
+        <div class="ts-video-fill tone-a"></div>
+        <div class="ts-video-overlay"></div>
+        <div class="ts-video-play"></div>
+        <div class="ts-video-label">Dr. Pippa Rollitt — Richmond Physiotherapy</div>
+      </div>
+      <div class="ts-video-card">
+        <div class="ts-video-fill tone-f"></div>
+        <div class="ts-video-overlay"></div>
+        <div class="ts-video-play"></div>
+        <div class="ts-video-label">Scott Bozinis — Vertex Group</div>
+      </div>
+      <div class="ts-video-card">
+        <div class="ts-video-fill tone-c"></div>
+        <div class="ts-video-overlay"></div>
+        <div class="ts-video-play"></div>
+        <div class="ts-video-label">Rachel Mowbray — Cairn Residential</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    // Extended testimonial card render
+    const projects = [
+      { name: 'Richmond Physiotherapy', location: 'Richmond, London', desc: 'Full refurbishment of a two-storey physiotherapy clinic while the practice remained open. Delivery phased across 8 weeks.', link: 'project-detail.html' },
+      { name: 'Belgravia Dental Studio', location: 'London', desc: 'New dental studio fit-out with bespoke joinery, biophilic design elements, and a reception designed to reduce patient anxiety.', link: 'project-detail.html' },
+      { name: 'Vertex Group HQ', location: 'Edinburgh', desc: 'Three-floor commercial office transformation. Phased delivery with zero disruption to trading operations throughout.', link: 'project-detail.html' },
+      { name: 'London Doctors Clinic (Network)', location: 'Multiple UK sites', desc: 'Ongoing relationship covering design and delivery across a network of 12 clinical locations. Standardised design language with site-specific adaptation.', link: 'project-detail.html' },
+      { name: 'Harlow Quarter', location: 'Sheffield', desc: 'Mixed-use commercial development: three phases delivered across 18 months while all three floors remained partially operational.', link: 'project-detail.html' },
+      { name: 'Cairn House', location: 'Glasgow', desc: 'Private residential renovation: full interior design and delivery across a 4-bedroom property in Glasgow\'s West End.', link: 'project-detail.html' },
+    ];
+
+    function renderCards(filter) {
+      const container = document.getElementById('tsAll');
+      const data = RD.data.testimonials;
+      const filtered = filter === 'all' ? data : data.filter(t => t.segment === filter);
+
+      container.innerHTML = filtered.map((t, i) => {
+        const p = projects[RD.data.testimonials.indexOf(t)] || projects[0];
+        return `
+        <div class="ts-ext-card" data-segment="${t.segment}">
+          <div class="ts-ext-left">
+            <div class="ts-ext-stars">★★★★★</div>
+            <blockquote class="ts-ext-quote">"${t.quote}"</blockquote>
+            <div class="ts-ext-attr-name">${t.name}</div>
+            <div class="ts-ext-attr-role">${t.role} — ${t.company}</div>
+          </div>
+          <div class="ts-ext-right">
+            <div>
+              <div class="ts-ext-project-label">Project</div>
+              <div class="ts-ext-project-name">${p.name}</div>
+              <div class="ts-ext-project-meta">${p.location} · ${p.desc}</div>
+            </div>
+            <div class="ts-ext-project-link" style="margin-top:32px">
+              <a class="rd-more-link" href="${p.link}">View project →</a>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    renderCards('all');
+
+    document.querySelectorAll('.ts-filter-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.ts-filter-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        renderCards(this.dataset.filter);
+      });
+    });
+  </script>
+</body>
+</html>

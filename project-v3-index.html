@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — Project Detail V3 Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --mid: #666;
+      --light: #999;
+      --xlight: #ccc;
+      --border: #e0ddd8;
+      --bg: #faf9f7;
+      --white: #fff;
+      --nav-h: 72px;
+    }
+
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── NAV ── */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: var(--nav-h); border-bottom: 1px solid var(--border); background: var(--white); position: sticky; top: 0; z-index: 200; }
+    .nav-logo { font-size: 11px; letter-spacing: 0.18em; font-weight: 600; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 400; color: var(--black); text-decoration: none; }
+    .nav-links a.active { border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
+    .nav-cta { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 12px 22px; text-decoration: none; }
+
+    .back { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.1em; font-weight: 500; text-decoration: none; color: var(--light); padding: 20px 48px; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .back:hover { color: var(--black); }
+    .breadcrumb { display: flex; align-items: center; gap: 10px; padding: 16px 48px; border-bottom: 1px solid var(--border); font-size: 11px; letter-spacing: 0.1em; color: var(--light); font-weight: 500; }
+    .breadcrumb a { color: var(--light); text-decoration: none; }
+    .breadcrumb span { color: var(--xlight); }
+    .version-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 16px 48px; }
+    .version-chip::before { content: ''; display: block; width: 20px; height: 1px; background: var(--light); }
+
+    .section-block { position: relative; border-bottom: 1px solid var(--border); }
+    .drag-handle { position: absolute; left: 14px; top: 24px; font-size: 14px; color: var(--xlight); cursor: grab; user-select: none; z-index: 10; }
+    .section-label { display: flex; align-items: center; gap: 12px; font-size: 9px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 28px 48px 0 48px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── HERO — full-width with info bar below ── */
+    .hero-image { width: 100%; height: 480px; background: #bfbcb5; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .img-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.38); text-transform: uppercase; }
+
+    .hero-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr auto;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .hb-cell {
+      padding: 24px 28px;
+      border-right: 1px solid var(--border);
+    }
+    .hb-cell:last-child { border-right: none; }
+    .hb-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 6px; }
+    .hb-value { font-size: 14px; font-weight: 300; }
+    .stars { font-size: 15px; letter-spacing: 3px; }
+    .pillars { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+    .pillar { font-size: 9px; letter-spacing: 0.08em; font-weight: 600; padding: 3px 8px; border: 1px solid var(--border); text-transform: uppercase; color: var(--mid); }
+
+    .hero-content { padding: 48px 48px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; background: var(--white); }
+    .hero-tag { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 16px; }
+    .hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(38px, 5vw, 64px); font-weight: 400; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero-tagline { font-family: 'DM Serif Display', serif; font-size: 17px; font-style: italic; color: var(--mid); font-weight: 400; }
+    .hero-overview { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); align-self: end; }
+
+    /* ── INDEX SCROLL SECTION (V3 key differentiator) ──
+       Left: narrow sticky numbered list with progress indicator
+       Right: changing image (sticky) + expanding text content
+       Scrolling through the content items triggers the nav
+    */
+    .index-wrap {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+    }
+
+    /* LEFT: sticky numbered nav */
+    .index-nav {
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 32px;
+      background: var(--white);
+    }
+    .index-nav-label { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--xlight); margin-bottom: 32px; }
+
+    .index-nav-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 0;
+      cursor: pointer;
+      border-top: 1px solid var(--border);
+      transition: opacity 0.3s;
+      opacity: 0.35;
+    }
+    .index-nav-item:last-child { border-bottom: 1px solid var(--border); }
+    .index-nav-item.active { opacity: 1; }
+    .index-nav-item:hover { opacity: 0.7; }
+
+    .ini-num {
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 600;
+      color: var(--light); padding-top: 2px; flex-shrink: 0; width: 20px;
+    }
+    .ini-label {
+      flex: 1;
+    }
+    .ini-title { font-size: 14px; font-weight: 400; line-height: 1.3; margin-bottom: 4px; }
+    .ini-sub { font-size: 11px; font-weight: 300; color: var(--light); }
+
+    /* progress bar on active item */
+    .ini-progress {
+      width: 100%; height: 2px; background: var(--border);
+      margin-top: 10px; overflow: hidden;
+    }
+    .ini-progress-fill {
+      height: 100%; background: var(--black); width: 0%;
+      transition: width 0.1s linear;
+    }
+    .index-nav-item.active .ini-progress-fill { width: 100%; transition: width 0.8s ease; }
+
+    /* RIGHT: content + sticky image */
+    .index-content-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Right-right: sticky image */
+    .index-sticky-img {
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow: hidden;
+      border-left: 1px solid var(--border);
+    }
+    .is-image {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .is-image.active { opacity: 1; }
+    .isi1 { background: #c4c0b8; }
+    .isi2 { background: #b8b4ac; }
+    .isi3 { background: #cac6be; }
+    .is-caption {
+      position: absolute; bottom: 24px; left: 24px; right: 24px;
+      font-size: 9px; letter-spacing: 0.12em; font-weight: 600;
+      color: rgba(255,255,255,0.4); text-transform: uppercase;
+    }
+
+    /* Right-left: scrollable chapters */
+    .index-chapters { }
+
+    .index-chapter {
+      padding: 72px 56px;
+      min-height: 80vh;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .index-chapter:last-child { border-bottom: none; }
+
+    .ic-num { font-size: 11px; letter-spacing: 0.14em; font-weight: 600; color: var(--xlight); margin-bottom: 24px; }
+    .ic-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 42px); font-weight: 400; line-height: 1.2; margin-bottom: 28px; }
+    .ic-body { font-size: 14px; font-weight: 300; line-height: 1.85; color: var(--mid); max-width: 380px; }
+    .ic-divider { width: 40px; height: 1px; background: var(--border); margin: 28px 0; }
+    .ic-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ic-tag { font-size: 9px; letter-spacing: 0.1em; font-weight: 600; padding: 4px 10px; border: 1px solid var(--border); text-transform: uppercase; color: var(--mid); }
+
+    /* ── GALLERY — strict auto grid ── */
+    .gallery-wrap { padding: 48px; }
+    .gallery-note { font-size: 11px; color: var(--light); font-weight: 300; margin-bottom: 20px; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 3px;
+    }
+    .gallery-tile { aspect-ratio: 3/2; background: #ccc; overflow: hidden; cursor: pointer; }
+    .gallery-tile:nth-child(3n+1) { aspect-ratio: 4/3; }
+    .gallery-tile:nth-child(5) { aspect-ratio: 1/1; grid-column: span 1; }
+    .gt-fill { width: 100%; height: 100%; transition: transform 0.5s; }
+    .gallery-tile:hover .gt-fill { transform: scale(1.04); }
+    .t1{background:#c8c4bd;} .t2{background:#d0cdc6;} .t3{background:#bfbcb5;}
+    .t4{background:#cac7c0;} .t5{background:#d5d2cb;} .t6{background:#b8b5ae;}
+    .t7{background:#c2bfb8;} .t8{background:#cfccc5;} .t9{background:#c6c3bb;}
+    .load-more { display: flex; align-items: center; justify-content: center; margin-top: 28px; }
+    .load-more-btn { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; padding: 14px 32px; border: 1px solid var(--black); background: transparent; cursor: pointer; text-transform: uppercase; transition: all 0.18s; color: var(--black); }
+    .load-more-btn:hover { background: var(--black); color: var(--white); }
+
+    /* ── HIGHLIGHTS — structured 2-col ── */
+    .hl-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .hl-cell { display: grid; grid-template-rows: 320px auto; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .hl-cell:nth-child(2n) { border-right: none; }
+    .hl-cell:nth-last-child(-n+2) { border-bottom: none; }
+    .hl-img-sq { background: #c0bcb4; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hl-img-sq.b { background: #b5b2aa; }
+    .hl-img-sq.c { background: #cac7c0; }
+    .hl-text { padding: 32px 36px 40px; background: var(--white); }
+    .hl-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 12px; }
+    .hl-title { font-size: 20px; font-weight: 300; line-height: 1.3; margin-bottom: 12px; }
+    .hl-body { font-size: 13px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+
+    /* ── TESTIMONIAL ── */
+    .test-wrap { padding: 80px 48px; background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .test-left { }
+    .test-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .test-stars { font-size: 18px; letter-spacing: 4px; margin-bottom: 24px; }
+    .test-quote { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(18px, 2.5vw, 24px); font-weight: 400; line-height: 1.5; margin-bottom: 24px; }
+    .test-attr { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 20px; }
+    .test-link { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--black); text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 2px; }
+    .test-right { background: #c8c4bd; height: 320px; display: flex; align-items: center; justify-content: center; }
+
+    /* ── BEFORE / AFTER ── */
+    .admin-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; padding: 5px 12px; background: #fff3cd; border: 1px solid #ffc107; color: #856404; margin: 24px 48px 0; }
+    .admin-badge::before { content: '⚙'; font-size: 10px; }
+    .ba-wrap { padding: 40px 48px 56px; }
+
+    /* V3: slider comparison */
+    .ba-slider-wrap {
+      position: relative;
+      height: 460px;
+      overflow: hidden;
+      cursor: ew-resize;
+      user-select: none;
+    }
+    .ba-after-full {
+      position: absolute; inset: 0;
+      background: #c4c1b8;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-before-clip {
+      position: absolute; inset: 0;
+      background: #aeaaa2;
+      clip-path: inset(0 50% 0 0);
+      transition: clip-path 0.05s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-divider-line {
+      position: absolute; top: 0; bottom: 0;
+      left: 50%; width: 2px; background: var(--white);
+      transform: translateX(-50%);
+      transition: left 0.05s;
+    }
+    .ba-handle-btn {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; letter-spacing: -1px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      transition: left 0.05s;
+    }
+    .ba-label {
+      position: absolute; font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase;
+      background: rgba(255,255,255,0.9); color: var(--black); padding: 5px 12px; top: 20px;
+    }
+    .ba-label.before-label { left: 20px; }
+    .ba-label.after-label { right: 20px; }
+    .ba-instruction { text-align: center; font-size: 11px; color: var(--light); font-weight: 300; margin-top: 12px; letter-spacing: 0.04em; }
+
+    /* ── DESIGN FEATURES — horizontal scrolling specs ── */
+    .feat-wrap { padding: 64px 0 64px 48px; overflow: hidden; }
+    .feat-header { padding-right: 48px; margin-bottom: 36px; display: flex; align-items: baseline; justify-content: space-between; }
+    .feat-title { font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400; }
+    .feat-scroll-hint { font-size: 11px; color: var(--light); font-weight: 300; }
+    .feat-row {
+      display: flex; gap: 3px; overflow-x: auto; padding-right: 48px;
+      scrollbar-width: none;
+    }
+    .feat-row::-webkit-scrollbar { display: none; }
+    .feat-card { flex: 0 0 320px; background: var(--white); overflow: hidden; }
+    .feat-img { height: 200px; display: flex; align-items: center; justify-content: center; }
+    .fi1{background:#c8c4bd;} .fi2{background:#bfbcb5;} .fi3{background:#d0cdc6;} .fi4{background:#cac7c0;}
+    .feat-body { padding: 24px; }
+    .feat-kicker { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 8px; }
+    .feat-name { font-size: 16px; font-weight: 300; margin-bottom: 10px; }
+    .feat-desc { font-size: 12px; font-weight: 300; line-height: 1.7; color: var(--mid); }
+    .feat-spec { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 10px; letter-spacing: 0.08em; font-weight: 500; color: var(--xlight); text-transform: uppercase; }
+
+    /* ── RELATED ── */
+    .related-wrap { padding: 64px 48px; }
+    .related-heading { font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .related-tile { height: 280px; position: relative; cursor: pointer; overflow: hidden; }
+    .rt-fill { position: absolute; inset: 0; transition: transform 0.5s; }
+    .related-tile:hover .rt-fill { transform: scale(1.04); }
+    .r1{background:#c0bcb4;} .r2{background:#b5b2aa;} .r3{background:#cac7c0;}
+    .related-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px; background: var(--white); }
+    .ri-cat { font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 4px; }
+    .ri-title { font-size: 15px; font-weight: 300; }
+
+    @media (max-width: 1100px) {
+      .index-wrap { grid-template-columns: 220px 1fr; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .breadcrumb, .back, .version-chip { padding-left: 24px; padding-right: 24px; }
+      .section-label { padding-left: 24px; padding-right: 24px; }
+      .hero-bar { grid-template-columns: 1fr 1fr; }
+      .hero-content { grid-template-columns: 1fr; gap: 32px; padding: 40px 24px; }
+      .index-wrap { grid-template-columns: 1fr; }
+      .index-nav { display: none; }
+      .index-content-wrap { grid-template-columns: 1fr; }
+      .index-sticky-img { display: none; }
+      .index-chapter { padding: 48px 24px; min-height: auto; }
+      .gallery-wrap, .ba-wrap, .feat-wrap, .related-wrap { padding-left: 24px; padding-right: 24px; }
+      .hl-grid { grid-template-columns: 1fr; }
+      .hl-cell { border-right: none; }
+      .hl-cell:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .hl-cell:last-child { border-bottom: none; }
+      .test-wrap { grid-template-columns: 1fr; padding: 56px 24px; gap: 32px; }
+      .test-right { height: 240px; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .feat-wrap { padding-left: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back" href="project-hub.html">← Back to project iterations</a>
+
+  <nav>
+    <div class="nav-logo">REMARCABLE DESIGN</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#" class="active">Projects</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Book Free Consultation</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="#">Projects</a>
+    <span>/</span>
+    <a href="#">Healthcare &amp; Dental</a>
+    <span>/</span>
+    Richmond Physiotherapy
+  </div>
+
+  <div class="version-chip">03 — Index</div>
+
+  <!-- ── HERO ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="hero-image"><span class="img-label">Featured Project Image / Video</span></div>
+    <div class="hero-bar">
+      <div class="hb-cell">
+        <div class="hb-label">Category</div>
+        <div class="hb-value">Healthcare · Medical</div>
+      </div>
+      <div class="hb-cell">
+        <div class="hb-label">Location</div>
+        <div class="hb-value">Richmond, London</div>
+      </div>
+      <div class="hb-cell">
+        <div class="hb-label">Rating</div>
+        <div class="hb-value stars">★★★★★</div>
+      </div>
+      <div class="hb-cell">
+        <div class="hb-label">Design Pillars</div>
+        <div class="pillars">
+          <span class="pillar">Functional</span>
+          <span class="pillar">Sustainable</span>
+          <span class="pillar">Client-Exp</span>
+        </div>
+      </div>
+      <div class="hb-cell">
+        <div class="hb-label">Website</div>
+        <div class="hb-value">richmondphysio.co.uk ↗</div>
+      </div>
+    </div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag">Healthcare &nbsp;|&nbsp; Medical</div>
+        <h1 class="hero-title">Richmond<br>Physiotherapy</h1>
+        <p class="hero-tagline">"Human-centric design, colour &amp; space psychology"</p>
+      </div>
+      <p class="hero-overview">Independent physiotherapy clinic operating for 25+ years, known for high-class care and exceptional service. The brief focused on enhancing comfort and privacy across a multi-room clinic without disrupting daily operations — with an eye toward future growth.</p>
+    </div>
+  </section>
+
+  <!-- ── INDEX SCROLL SECTION ── -->
+  <section class="section-block" id="narrative-section">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Explanation</div>
+    <div class="index-wrap">
+
+      <!-- LEFT: sticky numbered nav -->
+      <div class="index-nav">
+        <div class="index-nav-label">Contents</div>
+
+        <div class="index-nav-item active" data-ch="0">
+          <span class="ini-num">01</span>
+          <div class="ini-label">
+            <div class="ini-title">The Brief</div>
+            <div class="ini-sub">Project scope &amp; goals</div>
+            <div class="ini-progress"><div class="ini-progress-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="index-nav-item" data-ch="1">
+          <span class="ini-num">02</span>
+          <div class="ini-label">
+            <div class="ini-title">Our Concept</div>
+            <div class="ini-sub">Strategy &amp; materials</div>
+            <div class="ini-progress"><div class="ini-progress-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="index-nav-item" data-ch="2">
+          <span class="ini-num">03</span>
+          <div class="ini-label">
+            <div class="ini-title">Our Thinking</div>
+            <div class="ini-sub">Colour &amp; atmosphere</div>
+            <div class="ini-progress"><div class="ini-progress-fill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: text + sticky image -->
+      <div class="index-content-wrap">
+
+        <!-- text chapters -->
+        <div class="index-chapters">
+          <div class="index-chapter" data-ch="0">
+            <div class="ic-num">01 / 03</div>
+            <h3 class="ic-title">The Brief</h3>
+            <p class="ic-body">The established clinic sought additional space to enhance safety and comfort for both patients and staff. Key focus areas included the reception desk, seating arrangements, staff corner, and merchandise layout. The primary goal was to improve the space without disrupting ongoing operations, while enabling future scaling of the practice.</p>
+            <div class="ic-divider"></div>
+            <div class="ic-tags">
+              <span class="ic-tag">Reception</span>
+              <span class="ic-tag">Seating</span>
+              <span class="ic-tag">Staff Areas</span>
+              <span class="ic-tag">Future Scaling</span>
+            </div>
+          </div>
+
+          <div class="index-chapter" data-ch="1">
+            <div class="ic-num">02 / 03</div>
+            <h3 class="ic-title">Our Concept</h3>
+            <p class="ic-body">We integrated existing building features to minimise unused space and optimise workflow. Key considerations centred on decluttering and visual minimalism. Sustainability was emphasised through natural materials and eco-certified textured wallpaper. Colour psychology principles were applied based on space purpose, natural light conditions, and the desired emotional impact on patients and staff.</p>
+            <div class="ic-divider"></div>
+            <div class="ic-tags">
+              <span class="ic-tag">Minimalism</span>
+              <span class="ic-tag">Sustainability</span>
+              <span class="ic-tag">Colour Psychology</span>
+              <span class="ic-tag">Workflow</span>
+            </div>
+          </div>
+
+          <div class="index-chapter" data-ch="2">
+            <div class="ic-num">03 / 03</div>
+            <h3 class="ic-title">Our Thinking</h3>
+            <p class="ic-body">We created a rejuvenated and purpose-driven space that blends functionality with minimalism. Curated light colours and soft tones inspired by the client's existing brand palette were selected to evoke a tranquil atmosphere — one that supports the therapeutic nature of the clinic while projecting quiet confidence to new patients arriving for the first time.</p>
+            <div class="ic-divider"></div>
+            <div class="ic-tags">
+              <span class="ic-tag">Tranquility</span>
+              <span class="ic-tag">Brand Palette</span>
+              <span class="ic-tag">Patient Experience</span>
+              <span class="ic-tag">Identity</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- sticky image -->
+        <div class="index-sticky-img">
+          <div class="is-image isi1 active" data-ch="0">
+            <span class="img-label">The Brief — Space Overview</span>
+            <div class="is-caption">01 · The Brief</div>
+          </div>
+          <div class="is-image isi2" data-ch="1">
+            <span class="img-label">Our Concept — Material Studies</span>
+            <div class="is-caption">02 · Our Concept</div>
+          </div>
+          <div class="is-image isi3" data-ch="2">
+            <span class="img-label">Our Thinking — Colour Palette</span>
+            <div class="is-caption">03 · Our Thinking</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Gallery</div>
+    <div class="gallery-wrap">
+      <p class="gallery-note">Grid auto-fills columns based on image count. Showing 9 of 12.</p>
+      <div class="gallery-grid">
+        <div class="gallery-tile"><div class="gt-fill t1"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t2"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t3"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t4"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t5"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t6"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t7"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t8"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t9"></div></div>
+      </div>
+      <div class="load-more"><button class="load-more-btn">Load More</button></div>
+    </div>
+  </section>
+
+  <!-- ── HIGHLIGHTS ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Section Highlights</div>
+    <div class="hl-grid">
+      <div class="hl-cell">
+        <div class="hl-img-sq"><span class="img-label">Reception Desk</span></div>
+        <div class="hl-text">
+          <div class="hl-kicker">Highlight 01</div>
+          <div class="hl-title">Bespoke Reception Desk</div>
+          <div class="hl-body">A focal design piece featuring a higher upstand for privacy, enhanced storage, and a clear separation between client and staff areas while reducing visual clutter.</div>
+        </div>
+      </div>
+      <div class="hl-cell">
+        <div class="hl-img-sq b"><span class="img-label">Seating Area</span></div>
+        <div class="hl-text">
+          <div class="hl-kicker">Highlight 02</div>
+          <div class="hl-title">Seating Installation</div>
+          <div class="hl-body">Comfortable bench seating with soft cushions and backrests, designed around decluttering, privacy, safety, and support — ensuring patients feel at ease from arrival.</div>
+        </div>
+      </div>
+      <div class="hl-cell">
+        <div class="hl-img-sq c"><span class="img-label">Second Floor</span></div>
+        <div class="hl-text">
+          <div class="hl-kicker">Highlight 03</div>
+          <div class="hl-title">Second Floor Integration</div>
+          <div class="hl-body">Upper floor acquisition seamlessly integrated with existing aesthetic — ensuring continuity of atmosphere and spatial language across both clinic levels.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIAL ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Client Testimonial</div>
+    <div class="test-wrap">
+      <div class="test-left">
+        <div class="test-kicker">What the client said</div>
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"The thought-to-execution process was seamless while keeping our space open during the refurbishment. The project justified our investment, and the result has received positive feedback from our clients."</p>
+        <p class="test-attr">Dr. Pippa Rollitt &nbsp;·&nbsp; Co-Founder, Richmond Physiotherapy</p>
+        <a class="test-link" href="#">View all client testimonials →</a>
+      </div>
+      <div class="test-right"><span class="img-label">Client Portrait / Clinic Image</span></div>
+    </div>
+  </section>
+
+  <!-- ── BEFORE / AFTER ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Before &amp; After</div>
+    <div class="admin-badge">Admin Toggle — This section is ON. Disable if no before/after photography available.</div>
+    <div class="ba-wrap">
+      <div class="ba-slider-wrap" id="ba-slider">
+        <div class="ba-after-full">
+          <span class="img-label">After Photography</span>
+          <span class="ba-label after-label">After</span>
+        </div>
+        <div class="ba-before-clip" id="ba-before">
+          <span class="img-label">Before Photography</span>
+          <span class="ba-label before-label">Before</span>
+        </div>
+        <div class="ba-divider-line" id="ba-line"></div>
+        <div class="ba-handle-btn" id="ba-handle">⇄</div>
+      </div>
+      <p class="ba-instruction">Drag left / right to compare</p>
+    </div>
+  </section>
+
+  <!-- ── DESIGN FEATURES ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Design Features</div>
+    <div class="feat-wrap">
+      <div class="feat-header">
+        <h3 class="feat-title">Materials &amp; Design Detail</h3>
+        <span class="feat-scroll-hint">Scroll to explore →</span>
+      </div>
+      <div class="feat-row">
+        <div class="feat-card">
+          <div class="feat-img fi1"><span class="img-label">Feature Image</span></div>
+          <div class="feat-body">
+            <div class="feat-kicker">Wallpaper</div>
+            <div class="feat-name">Eco-Certified Texture</div>
+            <div class="feat-desc">Hand-crafted design featuring coloured petals on a white base. Carbon-neutral production in Tyrol. Suitable for large-area applications.</div>
+            <div class="feat-spec">STANDARD 100 OEKO TEX · Recycled cellulose</div>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-img fi2"><span class="img-label">Feature Image</span></div>
+          <div class="feat-body">
+            <div class="feat-kicker">Colour</div>
+            <div class="feat-name">Tonal Calm</div>
+            <div class="feat-desc">Soft tones drawn from the client's brand palette, selected using colour psychology principles mapped to each room's natural light conditions.</div>
+            <div class="feat-spec">Colour psychology · Wellness-focused</div>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-img fi3"><span class="img-label">Feature Image</span></div>
+          <div class="feat-body">
+            <div class="feat-kicker">Joinery</div>
+            <div class="feat-name">Bespoke Cabinetry</div>
+            <div class="feat-desc">Custom reception desk and storage built to exacting staff workflow requirements, balancing aesthetics with operational efficiency.</div>
+            <div class="feat-spec">FSC certified · Custom fabrication</div>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-img fi4"><span class="img-label">Feature Image</span></div>
+          <div class="feat-body">
+            <div class="feat-kicker">Lighting</div>
+            <div class="feat-name">Layered Warmth</div>
+            <div class="feat-desc">Ambient, task, and accent layers reinforcing the clinic's calming atmosphere while meeting medical-grade luminance requirements throughout.</div>
+            <div class="feat-spec">CIBSE healthcare guidelines · LED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RELATED ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="related-wrap">
+      <div class="related-heading">Related Projects</div>
+      <div class="related-grid">
+        <div class="related-tile"><div class="rt-fill r1"></div><div class="related-info"><div class="ri-cat">Healthcare / GP</div><div class="ri-title">Kensington Clinic</div></div></div>
+        <div class="related-tile"><div class="rt-fill r2"></div><div class="related-info"><div class="ri-cat">Healthcare / Orthodontic</div><div class="ri-title">Albright Orthodontic Studio</div></div></div>
+        <div class="related-tile"><div class="rt-fill r3"></div><div class="related-info"><div class="ri-cat">Research &amp; Lab</div><div class="ri-title">Novus Lab Annex</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ── Scroll-driven index nav ──
+    const chapters    = document.querySelectorAll('.index-chapter');
+    const navItems    = document.querySelectorAll('.index-nav-item');
+    const stickyImgs  = document.querySelectorAll('.is-image');
+
+    function activateChapter(idx) {
+      navItems.forEach((n, i)  => n.classList.toggle('active', i === idx));
+      stickyImgs.forEach((s, i) => s.classList.toggle('active', i === idx));
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activateChapter(parseInt(entry.target.dataset.ch));
+        }
+      });
+    }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+
+    chapters.forEach(ch => observer.observe(ch));
+
+    // Click nav items to scroll to chapter
+    navItems.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        chapters[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+
+    // ── Before/After drag slider ──
+    const slider  = document.getElementById('ba-slider');
+    const before  = document.getElementById('ba-before');
+    const line    = document.getElementById('ba-line');
+    const handle  = document.getElementById('ba-handle');
+    let dragging  = false;
+
+    function setSliderPos(x) {
+      const rect = slider.getBoundingClientRect();
+      const pct  = Math.max(5, Math.min(95, ((x - rect.left) / rect.width) * 100));
+      const rightPct = 100 - pct;
+      before.style.clipPath = `inset(0 ${rightPct}% 0 0)`;
+      line.style.left = pct + '%';
+      handle.style.left = pct + '%';
+    }
+
+    slider.addEventListener('mousedown',  e => { dragging = true; setSliderPos(e.clientX); });
+    window.addEventListener('mousemove', e => { if (dragging) setSliderPos(e.clientX); });
+    window.addEventListener('mouseup',   () => { dragging = false; });
+    slider.addEventListener('touchstart', e => { dragging = true; setSliderPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove',  e => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend',  () => { dragging = false; });
+  </script>
+</body>
+</html>

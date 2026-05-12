@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Why — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 20px var(--pad-outer); background: var(--white);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500;
+      color: var(--light); text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .breadcrumb a { color: var(--light); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb-sep { color: var(--xlight); }
+
+    /* ── HERO ── */
+    .why-hero { padding: 96px var(--pad-outer); background: var(--white); border-bottom: 1px solid var(--border); }
+    .why-hero-label { font-size: 10px; letter-spacing: 0.2em; font-weight: 600; color: var(--light); text-transform: uppercase; margin-bottom: 32px; }
+    .why-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(48px, 7vw, 88px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 40px;
+    }
+    .why-hero-title em { font-style: italic; color: var(--mid); }
+    .why-hero-lead { font-size: 20px; font-weight: 300; line-height: 1.7; color: var(--mid); }
+
+    /* ── CONTENT SECTIONS ── */
+    .why-body { max-width: calc(760px + 2 * var(--pad-outer)); margin: 0 auto; padding: 0 var(--pad-outer); }
+    .why-section { padding: 80px 0; border-top: 1px solid var(--border); }
+    .why-section:first-child { border-top: none; }
+    .why-section-title {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(28px, 3.5vw, 40px); font-weight: 400;
+      letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 28px;
+    }
+    .why-p { font-size: 16px; font-weight: 300; line-height: 1.85; color: var(--mid); margin-bottom: 24px; }
+    .why-p:last-child { margin-bottom: 0; }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote-section { padding: 80px var(--pad-outer); background: var(--black); }
+    .pull-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(28px, 4vw, 52px); font-weight: 400;
+      color: var(--white); line-height: 1.25; max-width: 800px; margin: 0 auto;
+      text-align: center; letter-spacing: -0.01em;
+    }
+    .pull-quote-attr { text-align: center; margin-top: 32px; font-size: 11px; letter-spacing: 0.12em; font-weight: 500; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+
+    /* ── VALUES GRID ── */
+    .values-section { padding: 100px var(--pad-outer); background: #edeae4; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .value-card { background: var(--white); padding: 40px 36px; border: 1px solid var(--border); }
+    .value-num { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; color: var(--xlight); margin-bottom: 20px; }
+    .value-title { font-size: 20px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 14px; }
+    .value-desc { font-size: 13px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      :root { --pad-h: 24px; }
+      .breadcrumb, .why-hero, .why-body, .pull-quote-section, .values-section { padding-left: 24px; padding-right: 24px; }
+      .pull-quote-section { padding-top: 64px; padding-bottom: 64px; }
+      .values-section { padding-top: 64px; padding-bottom: 64px; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-active-page="about">
+  <div id="site-header"></div>
+
+  <nav class="breadcrumb">
+    <a href="about.html">About</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Our Why</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="why-hero">
+    <div class="why-hero-label">About · Our Why</div>
+    <h1 class="why-hero-title">We believe <em>design</em> changes lives.</h1>
+    <p class="why-hero-lead">Remarcable was founded on a single conviction: that the quality of your environment shapes the quality of your outcomes — for you, your team, and the people you serve.</p>
+  </section>
+
+  <!-- ── BODY CONTENT ── -->
+  <div class="why-body">
+    <div class="why-section">
+      <h2 class="why-section-title">"How do you want your space to make you feel?"</h2>
+      <p class="why-p">This is always the first question we ask. Not how many square metres. Not what your budget is. Not which style you like from Pinterest. We start with the human experience — because every decision that follows should serve that answer.</p>
+      <p class="why-p">Reni &amp; Marc founded Remarcable after years of witnessing an uncomfortable pattern: businesses investing significant resource in their marketing, their people, and their strategy — while neglecting the physical environments where all of that work actually happens.</p>
+      <p class="why-p">A waiting room that makes patients anxious before they've even been seen. An office that signals to employees that they're an afterthought. A clinic that undermines trust in the clinical excellence inside it. Design — or the absence of it — was shaping outcomes in ways that mattered enormously, and most businesses weren't paying attention.</p>
+    </div>
+
+    <div class="why-section">
+      <h2 class="why-section-title">Passion met purpose.</h2>
+      <p class="why-p">Remarcable is a result of passion for design and a desire to inspire positive change in work environments. Our founders brought complementary disciplines to bear: Reni's background in fine art, environmental psychology, and international design; Marc's expertise in architecture, construction, and project delivery.</p>
+      <p class="why-p">Together they built a studio around a simple model: design that is evidence-based, client-led, and always delivered with care. A unique team followed — interior architects, artists, clinical design specialists, skilled tradespeople, and wellbeing practitioners, all aligned around the same belief.</p>
+      <p class="why-p">Our designs are inspired by world travels and the balance we find in nature. We bring that perspective to every brief, whether we're designing a dental suite in Birmingham or a residential development in Edinburgh.</p>
+    </div>
+
+    <div class="why-section">
+      <h2 class="why-section-title">The standard we hold ourselves to.</h2>
+      <p class="why-p">We don't measure success by the number of projects on our portfolio. We measure it by the feedback from the people who use our spaces every day. Patients who remark on how calm they feel. Teams who don't want to leave. Clients who come back to us for every new site.</p>
+      <p class="why-p">That is what drives us — and it's why we ask the most important question first.</p>
+    </div>
+  </div>
+
+  <!-- ── PULL QUOTE ── -->
+  <section class="pull-quote-section">
+    <p class="pull-quote">"Design and guidance to help you make the right choices when scaling up."</p>
+    <div class="pull-quote-attr">Reni &amp; Marc — Co-Founders, Remarcable Design</div>
+  </section>
+
+  <!-- ── VALUES ── -->
+  <section class="values-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">What We Stand For</div>
+        <h2 class="rd-section-title">Our values in practice</h2>
+      </div>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-num">01</div>
+        <h3 class="value-title">Human first</h3>
+        <p class="value-desc">Every design decision is evaluated through the lens of how it serves the people inside the space — clients, patients, employees, residents. Aesthetics follow function; atmosphere follows feeling.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">02</div>
+        <h3 class="value-title">Radical honesty</h3>
+        <p class="value-desc">We tell clients what they need to hear, not what they want to hear. That means honest assessments of budgets, timelines, and trade-offs. It builds trust — and it means no unwelcome surprises.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">03</div>
+        <h3 class="value-title">Craft without compromise</h3>
+        <p class="value-desc">From the material palette to the site management, we hold ourselves to a standard of craftsmanship that we're proud to put our name to. Our 2-year warranty is a statement of that confidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NAV TO OTHER ABOUT PAGES ── -->
+  <section class="rd-section" style="background: var(--white);">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">About</div>
+        <h2 class="rd-section-title-sm">Continue exploring</h2>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:24px; margin-top:40px;">
+      <a href="about-how-we-work.html" style="text-decoration:none;color:inherit;border:1px solid var(--border);padding:36px 32px;transition:border-color 0.2s,box-shadow 0.2s;display:block;" onmouseover="this.style.borderColor='#1a1a1a';this.style.boxShadow='0 4px 24px rgba(0,0,0,0.06)'" onmouseout="this.style.borderColor='#e0ddd8';this.style.boxShadow='none'">
+        <div style="font-size:10px;letter-spacing:0.14em;font-weight:600;color:var(--xlight);margin-bottom:16px;">02 / 04</div>
+        <div style="font-size:20px;font-weight:300;letter-spacing:-0.01em;margin-bottom:12px;">How We Work</div>
+        <div style="font-size:12px;letter-spacing:0.1em;font-weight:500;color:var(--black);">Read more →</div>
+      </a>
+      <a href="about-key-elements.html" style="text-decoration:none;color:inherit;border:1px solid var(--border);padding:36px 32px;transition:border-color 0.2s,box-shadow 0.2s;display:block;" onmouseover="this.style.borderColor='#1a1a1a';this.style.boxShadow='0 4px 24px rgba(0,0,0,0.06)'" onmouseout="this.style.borderColor='#e0ddd8';this.style.boxShadow='none'">
+        <div style="font-size:10px;letter-spacing:0.14em;font-weight:600;color:var(--xlight);margin-bottom:16px;">03 / 04</div>
+        <div style="font-size:20px;font-weight:300;letter-spacing:-0.01em;margin-bottom:12px;">4 Key Elements</div>
+        <div style="font-size:12px;letter-spacing:0.1em;font-weight:500;color:var(--black);">Read more →</div>
+      </a>
+      <a href="about-team.html" style="text-decoration:none;color:inherit;border:1px solid var(--border);padding:36px 32px;transition:border-color 0.2s,box-shadow 0.2s;display:block;" onmouseover="this.style.borderColor='#1a1a1a';this.style.boxShadow='0 4px 24px rgba(0,0,0,0.06)'" onmouseout="this.style.borderColor='#e0ddd8';this.style.boxShadow='none'">
+        <div style="font-size:10px;letter-spacing:0.14em;font-weight:600;color:var(--xlight);margin-bottom:16px;">04 / 04</div>
+        <div style="font-size:20px;font-weight:300;letter-spacing:-0.01em;margin-bottom:12px;">Team &amp; Story</div>
+        <div style="font-size:12px;letter-spacing:0.1em;font-weight:500;color:var(--black);">Read more →</div>
+      </a>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+</body>
+</html>

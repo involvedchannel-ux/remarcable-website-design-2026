@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — Project Detail V4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #1a1a1a; --mid: #666; --light: #999; --xlight: #ccc;
+      --border: #e0ddd8; --bg: #faf9f7; --white: #fff; --nav-h: 72px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── SHARED BASE (from V3) ── */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: var(--nav-h); border-bottom: 1px solid var(--border); background: var(--white); position: sticky; top: 0; z-index: 200; }
+    .nav-logo { font-size: 11px; letter-spacing: 0.18em; font-weight: 600; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 400; color: var(--black); text-decoration: none; }
+    .nav-links a.active { border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
+    .nav-cta { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 12px 22px; text-decoration: none; }
+    .back { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.1em; font-weight: 500; text-decoration: none; color: var(--light); padding: 20px 48px; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .back:hover { color: var(--black); }
+    .breadcrumb { display: flex; align-items: center; gap: 10px; padding: 16px 48px; border-bottom: 1px solid var(--border); font-size: 11px; letter-spacing: 0.1em; color: var(--light); font-weight: 500; }
+    .breadcrumb a { color: var(--light); text-decoration: none; }
+    .breadcrumb span { color: var(--xlight); }
+    .version-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 16px 48px; }
+    .version-chip::before { content: ''; display: block; width: 20px; height: 1px; background: var(--light); }
+    .section-block { position: relative; border-bottom: 1px solid var(--border); }
+    .drag-handle { position: absolute; left: 14px; top: 24px; font-size: 14px; color: var(--xlight); cursor: grab; user-select: none; z-index: 10; }
+    .section-label { display: flex; align-items: center; gap: 12px; font-size: 9px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 28px 48px 0 48px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .img-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.38); text-transform: uppercase; }
+
+    /* ── HERO (V3) ── */
+    .hero-image { width: 100%; height: 480px; background: #bfbcb5; display: flex; align-items: center; justify-content: center; }
+    .hero-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; border-bottom: 1px solid var(--border); background: var(--white); }
+    .hb-cell { padding: 24px 28px; border-right: 1px solid var(--border); }
+    .hb-cell:last-child { border-right: none; }
+    .hb-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 6px; }
+    .hb-value { font-size: 14px; font-weight: 300; }
+    .stars { font-size: 15px; letter-spacing: 3px; }
+    .pillars { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+    .pillar { font-size: 9px; letter-spacing: 0.08em; font-weight: 600; padding: 3px 8px; border: 1px solid var(--border); text-transform: uppercase; color: var(--mid); }
+    .hero-content { padding: 48px 48px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; background: var(--white); }
+    .hero-tag { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 16px; }
+    .hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(38px, 5vw, 64px); font-weight: 400; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero-tagline { font-family: 'DM Serif Display', serif; font-size: 17px; font-style: italic; color: var(--mid); font-weight: 400; }
+    .hero-overview { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); align-self: end; }
+
+    /* ── SCROLL NARRATIVE (V3) ── */
+    .index-wrap { display: grid; grid-template-columns: 280px 1fr; }
+    .index-nav { position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; padding: 48px 32px; background: var(--white); }
+    .index-nav-label { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--xlight); margin-bottom: 32px; }
+    .index-nav-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px 0; cursor: pointer; border-top: 1px solid var(--border); transition: opacity 0.3s; opacity: 0.35; }
+    .index-nav-item:last-child { border-bottom: 1px solid var(--border); }
+    .index-nav-item.active { opacity: 1; }
+    .index-nav-item:hover { opacity: 0.7; }
+    .ini-num { font-size: 11px; letter-spacing: 0.1em; font-weight: 600; color: var(--light); padding-top: 2px; flex-shrink: 0; width: 20px; }
+    .ini-title { font-size: 14px; font-weight: 400; line-height: 1.3; margin-bottom: 4px; }
+    .ini-sub { font-size: 11px; font-weight: 300; color: var(--light); }
+    .ini-progress { width: 100%; height: 2px; background: var(--border); margin-top: 10px; overflow: hidden; }
+    .ini-progress-fill { height: 100%; background: var(--black); width: 0%; transition: width 0.8s ease; }
+    .index-nav-item.active .ini-progress-fill { width: 100%; }
+    .index-content-wrap { display: grid; grid-template-columns: 1fr 1fr; }
+    .index-sticky-img { position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); overflow: hidden; border-left: 1px solid var(--border); }
+    .is-image { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease; display: flex; align-items: center; justify-content: center; }
+    .is-image.active { opacity: 1; }
+    .isi1 { background: #c4c0b8; } .isi2 { background: #b8b4ac; } .isi3 { background: #cac6be; }
+    .is-caption { position: absolute; bottom: 24px; left: 24px; right: 24px; font-size: 9px; letter-spacing: 0.12em; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+    .index-chapter { padding: 72px 56px; min-height: 80vh; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+    .index-chapter:last-child { border-bottom: none; }
+    .ic-num { font-size: 11px; letter-spacing: 0.14em; font-weight: 600; color: var(--xlight); margin-bottom: 24px; }
+    .ic-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 42px); font-weight: 400; line-height: 1.2; margin-bottom: 28px; }
+    .ic-body { font-size: 14px; font-weight: 300; line-height: 1.85; color: var(--mid); max-width: 380px; }
+    .ic-divider { width: 40px; height: 1px; background: var(--border); margin: 28px 0; }
+    .ic-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ic-tag { font-size: 9px; letter-spacing: 0.1em; font-weight: 600; padding: 4px 10px; border: 1px solid var(--border); text-transform: uppercase; color: var(--mid); }
+
+    /* ── GALLERY V4: strict no-gap grid ──
+       3-col grid, fixed 220px rows.
+       7 tiles explicitly placed across 3 cols × 5 rows = 15 cells.
+       Sizes: 2×2, 1×2, 1×1, 1×1, 1×1, 1×2, 2×2  → 4+2+1+1+1+2+4 = 15 cells ✓
+    */
+    .gallery-wrap { padding: 48px; }
+    .gallery-note { font-size: 11px; color: var(--light); font-weight: 300; margin-bottom: 16px; }
+    .strict-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(5, 220px);
+      gap: 3px;
+    }
+    /* Explicit tile placements */
+    .sg-t1 { grid-column: 1 / 3; grid-row: 1 / 3; }  /* 2×2 */
+    .sg-t2 { grid-column: 3;     grid-row: 1 / 3; }  /* 1×2 */
+    .sg-t3 { grid-column: 1;     grid-row: 3; }       /* 1×1 */
+    .sg-t4 { grid-column: 2;     grid-row: 3; }       /* 1×1 */
+    .sg-t5 { grid-column: 3;     grid-row: 3; }       /* 1×1 */
+    .sg-t6 { grid-column: 1;     grid-row: 4 / 6; }   /* 1×2 */
+    .sg-t7 { grid-column: 2 / 4; grid-row: 4 / 6; }   /* 2×2 */
+
+    .sg-tile { overflow: hidden; cursor: pointer; position: relative; }
+    .sg-tile:hover .sg-fill { transform: scale(1.04); }
+    .sg-fill { width: 100%; height: 100%; transition: transform 0.5s; }
+    .sg-fill.f1 { background: #c8c4bd; }
+    .sg-fill.f2 { background: #b8b5ae; }
+    .sg-fill.f3 { background: #d0cdc6; }
+    .sg-fill.f4 { background: #bfbcb5; }
+    .sg-fill.f5 { background: #cac7c0; }
+    .sg-fill.f6 { background: #d5d2cb; }
+    .sg-fill.f7 { background: #c2bfb8; }
+    .sg-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; pointer-events: none; white-space: nowrap; }
+    .load-more { display: flex; align-items: center; justify-content: center; margin-top: 28px; }
+    .load-more-btn { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; padding: 14px 32px; border: 1px solid var(--black); background: transparent; cursor: pointer; text-transform: uppercase; transition: all 0.18s; color: var(--black); }
+    .load-more-btn:hover { background: var(--black); color: var(--white); }
+
+    /* ── HIGHLIGHTS (V2 style: 55/45 offset, alternating) ── */
+    .hl-block { display: grid; grid-template-columns: 55fr 45fr; min-height: 520px; }
+    .hl-block.rev { grid-template-columns: 45fr 55fr; }
+    .hl-img { background: #c0bcb4; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .hl-img.b { background: #b5b2aa; }
+    .hl-img.c { background: #cac7c0; }
+    .hl-text { padding: 72px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--white); }
+    .hl-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 18px; }
+    .hl-title { font-family: 'DM Serif Display', serif; font-size: 34px; font-weight: 400; line-height: 1.2; margin-bottom: 20px; }
+    .hl-body { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); }
+
+    /* ── TESTIMONIAL (V3) ── */
+    .test-wrap { padding: 80px 48px; background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .test-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .test-stars { font-size: 18px; letter-spacing: 4px; margin-bottom: 24px; }
+    .test-quote { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(18px, 2.5vw, 24px); font-weight: 400; line-height: 1.5; margin-bottom: 24px; }
+    .test-attr { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 20px; }
+    .test-link { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--black); text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 2px; }
+    .test-right-img { background: #c8c4bd; height: 320px; display: flex; align-items: center; justify-content: center; }
+
+    /* ── BEFORE / AFTER (V3 drag slider) ── */
+    .admin-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; padding: 5px 12px; background: #fff3cd; border: 1px solid #ffc107; color: #856404; margin: 24px 48px 0; }
+    .admin-badge::before { content: '⚙'; font-size: 10px; }
+    .ba-wrap { padding: 40px 48px 56px; }
+    .ba-slider-wrap { position: relative; height: 460px; overflow: hidden; cursor: ew-resize; user-select: none; }
+    .ba-after-full { position: absolute; inset: 0; background: #c4c1b8; display: flex; align-items: center; justify-content: center; }
+    .ba-before-clip { position: absolute; inset: 0; background: #aeaaa2; clip-path: inset(0 50% 0 0); display: flex; align-items: center; justify-content: center; }
+    .ba-divider-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--white); transform: translateX(-50%); }
+    .ba-handle-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; letter-spacing: -1px; box-shadow: 0 2px 12px rgba(0,0,0,0.18); }
+    .ba-label { position: absolute; font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; background: rgba(255,255,255,0.9); color: var(--black); padding: 5px 12px; top: 20px; }
+    .ba-label.before-label { left: 20px; }
+    .ba-label.after-label { right: 20px; }
+    .ba-instruction { text-align: center; font-size: 11px; color: var(--light); font-weight: 300; margin-top: 12px; letter-spacing: 0.04em; }
+
+    /* ── DESIGN FEATURES V4: ANNOTATION CAROUSEL ──
+       Dark section. Left: large image with SVG callout lines.
+       Right: feature detail panel.
+       Bottom: thumbnail strip (scroll to see more, shows there's more content).
+    */
+    .anno-section { background: var(--black); color: var(--white); }
+    .anno-section .section-label { color: rgba(255,255,255,0.4); padding-top: 28px; }
+    .anno-section .section-label::after { background: rgba(255,255,255,0.12); }
+    .anno-section .drag-handle { color: rgba(255,255,255,0.2); }
+
+    .anno-main {
+      display: grid;
+      grid-template-columns: 58fr 42fr;
+      min-height: 580px;
+    }
+
+    /* Image with annotation SVG */
+    .anno-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .anno-img-bg {
+      position: absolute; inset: 0;
+      transition: opacity 0.5s ease;
+    }
+    .aib1 { background: #4a4844; }
+    .aib2 { background: #3e3c3a; }
+    .aib3 { background: #525050; }
+    .anno-img-bg.hidden { opacity: 0; }
+
+    /* SVG overlay — callout annotation lines */
+    .anno-svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .anno-group {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .anno-group.visible { opacity: 1; }
+
+    /* Prev/Next overlaid on image */
+    .anno-img-nav {
+      position: absolute; bottom: 28px; left: 28px;
+      display: flex; gap: 8px;
+    }
+    .ain-btn {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .ain-btn:hover { background: rgba(255,255,255,0.25); }
+    .ain-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* Right: text panel */
+    .anno-text {
+      padding: 56px 48px;
+      display: flex; flex-direction: column;
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+    .at-counter {
+      font-size: 11px; letter-spacing: 0.14em; font-weight: 600;
+      color: rgba(255,255,255,0.3); margin-bottom: 32px; text-transform: uppercase;
+    }
+    .at-content { flex: 1; }
+    .feat-panel { display: none; }
+    .feat-panel.active { display: block; }
+    .at-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+    .at-title { font-family: 'DM Serif Display', serif; font-size: clamp(26px, 2.5vw, 38px); font-weight: 400; line-height: 1.2; margin-bottom: 20px; }
+    .at-body { font-size: 14px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.65); margin-bottom: 24px; }
+    .at-spec { font-size: 10px; letter-spacing: 0.1em; font-weight: 500; text-transform: uppercase; color: rgba(255,255,255,0.3); padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    /* Connecting arrow from text toward image */
+    .at-pointer {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 10px; letter-spacing: 0.12em; font-weight: 500;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .at-pointer::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+    .at-pointer::after {
+      content: '←';
+      font-size: 14px;
+    }
+
+    .at-nav-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: auto;
+    }
+    .at-nav-btn {
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500;
+      background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer;
+      text-transform: uppercase; transition: color 0.2s; padding: 0;
+    }
+    .at-nav-btn:hover { color: var(--white); }
+    .at-nav-btn:disabled { opacity: 0.2; cursor: default; }
+
+    /* Thumbnail strip — scrollable, shows partial thumbnails hinting at more */
+    .anno-thumbs {
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .anno-thumbs::-webkit-scrollbar { display: none; }
+
+    .at-thumb {
+      flex: 0 0 160px;
+      cursor: pointer;
+      opacity: 0.35;
+      transition: opacity 0.2s;
+      position: relative;
+    }
+    .at-thumb.active { opacity: 1; }
+    .at-thumb:hover { opacity: 0.7; }
+    .att-img { height: 90px; background: #3a3836; display: flex; align-items: center; justify-content: center; }
+    .att-img.ti1 { background: #4a4844; }
+    .att-img.ti2 { background: #3e3c3a; }
+    .att-img.ti3 { background: #525050; }
+    .att-img.ti4 { background: #464442; }
+    .att-label { padding: 8px 12px; font-size: 10px; letter-spacing: 0.08em; font-weight: 500; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .att-active-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--white); opacity: 0; transition: opacity 0.2s; }
+    .at-thumb.active .att-active-bar { opacity: 1; }
+
+    /* ── RELATED (V3) ── */
+    .related-wrap { padding: 64px 48px; }
+    .related-heading { font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .related-tile { height: 280px; position: relative; cursor: pointer; overflow: hidden; }
+    .rt-fill { position: absolute; inset: 0; transition: transform 0.5s; }
+    .related-tile:hover .rt-fill { transform: scale(1.04); }
+    .r1{background:#c0bcb4;} .r2{background:#b5b2aa;} .r3{background:#cac7c0;}
+    .related-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px; background: var(--white); }
+    .ri-cat { font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 4px; }
+    .ri-title { font-size: 15px; font-weight: 300; }
+
+    @media (max-width: 1100px) { .index-wrap { grid-template-columns: 220px 1fr; } }
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .breadcrumb, .back, .version-chip, .gallery-wrap, .ba-wrap, .related-wrap { padding-left: 24px; padding-right: 24px; }
+      .section-label { padding-left: 24px; padding-right: 24px; }
+      .hero-bar { grid-template-columns: 1fr 1fr; }
+      .hero-content { grid-template-columns: 1fr; gap: 32px; padding: 40px 24px; }
+      .index-wrap { grid-template-columns: 1fr; }
+      .index-nav { display: none; }
+      .index-content-wrap { grid-template-columns: 1fr; }
+      .index-sticky-img { display: none; }
+      .index-chapter { padding: 48px 24px; min-height: auto; }
+      .strict-grid { grid-template-rows: repeat(5, 160px); }
+      .hl-block, .hl-block.rev { grid-template-columns: 1fr; min-height: auto; }
+      .hl-img { height: 300px; }
+      .hl-text { padding: 40px 24px; }
+      .test-wrap { grid-template-columns: 1fr; padding: 56px 24px; gap: 32px; }
+      .test-right-img { height: 240px; }
+      .anno-main { grid-template-columns: 1fr; }
+      .anno-text { padding: 40px 24px; border-left: none; border-top: 1px solid rgba(255,255,255,0.1); }
+      .anno-img-wrap { height: 360px; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back" href="project-hub.html">← Back to project iterations</a>
+
+  <nav>
+    <div class="nav-logo">REMARCABLE DESIGN</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li><li><a href="#" class="active">Projects</a></li>
+      <li><a href="#">Services</a></li><li><a href="#">Resources</a></li><li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Book Free Consultation</a>
+  </nav>
+
+  <div class="breadcrumb"><a href="#">Projects</a><span>/</span><a href="#">Healthcare &amp; Dental</a><span>/</span>Richmond Physiotherapy</div>
+  <div class="version-chip">04 — Strict Grid · Annotation Features</div>
+
+  <!-- ── HERO ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="hero-image"><span class="img-label">Featured Project Image / Video</span></div>
+    <div class="hero-bar">
+      <div class="hb-cell"><div class="hb-label">Category</div><div class="hb-value">Healthcare · Medical</div></div>
+      <div class="hb-cell"><div class="hb-label">Location</div><div class="hb-value">Richmond, London</div></div>
+      <div class="hb-cell"><div class="hb-label">Rating</div><div class="hb-value stars">★★★★★</div></div>
+      <div class="hb-cell"><div class="hb-label">Pillars</div><div class="pillars"><span class="pillar">Functional</span><span class="pillar">Sustainable</span><span class="pillar">Client-Exp</span></div></div>
+      <div class="hb-cell"><div class="hb-label">Website</div><div class="hb-value">richmondphysio.co.uk ↗</div></div>
+    </div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag">Healthcare &nbsp;|&nbsp; Medical</div>
+        <h1 class="hero-title">Richmond<br>Physiotherapy</h1>
+        <p class="hero-tagline">"Human-centric design, colour &amp; space psychology"</p>
+      </div>
+      <p class="hero-overview">Independent physiotherapy clinic operating for 25+ years. The brief focused on enhancing comfort and privacy across a multi-room clinic without disrupting daily operations.</p>
+    </div>
+  </section>
+
+  <!-- ── SCROLL NARRATIVE (V3) ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Explanation</div>
+    <div class="index-wrap">
+      <div class="index-nav">
+        <div class="index-nav-label">Contents</div>
+        <div class="index-nav-item active" data-ch="0"><span class="ini-num">01</span><div><div class="ini-title">The Brief</div><div class="ini-sub">Scope &amp; goals</div><div class="ini-progress"><div class="ini-progress-fill"></div></div></div></div>
+        <div class="index-nav-item" data-ch="1"><span class="ini-num">02</span><div><div class="ini-title">Our Concept</div><div class="ini-sub">Strategy &amp; materials</div><div class="ini-progress"><div class="ini-progress-fill"></div></div></div></div>
+        <div class="index-nav-item" data-ch="2"><span class="ini-num">03</span><div><div class="ini-title">Our Thinking</div><div class="ini-sub">Colour &amp; atmosphere</div><div class="ini-progress"><div class="ini-progress-fill"></div></div></div></div>
+      </div>
+      <div class="index-content-wrap">
+        <div>
+          <div class="index-chapter" data-ch="0"><div class="ic-num">01 / 03</div><h3 class="ic-title">The Brief</h3><p class="ic-body">The established clinic sought additional space to enhance safety and comfort for both patients and staff — improving reception, seating, staff corner, and merchandise layout without operational disruption.</p><div class="ic-divider"></div><div class="ic-tags"><span class="ic-tag">Reception</span><span class="ic-tag">Seating</span><span class="ic-tag">Staff Areas</span></div></div>
+          <div class="index-chapter" data-ch="1"><div class="ic-num">02 / 03</div><h3 class="ic-title">Our Concept</h3><p class="ic-body">We integrated existing building features to minimise unused space. Sustainability was emphasised through natural materials and eco-certified wallpaper. Colour psychology applied based on space purpose and natural light.</p><div class="ic-divider"></div><div class="ic-tags"><span class="ic-tag">Minimalism</span><span class="ic-tag">Sustainability</span><span class="ic-tag">Colour Psychology</span></div></div>
+          <div class="index-chapter" data-ch="2"><div class="ic-num">03 / 03</div><h3 class="ic-title">Our Thinking</h3><p class="ic-body">Curated light colours and soft tones inspired by the client's brand palette evoke a tranquil atmosphere — functionality and minimalism working in quiet counterpoint.</p><div class="ic-divider"></div><div class="ic-tags"><span class="ic-tag">Tranquility</span><span class="ic-tag">Brand Palette</span><span class="ic-tag">Patient Experience</span></div></div>
+        </div>
+        <div class="index-sticky-img">
+          <div class="is-image isi1 active" data-ch="0"><span class="img-label">The Brief</span><div class="is-caption">01 · The Brief</div></div>
+          <div class="is-image isi2" data-ch="1"><span class="img-label">Our Concept</span><div class="is-caption">02 · Our Concept</div></div>
+          <div class="is-image isi3" data-ch="2"><span class="img-label">Our Thinking</span><div class="is-caption">03 · Our Thinking</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY V4: strict grid, no gaps ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Gallery</div>
+    <div class="gallery-wrap">
+      <p class="gallery-note">All tiles sized in exact multiples of the base cell — no alignment gaps regardless of image format.</p>
+      <div class="strict-grid">
+        <div class="sg-tile sg-t1"><div class="sg-fill f1"></div><span class="sg-ph">Image / Video · 2×2</span></div>
+        <div class="sg-tile sg-t2"><div class="sg-fill f2"></div><span class="sg-ph">Image · 1×2</span></div>
+        <div class="sg-tile sg-t3"><div class="sg-fill f3"></div><span class="sg-ph">Image</span></div>
+        <div class="sg-tile sg-t4"><div class="sg-fill f4"></div><span class="sg-ph">Image</span></div>
+        <div class="sg-tile sg-t5"><div class="sg-fill f5"></div><span class="sg-ph">Image</span></div>
+        <div class="sg-tile sg-t6"><div class="sg-fill f6"></div><span class="sg-ph">Image · 1×2</span></div>
+        <div class="sg-tile sg-t7"><div class="sg-fill f7"></div><span class="sg-ph">Image / Video · 2×2</span></div>
+      </div>
+      <div class="load-more"><button class="load-more-btn">Load More</button></div>
+    </div>
+  </section>
+
+  <!-- ── HIGHLIGHTS (V2 style) ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Section Highlights</div>
+    <div class="hl-block">
+      <div class="hl-img"><span class="img-label">Reception Desk</span></div>
+      <div class="hl-text"><div class="hl-kicker">Highlight 01</div><h3 class="hl-title">Bespoke Reception Desk</h3><p class="hl-body">The focal design piece features a higher upstand for privacy and space delineation, with enhanced storage capabilities. A clear separation between client and staff areas reduces visual clutter throughout the reception zone.</p></div>
+    </div>
+    <div class="hl-block rev">
+      <div class="hl-img b"><span class="img-label">Seating Area</span></div>
+      <div class="hl-text"><div class="hl-kicker">Highlight 02</div><h3 class="hl-title">Seating Installation</h3><p class="hl-body">Comfortable bench seating with soft cushions and backrests, designed around decluttering, privacy, safety, and support — ensuring patients feel at ease from the moment they arrive.</p></div>
+    </div>
+    <div class="hl-block">
+      <div class="hl-img c"><span class="img-label">Second Floor</span></div>
+      <div class="hl-text"><div class="hl-kicker">Highlight 03</div><h3 class="hl-title">Second Floor Integration</h3><p class="hl-body">Upper floor acquisition seamlessly integrated — ensuring continuity of atmosphere and spatial language across both clinic levels.</p></div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIAL (V3) ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Client Testimonial</div>
+    <div class="test-wrap">
+      <div>
+        <div class="test-kicker">What the client said</div>
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"The thought-to-execution process was seamless while keeping our space open during the refurbishment. The project justified our investment, and the result has received positive feedback from our clients."</p>
+        <p class="test-attr">Dr. Pippa Rollitt &nbsp;·&nbsp; Co-Founder, Richmond Physiotherapy</p>
+        <a class="test-link" href="#">View all client testimonials →</a>
+      </div>
+      <div class="test-right-img"><span class="img-label">Client / Clinic Image</span></div>
+    </div>
+  </section>
+
+  <!-- ── BEFORE / AFTER (V3 slider) ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Before &amp; After</div>
+    <div class="admin-badge">Admin Toggle — ON. Disable if no before/after photography available.</div>
+    <div class="ba-wrap">
+      <div class="ba-slider-wrap" id="ba-slider">
+        <div class="ba-after-full"><span class="img-label">After Photography</span><span class="ba-label after-label">After</span></div>
+        <div class="ba-before-clip" id="ba-before"><span class="img-label">Before Photography</span><span class="ba-label before-label">Before</span></div>
+        <div class="ba-divider-line" id="ba-line"></div>
+        <div class="ba-handle-btn" id="ba-handle">⇄</div>
+      </div>
+      <p class="ba-instruction">Drag left / right to compare</p>
+    </div>
+  </section>
+
+  <!-- ── DESIGN FEATURES V4: ANNOTATION CAROUSEL ── -->
+  <section class="section-block anno-section">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Design Features</div>
+
+    <div class="anno-main">
+      <!-- LEFT: image + SVG annotation -->
+      <div class="anno-img-wrap">
+
+        <!-- Background images per feature (crossfade) -->
+        <div class="anno-img-bg aib1" id="aib-0"></div>
+        <div class="anno-img-bg aib2 hidden" id="aib-1"></div>
+        <div class="anno-img-bg aib3 hidden" id="aib-2"></div>
+        <div class="anno-img-bg aib1 hidden" id="aib-3"></div>
+
+        <span class="img-label" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">Feature Image</span>
+
+        <!-- SVG annotation callout lines -->
+        <svg class="anno-svg" viewBox="0 0 600 500" preserveAspectRatio="none">
+
+          <!-- Feature 0: Wallpaper — upper wall area -->
+          <g class="anno-group visible" id="anno-0">
+            <circle cx="140" cy="75" r="7" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="140" cy="75" r="3" fill="white"/>
+            <line x1="147" y1="79" x2="310" y2="165" stroke="white" stroke-width="1" stroke-dasharray="5 4" opacity="0.7"/>
+            <line x1="310" y1="165" x2="460" y2="165" stroke="white" stroke-width="1" opacity="0.7"/>
+            <circle cx="310" cy="165" r="2.5" fill="white" opacity="0.7"/>
+            <!-- Second annotation point -->
+            <circle cx="280" cy="110" r="5" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+            <circle cx="280" cy="110" r="2" fill="white" opacity="0.5"/>
+            <line x1="285" y1="113" x2="400" y2="220" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.4"/>
+            <line x1="400" y1="220" x2="520" y2="220" stroke="white" stroke-width="0.8" opacity="0.4"/>
+          </g>
+
+          <!-- Feature 1: Colour -->
+          <g class="anno-group" id="anno-1">
+            <circle cx="180" cy="200" r="7" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="180" cy="200" r="3" fill="white"/>
+            <line x1="187" y1="200" x2="360" y2="200" stroke="white" stroke-width="1" stroke-dasharray="5 4" opacity="0.7"/>
+            <line x1="360" y1="200" x2="520" y2="200" stroke="white" stroke-width="1" opacity="0.7"/>
+            <circle cx="360" cy="200" r="2.5" fill="white" opacity="0.7"/>
+            <circle cx="320" cy="280" r="5" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+            <circle cx="320" cy="280" r="2" fill="white" opacity="0.5"/>
+            <line x1="325" y1="278" x2="460" y2="320" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.4"/>
+            <line x1="460" y1="320" x2="560" y2="320" stroke="white" stroke-width="0.8" opacity="0.4"/>
+          </g>
+
+          <!-- Feature 2: Joinery — lower/desk area -->
+          <g class="anno-group" id="anno-2">
+            <circle cx="200" cy="360" r="7" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="200" cy="360" r="3" fill="white"/>
+            <line x1="207" y1="356" x2="370" y2="290" stroke="white" stroke-width="1" stroke-dasharray="5 4" opacity="0.7"/>
+            <line x1="370" y1="290" x2="520" y2="290" stroke="white" stroke-width="1" opacity="0.7"/>
+            <circle cx="370" cy="290" r="2.5" fill="white" opacity="0.7"/>
+            <circle cx="330" cy="420" r="5" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+            <circle cx="330" cy="420" r="2" fill="white" opacity="0.5"/>
+            <line x1="335" y1="418" x2="470" y2="380" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.4"/>
+            <line x1="470" y1="380" x2="570" y2="380" stroke="white" stroke-width="0.8" opacity="0.4"/>
+          </g>
+
+          <!-- Feature 3: Lighting -->
+          <g class="anno-group" id="anno-3">
+            <circle cx="300" cy="50" r="7" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="300" cy="50" r="3" fill="white"/>
+            <line x1="300" y1="57" x2="380" y2="140" stroke="white" stroke-width="1" stroke-dasharray="5 4" opacity="0.7"/>
+            <line x1="380" y1="140" x2="530" y2="140" stroke="white" stroke-width="1" opacity="0.7"/>
+            <circle cx="380" cy="140" r="2.5" fill="white" opacity="0.7"/>
+          </g>
+
+        </svg>
+
+        <!-- Prev/Next on image -->
+        <div class="anno-img-nav">
+          <button class="ain-btn" id="anno-prev" disabled>←</button>
+          <button class="ain-btn" id="anno-next">→</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: text panel -->
+      <div class="anno-text">
+        <div class="at-counter">
+          <span id="at-num">01</span> <span style="color:rgba(255,255,255,0.2);">/</span> <span id="at-total">04</span> &nbsp;Features
+        </div>
+
+        <div class="at-content">
+          <!-- Feature 0 -->
+          <div class="feat-panel active" data-f="0">
+            <div class="at-pointer">See highlighted area on image</div>
+            <div class="at-kicker">Wallpaper</div>
+            <h4 class="at-title">Eco-Certified Texture</h4>
+            <p class="at-body">Hand-crafted design featuring coloured petals — cornflowers, roses, sunflowers, moss — scattered on a white base. Carbon-neutral production in Tyrol. Suitable for large-area applications throughout the clinic.</p>
+            <div class="at-spec">STANDARD 100 OEKO TEX &nbsp;·&nbsp; White recycled cellulose &amp; textile fibres</div>
+          </div>
+          <!-- Feature 1 -->
+          <div class="feat-panel" data-f="1">
+            <div class="at-pointer">See highlighted area on image</div>
+            <div class="at-kicker">Colour Palette</div>
+            <h4 class="at-title">Tonal Calm</h4>
+            <p class="at-body">Soft tones drawn from the client's brand palette, selected using colour psychology principles. Each room's specific natural light conditions and therapeutic purpose informed the final palette decisions.</p>
+            <div class="at-spec">Colour psychology &nbsp;·&nbsp; Wellness-focused &nbsp;·&nbsp; Brand-aligned</div>
+          </div>
+          <!-- Feature 2 -->
+          <div class="feat-panel" data-f="2">
+            <div class="at-pointer">See highlighted area on image</div>
+            <div class="at-kicker">Joinery</div>
+            <h4 class="at-title">Bespoke Cabinetry</h4>
+            <p class="at-body">Custom reception desk and storage built to exacting staff workflow requirements. The higher upstand creates privacy delineation while integrated storage eliminates desk clutter, maintaining the visual calm of the space.</p>
+            <div class="at-spec">FSC certified timber &nbsp;·&nbsp; Custom fabrication &nbsp;·&nbsp; Staff-workflow driven</div>
+          </div>
+          <!-- Feature 3 -->
+          <div class="feat-panel" data-f="3">
+            <div class="at-pointer">See highlighted area on image</div>
+            <div class="at-kicker">Lighting</div>
+            <h4 class="at-title">Layered Warmth</h4>
+            <p class="at-body">Ambient, task, and accent layers combining to reinforce the clinic's calming atmosphere while meeting medical-grade luminance requirements. Ceiling fixtures were chosen to complement the wallpaper's organic language.</p>
+            <div class="at-spec">CIBSE healthcare guidelines &nbsp;·&nbsp; LED throughout &nbsp;·&nbsp; 3000K warm white</div>
+          </div>
+        </div>
+
+        <div class="at-nav-row">
+          <button class="at-nav-btn" id="at-prev" disabled>← Previous</button>
+          <button class="at-nav-btn" id="at-next">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thumbnail strip — shows there's more, partially visible if overflow -->
+    <div class="anno-thumbs">
+      <div class="at-thumb active" data-f="0"><div class="att-active-bar"></div><div class="att-img ti1"><span style="font-size:8px;color:rgba(255,255,255,0.25);">IMAGE</span></div><div class="att-label">Wallpaper</div></div>
+      <div class="at-thumb" data-f="1"><div class="att-active-bar"></div><div class="att-img ti2"><span style="font-size:8px;color:rgba(255,255,255,0.25);">IMAGE</span></div><div class="att-label">Colour</div></div>
+      <div class="at-thumb" data-f="2"><div class="att-active-bar"></div><div class="att-img ti3"><span style="font-size:8px;color:rgba(255,255,255,0.25);">IMAGE</span></div><div class="att-label">Joinery</div></div>
+      <div class="at-thumb" data-f="3"><div class="att-active-bar"></div><div class="att-img ti4"><span style="font-size:8px;color:rgba(255,255,255,0.25);">IMAGE</span></div><div class="att-label">Lighting</div></div>
+    </div>
+  </section>
+
+  <!-- ── RELATED (V3) ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="related-wrap">
+      <div class="related-heading">Related Projects</div>
+      <div class="related-grid">
+        <div class="related-tile"><div class="rt-fill r1"></div><div class="related-info"><div class="ri-cat">Healthcare / GP</div><div class="ri-title">Kensington Clinic</div></div></div>
+        <div class="related-tile"><div class="rt-fill r2"></div><div class="related-info"><div class="ri-cat">Healthcare / Orthodontic</div><div class="ri-title">Albright Orthodontic Studio</div></div></div>
+        <div class="related-tile"><div class="rt-fill r3"></div><div class="related-info"><div class="ri-cat">Research &amp; Lab</div><div class="ri-title">Novus Lab Annex</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ── Scroll narrative (V3 IO) ──
+    const chapters = document.querySelectorAll('.index-chapter');
+    const navItems = document.querySelectorAll('.index-nav-item');
+    const stickyImgs = document.querySelectorAll('.is-image');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) activate(parseInt(e.target.dataset.ch)); });
+    }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+    chapters.forEach(c => io.observe(c));
+    navItems.forEach((n, i) => n.addEventListener('click', () => chapters[i].scrollIntoView({ behavior: 'smooth', block: 'center' })));
+    function activate(idx) {
+      navItems.forEach((n, i) => n.classList.toggle('active', i === idx));
+      stickyImgs.forEach((s, i) => s.classList.toggle('active', i === idx));
+    }
+
+    // ── Before/After drag ──
+    const slider = document.getElementById('ba-slider');
+    const before = document.getElementById('ba-before');
+    const line = document.getElementById('ba-line');
+    const handle = document.getElementById('ba-handle');
+    let dragging = false;
+    function setPos(x) {
+      const r = slider.getBoundingClientRect();
+      const p = Math.max(5, Math.min(95, ((x - r.left) / r.width) * 100));
+      before.style.clipPath = `inset(0 ${100-p}% 0 0)`;
+      line.style.left = handle.style.left = p + '%';
+    }
+    slider.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
+    window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', () => { dragging = false; });
+    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', () => { dragging = false; });
+
+    // ── Design Features annotation carousel ──
+    let current = 0;
+    const total = 4;
+    const panels = document.querySelectorAll('.feat-panel');
+    const thumbs = document.querySelectorAll('.at-thumb');
+    const annoGroups = document.querySelectorAll('.anno-group');
+    const imgBgs = [
+      document.getElementById('aib-0'), document.getElementById('aib-1'),
+      document.getElementById('aib-2'), document.getElementById('aib-3')
+    ];
+    const prevBtn = document.getElementById('anno-prev');
+    const nextBtn = document.getElementById('anno-next');
+    const atPrev = document.getElementById('at-prev');
+    const atNext = document.getElementById('at-next');
+    const atNum = document.getElementById('at-num');
+
+    function goFeature(idx) {
+      current = Math.max(0, Math.min(total - 1, idx));
+      panels.forEach((p, i) => p.classList.toggle('active', i === current));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
+      annoGroups.forEach((g, i) => g.classList.toggle('visible', i === current));
+      imgBgs.forEach((b, i) => b.classList.toggle('hidden', i !== current));
+      atNum.textContent = String(current + 1).padStart(2, '0');
+      prevBtn.disabled = atPrev.disabled = current === 0;
+      nextBtn.disabled = atNext.disabled = current === total - 1;
+    }
+
+    prevBtn.addEventListener('click', () => goFeature(current - 1));
+    nextBtn.addEventListener('click', () => goFeature(current + 1));
+    atPrev.addEventListener('click', () => goFeature(current - 1));
+    atNext.addEventListener('click', () => goFeature(current + 1));
+    thumbs.forEach((t, i) => t.addEventListener('click', () => goFeature(i)));
+  </script>
+</body>
+</html>

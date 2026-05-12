@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — Project Detail Prototypes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f4f0;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+    }
+    .hub-logo { font-size: 11px; letter-spacing: 0.18em; font-weight: 500; color: #1a1a1a; margin-bottom: 12px; }
+    .hub-sub { font-size: 11px; letter-spacing: 0.1em; font-weight: 400; color: #999; margin-bottom: 64px; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 5vw, 58px); font-weight: 400; margin-bottom: 12px; text-align: center; }
+    .subtitle { font-size: 14px; color: #666; font-weight: 300; margin-bottom: 72px; text-align: center; max-width: 480px; line-height: 1.6; }
+    .grid-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; max-width: 960px; }
+    .option-card { background: #fff; border: 1px solid #e0ddd8; padding: 36px 32px; text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; display: block; }
+    .option-card:hover { border-color: #1a1a1a; box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+    .option-num { font-size: 11px; letter-spacing: 0.14em; color: #999; font-weight: 500; margin-bottom: 20px; }
+    .option-name { font-size: 22px; font-weight: 300; margin-bottom: 10px; letter-spacing: -0.01em; }
+    .option-desc { font-size: 13px; color: #777; line-height: 1.6; font-weight: 300; }
+    .option-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+    .tag { font-size: 10px; letter-spacing: 0.1em; font-weight: 500; padding: 4px 10px; border: 1px solid #ddd; color: #888; text-transform: uppercase; }
+    .arrow { display: inline-block; margin-top: 24px; font-size: 12px; letter-spacing: 0.1em; font-weight: 500; color: #1a1a1a; }
+    .hub-nav { display: flex; gap: 24px; margin-top: 56px; }
+    .hub-nav a { font-size: 11px; letter-spacing: 0.1em; color: #999; text-decoration: none; font-weight: 500; }
+    .hub-nav a:hover { color: #1a1a1a; }
+    @media (max-width: 780px) { .grid-options { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="hub-logo">REMARCABLE DESIGN — PROTOTYPE HUB</div>
+  <div class="hub-sub">PROJECT DETAIL PAGE</div>
+  <h1>Layout Iterations</h1>
+  <p class="subtitle">Three layout directions for the Project Detail page, each with a distinct approach to the scroll-driven Project Explanation section.</p>
+
+  <div class="grid-options">
+    <a class="option-card" href="project-v1-chronicle.html">
+      <div class="option-num">01 / 03</div>
+      <div class="option-name">Chronicle</div>
+      <div class="option-desc">Sticky left image that swaps as you scroll through the project explanation on the right. Calm, editorial, methodical.</div>
+      <div class="option-tags"><span class="tag">Split-screen</span><span class="tag">Sticky image</span><span class="tag">IO scroll</span></div>
+      <div class="arrow">View prototype →</div>
+    </a>
+    <a class="option-card" href="project-v2-canvas.html">
+      <div class="option-num">02 / 03</div>
+      <div class="option-name">Canvas</div>
+      <div class="option-desc">Full-screen pinned scroll — each chapter fills the viewport as you scroll through. Most dramatic and immersive.</div>
+      <div class="option-tags"><span class="tag">Pinned scroll</span><span class="tag">Fullscreen</span><span class="tag">Cinematic</span></div>
+      <div class="arrow">View prototype →</div>
+    </a>
+    <a class="option-card" href="project-v3-index.html">
+      <div class="option-num">03 / 05</div>
+      <div class="option-name">Index</div>
+      <div class="option-desc">Numbered section list on the left with a progress indicator. Click or scroll to step through. Structured and clear.</div>
+      <div class="option-tags"><span class="tag">Numbered nav</span><span class="tag">Progress</span><span class="tag">Structured</span></div>
+      <div class="arrow">View prototype →</div>
+    </a>
+    <a class="option-card" href="project-v4.html">
+      <div class="option-num">04 / 05</div>
+      <div class="option-name">Index + Strict Grid</div>
+      <div class="option-desc">V3 base with a gap-free gallery (tiles sized in exact 1×1, 1×2, 2×2 multiples) and annotation carousel for Design Features — SVG callout lines pointing to specific areas of the image.</div>
+      <div class="option-tags"><span class="tag">No-gap grid</span><span class="tag">SVG annotations</span><span class="tag">Carousel</span></div>
+      <div class="arrow">View prototype →</div>
+    </a>
+    <a class="option-card" href="project-v5.html">
+      <div class="option-num">05 / 06</div>
+      <div class="option-name">Index + Horizontal Gallery</div>
+      <div class="option-desc">V3 base with a scroll-hijack horizontal gallery (page scroll drives the strip sideways) and hotspot Design Features — numbered dots on the image with an accordion list on the right.</div>
+      <div class="option-tags"><span class="tag">Scroll hijack</span><span class="tag">Hotspots</span><span class="tag">Accordion list</span></div>
+      <div class="arrow">View prototype →</div>
+    </a>
+    <a class="option-card" href="project-v6.html">
+      <div class="option-num">06 / 06</div>
+      <div class="option-name">Airy + Horizontal Gallery</div>
+      <div class="option-desc">V5 refined — gallery opens up with wide white space, 88px gaps, floating tiles at 72% height with shadow. Highlights revert to V1's equal 50/50 split with 480px fixed image height.</div>
+      <div class="option-tags"><span class="tag">Airy gallery</span><span class="tag">50/50 highlights</span><span class="tag">Whitespace</span></div>
+      <div class="arrow">View prototype →</div>
+    </a>
+  </div>
+
+  <div class="hub-nav">
+    <a href="index.html">← Back to Grid Iterations</a>
+  </div>
+</body>
+</html>

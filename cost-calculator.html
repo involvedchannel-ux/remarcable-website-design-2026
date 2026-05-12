@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cost Calculator — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 20px var(--pad-outer); background: var(--white);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500;
+      color: var(--light); text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .breadcrumb a { color: var(--light); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb-sep { color: var(--xlight); }
+
+    /* ── HERO ── */
+    .cc-hero {
+      padding: 72px var(--pad-outer) 56px; background: var(--white);
+    }
+    .cc-hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end;
+    }
+    .cc-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(40px, 5.5vw, 72px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em;
+    }
+    .cc-hero-lead {
+      font-size: 16px; font-weight: 300; line-height: 1.75;
+      color: var(--mid); margin-bottom: 16px;
+    }
+    .cc-hero-note {
+      font-size: 12px; font-weight: 300; color: var(--light); line-height: 1.65;
+    }
+
+    /* ── FILTER BAR ── */
+    .cc-filter-bar {
+      background: var(--white); border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border); padding: 0 var(--pad-outer);
+    }
+    .cc-filter-tabs { display: flex; }
+    .cc-filter-tab {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      padding: 20px 0; margin-right: 48px; cursor: pointer; color: var(--light);
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+    }
+    .cc-filter-tab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    /* ── CALCULATOR SECTIONS ── */
+    .cc-section { padding: 72px var(--pad-outer) 96px; display: none; }
+    .cc-section.active { display: block; }
+
+    .cc-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+
+    /* INPUTS */
+    .cc-input-group { margin-bottom: 40px; }
+    .cc-input-label {
+      display: block; font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+      text-transform: uppercase; color: var(--light); margin-bottom: 16px;
+    }
+
+    /* Spec level buttons */
+    .cc-spec-options { display: flex; }
+    .cc-spec-btn {
+      flex: 1; padding: 20px 12px; border: 1px solid var(--border);
+      background: var(--white); cursor: pointer; text-align: center;
+      transition: all 0.15s; margin-right: -1px; position: relative;
+      outline: none;
+    }
+    .cc-spec-btn.active {
+      border-color: var(--black); background: var(--black); z-index: 1;
+    }
+    .cc-spec-tier {
+      display: block; font-size: 20px; font-weight: 300;
+      color: var(--mid); margin-bottom: 4px;
+    }
+    .cc-spec-btn.active .cc-spec-tier { color: var(--white); }
+    .cc-spec-name {
+      font-size: 9px; letter-spacing: 0.12em; font-weight: 600;
+      text-transform: uppercase; color: var(--light);
+    }
+    .cc-spec-btn.active .cc-spec-name { color: rgba(255,255,255,0.5); }
+
+    /* Room counter */
+    .cc-qty-wrap { display: flex; align-items: center; }
+    .cc-qty-btn {
+      width: 48px; height: 52px; border: 1px solid var(--border); background: var(--white);
+      cursor: pointer; font-size: 20px; font-weight: 300; color: var(--black);
+      display: flex; align-items: center; justify-content: center; transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .cc-qty-btn:hover { background: var(--bg); }
+    .cc-qty-input {
+      width: 72px; height: 52px; border: 1px solid var(--border); border-left: none; border-right: none;
+      text-align: center; font-family: 'Inter', sans-serif; font-size: 22px;
+      font-weight: 300; color: var(--black); outline: none; background: var(--white);
+    }
+    .cc-qty-input:focus { border-color: var(--black); }
+    .cc-qty-unit {
+      font-size: 12px; font-weight: 300; color: var(--light); margin-left: 16px;
+    }
+
+    /* Sqft slider */
+    .cc-sqft-display {
+      font-size: 40px; font-weight: 300; letter-spacing: -0.03em;
+      line-height: 1; margin-bottom: 16px;
+    }
+    .cc-sqft-unit { font-size: 16px; font-weight: 300; color: var(--mid); }
+    .cc-slider {
+      -webkit-appearance: none; width: 100%; height: 2px;
+      background: var(--border); outline: none; cursor: pointer;
+    }
+    .cc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 22px; height: 22px;
+      border-radius: 50%; background: var(--black); cursor: pointer;
+    }
+    .cc-slider::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%; background: var(--black);
+      cursor: pointer; border: none;
+    }
+    .cc-slider-labels {
+      display: flex; justify-content: space-between; margin-top: 10px;
+      font-size: 10px; letter-spacing: 0.08em; font-weight: 500;
+      color: var(--xlight); text-transform: uppercase;
+    }
+
+    /* Calculate button */
+    .cc-calc-btn {
+      display: block; width: 100%; padding: 18px 0; margin-top: 40px;
+      background: var(--black); color: var(--white);
+      font-size: 11px; letter-spacing: 0.2em; font-weight: 600; text-transform: uppercase;
+      border: none; cursor: pointer; transition: opacity 0.2s;
+    }
+    .cc-calc-btn:hover { opacity: 0.8; }
+
+    /* Result panel */
+    .cc-result {
+      margin-top: 24px; padding: 32px; background: var(--bg);
+      border: 1px solid var(--border); display: none;
+    }
+    .cc-result.visible { display: block; animation: fade-up 0.3s ease; }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .cc-result-label {
+      font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+      text-transform: uppercase; color: var(--light); margin-bottom: 10px;
+    }
+    .cc-result-range {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(30px, 4vw, 48px); font-weight: 400;
+      letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 10px;
+    }
+    .cc-result-basis {
+      font-size: 12px; font-weight: 300; color: var(--mid); margin-bottom: 20px;
+    }
+    .cc-result-divider { height: 1px; background: var(--border); margin-bottom: 16px; }
+    .cc-result-note {
+      font-size: 11px; font-weight: 300; color: var(--light); line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .cc-result-cta {
+      display: inline-block; font-size: 11px; letter-spacing: 0.1em; font-weight: 500;
+      color: var(--black); text-decoration: none;
+      border-bottom: 1px solid var(--black); padding-bottom: 2px; transition: opacity 0.2s;
+    }
+    .cc-result-cta:hover { opacity: 0.6; }
+
+    /* ── SPEC BREAKDOWN (right column) ── */
+    .cc-breakdown-label {
+      font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+      text-transform: uppercase; color: var(--light); margin-bottom: 0;
+    }
+    .cc-tier-card {
+      padding: 28px 32px; border: 1px solid var(--border);
+      margin-top: -1px; background: var(--white);
+      transition: border-color 0.2s;
+    }
+    .cc-tier-card:first-of-type { margin-top: 16px; }
+    .cc-tier-card.highlighted {
+      border-color: var(--black); position: relative; z-index: 1;
+    }
+    .cc-tier-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+    }
+    .cc-tier-name-wrap { display: flex; align-items: center; gap: 10px; }
+    .cc-tier-symbol { font-size: 15px; font-weight: 300; color: var(--mid); }
+    .cc-tier-name { font-size: 14px; font-weight: 400; }
+    .cc-tier-range { font-size: 12px; font-weight: 300; color: var(--mid); }
+    .cc-tier-items { display: flex; flex-direction: column; gap: 8px; }
+    .cc-tier-item {
+      display: flex; gap: 10px; font-size: 12px; font-weight: 300;
+      color: var(--mid); line-height: 1.5;
+    }
+    .cc-tier-item::before { content: '→'; color: var(--xlight); flex-shrink: 0; margin-top: 1px; }
+
+    /* ── CTA STRIP ── */
+    .cc-cta-strip {
+      padding: 80px var(--pad-outer); background: var(--black);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .cc-cta-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(24px, 3.5vw, 44px); font-weight: 400;
+      color: var(--white); line-height: 1.2; letter-spacing: -0.01em;
+    }
+    .cc-cta-desc {
+      font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.55);
+      line-height: 1.75; margin-bottom: 28px;
+    }
+    .cc-cta-btn {
+      display: inline-block; background: var(--white); color: var(--black);
+      font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
+      padding: 18px 36px; text-decoration: none; transition: opacity 0.2s;
+    }
+    .cc-cta-btn:hover { opacity: 0.85; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      :root { --pad-h: 24px; }
+      .breadcrumb { padding: 20px 24px; }
+      .cc-hero { padding: 56px 24px 48px; }
+      .cc-hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .cc-filter-bar { padding: 0 24px; }
+      .cc-section { padding: 48px 24px 72px; }
+      .cc-layout { grid-template-columns: 1fr; gap: 48px; }
+      .cc-cta-strip { padding: 64px 24px; grid-template-columns: 1fr; gap: 32px; }
+    }
+  </style>
+</head>
+<body data-active-page="resources">
+  <div id="site-header"></div>
+
+  <nav class="breadcrumb">
+    <a href="resources.html">Resources</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Cost Calculator</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="cc-hero">
+    <div class="rd-eyebrow">Tools &amp; Calculators</div>
+    <div class="cc-hero-grid" style="margin-top:24px">
+      <h1 class="cc-hero-title">What will your project cost?</h1>
+      <div>
+        <p class="cc-hero-lead">Get a ballpark investment range for your dental surgery or office refurbishment. Select your sector, set your spec level, and see your estimate in seconds.</p>
+        <p class="cc-hero-note">Figures are indicative ranges based on current UK labour and material rates. Final costs depend on scope, site conditions, and contractor selection. Specialist equipment is excluded.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FILTER BAR ── -->
+  <div class="cc-filter-bar">
+    <div class="cc-filter-tabs" id="ccTabs">
+      <div class="cc-filter-tab active" data-calc="dental">Dental Practice</div>
+      <div class="cc-filter-tab" data-calc="workspace">Office &amp; Workspace</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       DENTAL CALCULATOR
+  ══════════════════════════════════════════ -->
+  <section class="cc-section active" id="cc-dental">
+    <div class="cc-layout">
+
+      <!-- LEFT: inputs -->
+      <div>
+        <div class="cc-input-group">
+          <label class="cc-input-label">Number of treatment rooms</label>
+          <div class="cc-qty-wrap">
+            <button class="cc-qty-btn" id="dental-minus">−</button>
+            <input class="cc-qty-input" id="dental-rooms" type="number" value="3" min="1" max="20">
+            <button class="cc-qty-btn" id="dental-plus">+</button>
+            <span class="cc-qty-unit">treatment rooms</span>
+          </div>
+        </div>
+
+        <div class="cc-input-group">
+          <label class="cc-input-label">Level of specification</label>
+          <div class="cc-spec-options" id="dental-spec">
+            <button class="cc-spec-btn active" data-spec="basic">
+              <span class="cc-spec-tier">£</span>
+              <span class="cc-spec-name">Basic</span>
+            </button>
+            <button class="cc-spec-btn" data-spec="mid">
+              <span class="cc-spec-tier">££</span>
+              <span class="cc-spec-name">Mid spec</span>
+            </button>
+            <button class="cc-spec-btn" data-spec="premium">
+              <span class="cc-spec-tier">£££</span>
+              <span class="cc-spec-name">Premium</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="cc-calc-btn" id="dental-calc-btn">Calculate estimate</button>
+
+        <div class="cc-result" id="dental-result">
+          <div class="cc-result-label">Estimated investment</div>
+          <div class="cc-result-range" id="dental-range"></div>
+          <div class="cc-result-basis" id="dental-basis"></div>
+          <div class="cc-result-divider"></div>
+          <p class="cc-result-note">Clinical equipment — dental chairs, X-ray units, compressors, autoclaves — is not included. Costs cover design fees, project management, labour, and materials to HTM01-05 compliance.</p>
+          <a class="cc-result-cta" href="contact.html">Book a free consultation to scope your project →</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: spec breakdown -->
+      <div>
+        <div class="cc-breakdown-label">What's included at each level</div>
+
+        <div class="cc-tier-card highlighted" id="dental-tier-basic">
+          <div class="cc-tier-header">
+            <div class="cc-tier-name-wrap">
+              <span class="cc-tier-symbol">£</span>
+              <span class="cc-tier-name">Basic</span>
+            </div>
+            <span class="cc-tier-range">£8k – £12k per room</span>
+          </div>
+          <div class="cc-tier-items">
+            <span class="cc-tier-item">Space planning and clinical layout optimisation</span>
+            <span class="cc-tier-item">Standard clinical finishes — washable walls, vinyl flooring</span>
+            <span class="cc-tier-item">Off-the-shelf reception desk and waiting seating</span>
+            <span class="cc-tier-item">Functional lighting and electrical first fix</span>
+            <span class="cc-tier-item">Standard plumbing connections for clinical units</span>
+          </div>
+        </div>
+
+        <div class="cc-tier-card" id="dental-tier-mid">
+          <div class="cc-tier-header">
+            <div class="cc-tier-name-wrap">
+              <span class="cc-tier-symbol">££</span>
+              <span class="cc-tier-name">Mid spec</span>
+            </div>
+            <span class="cc-tier-range">£15k – £22k per room</span>
+          </div>
+          <div class="cc-tier-items">
+            <span class="cc-tier-item">Everything in Basic, plus:</span>
+            <span class="cc-tier-item">Bespoke reception joinery and front desk</span>
+            <span class="cc-tier-item">Branded colour palette and feature wall treatment</span>
+            <span class="cc-tier-item">Layered lighting — ambient, task, and accent pendants</span>
+            <span class="cc-tier-item">Patient-flow design to reduce clinical anxiety</span>
+            <span class="cc-tier-item">Quality LVT or engineered flooring throughout</span>
+          </div>
+        </div>
+
+        <div class="cc-tier-card" id="dental-tier-premium">
+          <div class="cc-tier-header">
+            <div class="cc-tier-name-wrap">
+              <span class="cc-tier-symbol">£££</span>
+              <span class="cc-tier-name">Premium</span>
+            </div>
+            <span class="cc-tier-range">£28k – £40k per room</span>
+          </div>
+          <div class="cc-tier-items">
+            <span class="cc-tier-item">Everything in Mid, plus:</span>
+            <span class="cc-tier-item">Full biophilic design — living walls, natural stone, timber</span>
+            <span class="cc-tier-item">Bespoke furniture and custom cabinetry throughout</span>
+            <span class="cc-tier-item">Circadian lighting with patient recovery protocols</span>
+            <span class="cc-tier-item">Acoustic treatment and sound masking system</span>
+            <span class="cc-tier-item">Premium material package — stone, textile, handmade tile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       WORKSPACE CALCULATOR
+  ══════════════════════════════════════════ -->
+  <section class="cc-section" id="cc-workspace">
+    <div class="cc-layout">
+
+      <!-- LEFT: inputs -->
+      <div>
+        <div class="cc-input-group">
+          <label class="cc-input-label">Floor area</label>
+          <div class="cc-sqft-display">
+            <span id="ws-sqft-val">1,500</span> <span class="cc-sqft-unit">sq ft</span>
+          </div>
+          <input class="cc-slider" id="ws-sqft" type="range" min="200" max="5000" step="50" value="1500">
+          <div class="cc-slider-labels"><span>200 sq ft</span><span>5,000 sq ft</span></div>
+        </div>
+
+        <div class="cc-input-group">
+          <label class="cc-input-label">Level of specification</label>
+          <div class="cc-spec-options" id="ws-spec">
+            <button class="cc-spec-btn active" data-spec="core">
+              <span class="cc-spec-tier">£</span>
+              <span class="cc-spec-name">Core</span>
+            </button>
+            <button class="cc-spec-btn" data-spec="mid">
+              <span class="cc-spec-tier">££</span>
+              <span class="cc-spec-name">Mid spec</span>
+            </button>
+            <button class="cc-spec-btn" data-spec="premium">
+              <span class="cc-spec-tier">£££</span>
+              <span class="cc-spec-name">Premium</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="cc-calc-btn" id="ws-calc-btn">Calculate estimate</button>
+
+        <div class="cc-result" id="ws-result">
+          <div class="cc-result-label">Estimated investment</div>
+          <div class="cc-result-range" id="ws-range"></div>
+          <div class="cc-result-basis" id="ws-basis"></div>
+          <div class="cc-result-divider"></div>
+          <p class="cc-result-note">Covers design, project management, labour, materials, and furniture procurement. IT infrastructure, AV systems, server rooms, and loose equipment are excluded.</p>
+          <a class="cc-result-cta" href="contact.html">Book a free consultation to scope your project →</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: spec breakdown -->
+      <div>
+        <div class="cc-breakdown-label">What's included at each level</div>
+
+        <div class="cc-tier-card highlighted" id="ws-tier-core">
+          <div class="cc-tier-header">
+            <div class="cc-tier-name-wrap">
+              <span class="cc-tier-symbol">£</span>
+              <span class="cc-tier-name">Core</span>
+            </div>
+            <span class="cc-tier-range">£45 – £65 per sq ft</span>
+          </div>
+          <div class="cc-tier-items">
+            <span class="cc-tier-item">Space planning and workstation layout</span>
+            <span class="cc-tier-item">Standard Cat A+ finishes — carpet tiles, painted walls</span>
+            <span class="cc-tier-item">Basic breakout zone and kitchen fitout</span>
+            <span class="cc-tier-item">Standard LED lighting grid and blinds</span>
+            <span class="cc-tier-item">Mid-range task seating and desking package</span>
+          </div>
+        </div>
+
+        <div class="cc-tier-card" id="ws-tier-mid">
+          <div class="cc-tier-header">
+            <div class="cc-tier-name-wrap">
+              <span class="cc-tier-symbol">££</span>
+              <span class="cc-tier-name">Mid spec</span>
+            </div>
+            <span class="cc-tier-range">£75 – £100 per sq ft</span>
+          </div>
+          <div class="cc-tier-items">
+            <span class="cc-tier-item">Everything in Core, plus:</span>
+            <span class="cc-tier-item">Collaborative zones with soft seating and privacy screens</span>
+            <span class="cc-tier-item">Quality furniture — Herman Miller or equivalent tier</span>
+            <span class="cc-tier-item">Feature lighting — pendants, track, and accent layers</span>
+            <span class="cc-tier-item">Brand colour integration and wayfinding signage</span>
+            <span class="cc-tier-item">Acoustic treatment panels and ceiling baffles</span>
+          </div>
+        </div>
+
+        <div class="cc-tier-card" id="ws-tier-premium">
+          <div class="cc-tier-header">
+            <div class="cc-tier-name-wrap">
+              <span class="cc-tier-symbol">£££</span>
+              <span class="cc-tier-name">Premium</span>
+            </div>
+            <span class="cc-tier-range">£120 – £160 per sq ft</span>
+          </div>
+          <div class="cc-tier-items">
+            <span class="cc-tier-item">Everything in Mid, plus:</span>
+            <span class="cc-tier-item">Full interior design and brand experience strategy</span>
+            <span class="cc-tier-item">Bespoke joinery — reception desk, feature walls, cabinetry</span>
+            <span class="cc-tier-item">Biophilic design — living walls, natural stone, timber</span>
+            <span class="cc-tier-item">Hospitality-level reception and client-facing zones</span>
+            <span class="cc-tier-item">Executive suite and boardroom fit-out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA STRIP ── -->
+  <section class="cc-cta-strip">
+    <div class="cc-cta-quote">"Numbers help. A conversation makes them real."</div>
+    <div>
+      <p class="cc-cta-desc">These figures are a starting point. A free 30-minute consultation with our team turns an estimate into a plan — with a scope, a timeline, and a fixed-price proposal you can take to budget sign-off.</p>
+      <a class="cc-cta-btn" href="contact.html">Book your free consultation →</a>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    /* ── Filter tabs ── */
+    document.querySelectorAll('.cc-filter-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.cc-filter-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.cc-section').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('cc-' + this.dataset.calc).classList.add('active');
+      });
+    });
+
+    /* ── Dental ── */
+    const DENTAL = { basic: [8000, 12000], mid: [15000, 22000], premium: [28000, 40000] };
+    let dentalSpec = 'basic';
+
+    document.querySelectorAll('#dental-spec .cc-spec-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#dental-spec .cc-spec-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        dentalSpec = this.dataset.spec;
+        highlightTier('dental', dentalSpec, ['basic','mid','premium']);
+      });
+    });
+
+    document.getElementById('dental-minus').addEventListener('click', () => {
+      const inp = document.getElementById('dental-rooms');
+      if (+inp.value > 1) inp.value = +inp.value - 1;
+    });
+    document.getElementById('dental-plus').addEventListener('click', () => {
+      const inp = document.getElementById('dental-rooms');
+      if (+inp.value < 20) inp.value = +inp.value + 1;
+    });
+
+    document.getElementById('dental-calc-btn').addEventListener('click', () => {
+      const rooms = Math.max(1, parseInt(document.getElementById('dental-rooms').value) || 3);
+      const [lo, hi] = DENTAL[dentalSpec];
+      document.getElementById('dental-range').textContent = '£' + fmt(lo * rooms) + ' – £' + fmt(hi * rooms);
+      document.getElementById('dental-basis').textContent =
+        rooms + ' treatment room' + (rooms !== 1 ? 's' : '') + ' · ' + label(dentalSpec) + ' specification';
+      document.getElementById('dental-result').classList.add('visible');
+    });
+
+    /* ── Workspace ── */
+    const WS = { core: [45, 65], mid: [75, 100], premium: [120, 160] };
+    let wsSpec = 'core';
+
+    const sqftSlider = document.getElementById('ws-sqft');
+    const sqftVal = document.getElementById('ws-sqft-val');
+    sqftSlider.addEventListener('input', () => {
+      sqftVal.textContent = parseInt(sqftSlider.value).toLocaleString('en-GB');
+    });
+
+    document.querySelectorAll('#ws-spec .cc-spec-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#ws-spec .cc-spec-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        wsSpec = this.dataset.spec;
+        highlightTier('ws', wsSpec, ['core','mid','premium']);
+      });
+    });
+
+    document.getElementById('ws-calc-btn').addEventListener('click', () => {
+      const sqft = parseInt(sqftSlider.value);
+      const [lo, hi] = WS[wsSpec];
+      document.getElementById('ws-range').textContent = '£' + fmt(lo * sqft) + ' – £' + fmt(hi * sqft);
+      document.getElementById('ws-basis').textContent =
+        sqft.toLocaleString('en-GB') + ' sq ft · ' + label(wsSpec) + ' specification';
+      document.getElementById('ws-result').classList.add('visible');
+    });
+
+    /* ── Helpers ── */
+    function fmt(n) { return Math.round(n).toLocaleString('en-GB'); }
+    function label(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function highlightTier(prefix, active, tiers) {
+      tiers.forEach(t => {
+        const el = document.getElementById(prefix + '-tier-' + t);
+        if (el) el.classList.toggle('highlighted', t === active);
+      });
+    }
+
+    /* ── Deep-link: ?type=workspace ── */
+    if (new URLSearchParams(window.location.search).get('type') === 'workspace') {
+      document.querySelector('[data-calc="workspace"]').click();
+    }
+  </script>
+</body>
+</html>

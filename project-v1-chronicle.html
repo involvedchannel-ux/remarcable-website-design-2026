@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — Project Detail V1 Chronicle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --mid: #666;
+      --light: #999;
+      --xlight: #ccc;
+      --border: #e0ddd8;
+      --bg: #faf9f7;
+      --white: #fff;
+      --nav-h: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: var(--nav-h);
+      border-bottom: 1px solid var(--border); background: var(--white);
+      position: sticky; top: 0; z-index: 200;
+    }
+    .nav-logo { font-size: 11px; letter-spacing: 0.18em; font-weight: 600; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 400; color: var(--black); text-decoration: none; }
+    .nav-links a.active { border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
+    .nav-cta { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 12px 22px; text-decoration: none; }
+
+    /* ── BACK / BREADCRUMB ── */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 48px; border-bottom: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; color: var(--light); font-weight: 500;
+    }
+    .breadcrumb a { color: var(--light); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb span { color: var(--xlight); }
+
+    /* ── SECTION WRAPPER (rearrangeable) ── */
+    .section-block {
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .drag-handle {
+      position: absolute; left: 14px; top: 24px;
+      font-size: 14px; color: var(--xlight); cursor: grab; user-select: none;
+      writing-mode: horizontal-tb; letter-spacing: 2px; z-index: 10;
+    }
+    .section-label {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 9px; letter-spacing: 0.18em; font-weight: 600;
+      text-transform: uppercase; color: var(--light);
+      padding: 28px 48px 0 48px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── HERO ── */
+    .hero { padding: 56px 48px 0; }
+    .hero-tag {
+      font-size: 10px; letter-spacing: 0.16em; font-weight: 600;
+      text-transform: uppercase; color: var(--light); margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(44px, 6vw, 78px); font-weight: 400;
+      line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .hero-tagline {
+      font-size: 18px; font-weight: 300; color: var(--mid);
+      font-style: italic; margin-bottom: 36px; max-width: 560px;
+      font-family: 'DM Serif Display', serif;
+    }
+    .hero-meta {
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+      padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase; color: var(--light); }
+    .meta-value { font-size: 13px; font-weight: 400; }
+    .stars { color: var(--black); font-size: 14px; letter-spacing: 2px; }
+    .pillars { display: flex; gap: 8px; }
+    .pillar { font-size: 9px; letter-spacing: 0.1em; font-weight: 600; padding: 4px 10px; border: 1px solid var(--border); text-transform: uppercase; color: var(--mid); }
+    .hero-overview { max-width: 600px; font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--mid); padding-bottom: 56px; }
+
+    /* ── FEATURED IMAGE ── */
+    .featured-image {
+      width: 100%; height: 560px; background: #c8c4bd;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .img-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+
+    /* ── SCROLL NARRATIVE (V1 key differentiator) ── */
+    .narrative-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* LEFT: sticky image panel */
+    .narrative-sticky {
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow: hidden;
+    }
+    .narrative-images { position: relative; width: 100%; height: 100%; }
+    .n-image {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .n-image.active { opacity: 1; }
+    .n-image .img-label { color: rgba(255,255,255,0.35); }
+    .n-image .tone-a { background: #c0bcb4; position: absolute; inset: 0; }
+    .n-image .tone-b { background: #b8b4ac; position: absolute; inset: 0; }
+    .n-image .tone-c { background: #cac6be; position: absolute; inset: 0; }
+
+    /* chapter indicator strip */
+    .chapter-strip {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; gap: 0; z-index: 10;
+    }
+    .chapter-tick {
+      flex: 1; height: 3px; background: rgba(255,255,255,0.2);
+      transition: background 0.4s;
+    }
+    .chapter-tick.active { background: rgba(255,255,255,0.9); }
+
+    /* RIGHT: scrollable accordion */
+    .narrative-content {
+      padding: 64px 64px 120px;
+      border-left: 1px solid var(--border);
+    }
+    .narrative-heading {
+      font-size: 11px; letter-spacing: 0.16em; font-weight: 600;
+      text-transform: uppercase; color: var(--light); margin-bottom: 48px;
+    }
+
+    .accordion-item {
+      border-top: 1px solid var(--border);
+      min-height: 55vh;
+      padding: 40px 0 60px;
+      transition: opacity 0.4s;
+    }
+    .accordion-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .accordion-trigger {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 20px; cursor: default;
+    }
+    .accordion-num {
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 600; color: var(--xlight);
+      padding-top: 4px; flex-shrink: 0;
+    }
+    .accordion-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px; font-weight: 400; line-height: 1.2;
+      flex: 1;
+    }
+    .accordion-icon {
+      font-size: 20px; font-weight: 300; color: var(--light);
+      flex-shrink: 0; transition: transform 0.3s;
+      padding-top: 4px;
+    }
+    .accordion-item.active .accordion-icon { transform: rotate(45deg); }
+
+    .accordion-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+      opacity: 0;
+    }
+    .accordion-item.active .accordion-body {
+      max-height: 400px; opacity: 1;
+    }
+    .accordion-body-inner { padding-top: 28px; }
+    .accordion-text {
+      font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid);
+      max-width: 480px;
+    }
+    .accordion-read-more {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 20px; font-size: 11px; letter-spacing: 0.1em;
+      font-weight: 500; color: var(--black); text-decoration: none;
+    }
+
+    /* dimmed non-active items */
+    .accordion-item:not(.active) { opacity: 0.4; }
+
+    /* ── GALLERY ── */
+    .gallery-wrap { padding: 48px; }
+    .gallery-controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .gallery-count { font-size: 12px; color: var(--light); font-weight: 300; }
+
+    /* Auto-responsive grid: 2→3→4 cols based on image count */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    .gallery-tile {
+      aspect-ratio: 4/3;
+      background: #ccc;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .gallery-tile:nth-child(1) { aspect-ratio: 16/9; grid-column: span 2; }
+    .gallery-tile:nth-child(5) { aspect-ratio: 1/1; }
+    .gallery-tile:nth-child(8) { aspect-ratio: 3/4; }
+
+    .gt-fill { width: 100%; height: 100%; transition: transform 0.5s; }
+    .gallery-tile:hover .gt-fill { transform: scale(1.04); }
+    .gt-fill.t1 { background: #c8c4bd; }
+    .gt-fill.t2 { background: #d0cdc6; }
+    .gt-fill.t3 { background: #bfbcb5; }
+    .gt-fill.t4 { background: #c4c1ba; }
+    .gt-fill.t5 { background: #d5d2cb; }
+    .gt-fill.t6 { background: #b8b5ae; }
+    .gt-fill.t7 { background: #cac7c0; }
+    .gt-fill.t8 { background: #c2bfb8; }
+    .gt-fill.t9 { background: #cfccc5; }
+
+    .load-more {
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 28px;
+    }
+    .load-more-btn {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 600;
+      padding: 14px 32px; border: 1px solid var(--black);
+      background: transparent; cursor: pointer; text-transform: uppercase;
+      transition: all 0.18s; color: var(--black);
+    }
+    .load-more-btn:hover { background: var(--black); color: var(--white); }
+
+    /* ── HIGHLIGHT BLOCKS (image + text) ── */
+    .highlight-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .highlight-block.reverse { direction: rtl; }
+    .highlight-block.reverse > * { direction: ltr; }
+    .highlight-img { height: 480px; background: #c8c4bd; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .highlight-img.b { background: #bfbcb5; }
+    .highlight-img.c { background: #d0cdc6; }
+    .highlight-text { padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--white); }
+    .highlight-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 20px; }
+    .highlight-title { font-family: 'DM Serif Display', serif; font-size: 32px; font-weight: 400; line-height: 1.2; margin-bottom: 20px; }
+    .highlight-body { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial-wrap { padding: 80px 48px; background: var(--white); }
+    .testimonial-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+    .test-stars { font-size: 18px; letter-spacing: 4px; margin-bottom: 28px; }
+    .test-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(20px, 3vw, 28px); font-weight: 400; line-height: 1.5;
+      margin-bottom: 32px; color: var(--black);
+    }
+    .test-attr { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .test-link { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--black); text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 2px; }
+
+    /* ── BEFORE / AFTER ── */
+    .admin-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase;
+      padding: 5px 12px; background: #fff3cd; border: 1px solid #ffc107;
+      color: #856404; margin: 24px 48px 0; width: fit-content;
+    }
+    .admin-badge::before { content: '⚙'; font-size: 10px; }
+    .ba-wrap { padding: 40px 48px 56px; }
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+    .ba-panel { position: relative; }
+    .ba-img { height: 420px; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .ba-img.before { background: #b5b2aa; }
+    .ba-img.after { background: #ccc9c0; }
+    .ba-tag {
+      position: absolute; top: 20px; left: 20px;
+      font-size: 9px; letter-spacing: 0.14em; font-weight: 600; text-transform: uppercase;
+      background: rgba(255,255,255,0.9); color: var(--black); padding: 5px 12px;
+    }
+    .ba-divider {
+      position: absolute; top: 0; bottom: 0; right: -2px; width: 4px;
+      background: var(--white); z-index: 5;
+      display: flex; align-items: center;
+    }
+    .ba-handle {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--black);
+      position: absolute; right: -16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600; cursor: ew-resize; user-select: none;
+    }
+
+    /* ── DESIGN FEATURES ── */
+    .features-wrap { padding: 56px 48px; background: var(--black); color: var(--white); }
+    .features-heading { font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400; margin-bottom: 48px; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .feature-card { background: rgba(255,255,255,0.05); padding: 32px 28px; }
+    .feature-img { height: 200px; background: rgba(255,255,255,0.08); margin-bottom: 24px; display: flex; align-items: center; justify-content: center; }
+    .feature-kicker { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+    .feature-name { font-size: 17px; font-weight: 300; margin-bottom: 12px; }
+    .feature-desc { font-size: 12px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.55); }
+    .feature-spec { margin-top: 16px; font-size: 10px; letter-spacing: 0.08em; font-weight: 500; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+
+    /* ── RELATED PROJECTS ── */
+    .related-wrap { padding: 64px 48px; }
+    .related-heading { font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .related-tile { height: 280px; background: #ccc; position: relative; display: flex; flex-direction: column; cursor: pointer; overflow: hidden; }
+    .related-tile .rt-fill { position: absolute; inset: 0; transition: transform 0.5s; }
+    .related-tile:hover .rt-fill { transform: scale(1.04); }
+    .rt-fill.r1 { background: #c0bcb4; }
+    .rt-fill.r2 { background: #b5b2aa; }
+    .rt-fill.r3 { background: #cac7c0; }
+    .related-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px; background: var(--white); }
+    .ri-cat { font-size: 9px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 4px; }
+    .ri-title { font-size: 15px; font-weight: 300; }
+
+    /* ── BACK LINK ── */
+    .back { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.1em; font-weight: 500; text-decoration: none; color: var(--light); padding: 20px 48px; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .back:hover { color: var(--black); }
+
+    /* version badge */
+    .version-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase; color: var(--light); padding: 16px 48px; }
+    .version-chip::before { content: ''; display: block; width: 20px; height: 1px; background: var(--light); }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .breadcrumb, .section-label, .gallery-wrap, .ba-wrap, .related-wrap, .features-wrap, .testimonial-wrap { padding-left: 24px; padding-right: 24px; }
+      .hero { padding: 40px 24px 0; }
+      .narrative-wrap { grid-template-columns: 1fr; }
+      .narrative-sticky { display: none; }
+      .narrative-content { padding: 40px 24px 80px; border-left: none; }
+      .accordion-item:not(.active) { opacity: 1; }
+      .highlight-block { grid-template-columns: 1fr; }
+      .highlight-text { padding: 40px 24px; }
+      .ba-grid { grid-template-columns: 1fr; }
+      .features-grid, .related-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-tile:nth-child(1) { grid-column: span 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back" href="project-hub.html">← Back to project iterations</a>
+
+  <nav>
+    <div class="nav-logo">REMARCABLE DESIGN</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#" class="active">Projects</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Book Free Consultation</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="#">Projects</a>
+    <span>/</span>
+    <a href="#">Healthcare &amp; Dental</a>
+    <span>/</span>
+    Richmond Physiotherapy
+  </div>
+
+  <div class="version-chip">01 — Chronicle</div>
+
+  <!-- ── HERO ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="hero">
+      <div class="hero-tag">Healthcare &nbsp;|&nbsp; Medical</div>
+      <h1 class="hero-title">Richmond<br>Physiotherapy</h1>
+      <p class="hero-tagline">"Human-centric design, colour &amp; space psychology"</p>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">Location</span>
+          <span class="meta-value">Richmond, London</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Rating</span>
+          <span class="stars meta-value">★★★★★</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Website</span>
+          <span class="meta-value">richmondphysio.co.uk ↗</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Design Pillars</span>
+          <div class="pillars">
+            <span class="pillar">Functional</span>
+            <span class="pillar">Sustainable</span>
+            <span class="pillar">Client-Experience</span>
+          </div>
+        </div>
+      </div>
+      <p class="hero-overview">Independent physiotherapy clinic operating for 25+ years, known for high-class care and exceptional service. The brief focused on enhancing a multi-room clinic space without disrupting daily operations.</p>
+    </div>
+  </section>
+
+  <!-- ── FEATURED IMAGE ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="featured-image">
+      <span class="img-label">Featured Project Image / Video</span>
+    </div>
+  </section>
+
+  <!-- ── PROJECT EXPLANATION (scroll-driven accordion) ── -->
+  <section class="section-block" id="narrative-section">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Explanation</div>
+    <div class="narrative-wrap">
+
+      <!-- LEFT: sticky changing image -->
+      <div class="narrative-sticky">
+        <div class="narrative-images">
+          <div class="n-image active" data-chapter="0">
+            <div class="tone-a"></div>
+            <span class="img-label">The Brief — Space Overview</span>
+          </div>
+          <div class="n-image" data-chapter="1">
+            <div class="tone-b"></div>
+            <span class="img-label">Our Concept — Material Studies</span>
+          </div>
+          <div class="n-image" data-chapter="2">
+            <div class="tone-c"></div>
+            <span class="img-label">Our Thinking — Colour Palette</span>
+          </div>
+          <div class="chapter-strip">
+            <div class="chapter-tick active" data-tick="0"></div>
+            <div class="chapter-tick" data-tick="1"></div>
+            <div class="chapter-tick" data-tick="2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: scrollable accordion -->
+      <div class="narrative-content">
+        <div class="narrative-heading">Scroll to explore</div>
+
+        <div class="accordion-item active" data-index="0">
+          <div class="accordion-trigger">
+            <span class="accordion-num">01</span>
+            <h3 class="accordion-title">The Brief</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p class="accordion-text">The established clinic sought additional space to enhance safety and comfort for both patients and staff. Key focus areas included the reception desk, seating arrangements, staff corner, and merchandise layout. The primary goal was to improve the space without disrupting ongoing operations, while enabling future scaling of the practice.</p>
+              <a class="accordion-read-more" href="#">Read full brief →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" data-index="1">
+          <div class="accordion-trigger">
+            <span class="accordion-num">02</span>
+            <h3 class="accordion-title">Our Concept</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p class="accordion-text">We integrated existing building features to minimise unused space and optimise workflow. Key considerations centred on decluttering and visual minimalism. Sustainability was emphasised through natural materials and eco-certified textured wallpaper. Colour psychology principles were applied based on space purpose, natural light conditions, and the desired emotional impact on patients and staff.</p>
+              <a class="accordion-read-more" href="#">Read full concept →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" data-index="2">
+          <div class="accordion-trigger">
+            <span class="accordion-num">03</span>
+            <h3 class="accordion-title">Our Thinking</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p class="accordion-text">We created a rejuvenated and purpose-driven space that blends functionality with minimalism. Curated light colours and soft tones inspired by the client's existing brand palette were selected to evoke a tranquil atmosphere — one that supports the therapeutic nature of the clinic while projecting quiet confidence to new patients.</p>
+              <a class="accordion-read-more" href="#">Read full thinking →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Project Gallery</div>
+    <div class="gallery-wrap">
+      <div class="gallery-controls">
+        <span class="gallery-count">12 images · Grid adapts for 2–20+ images</span>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-tile"><div class="gt-fill t1"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t2"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t3"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t4"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t5"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t6"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t7"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t8"></div></div>
+        <div class="gallery-tile"><div class="gt-fill t9"></div></div>
+      </div>
+      <div class="load-more"><button class="load-more-btn">Load More</button></div>
+    </div>
+  </section>
+
+  <!-- ── HIGHLIGHT BLOCKS ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Section Highlights</div>
+
+    <div class="highlight-block">
+      <div class="highlight-img"><span class="img-label">Reception Desk Image</span></div>
+      <div class="highlight-text">
+        <div class="highlight-kicker">Highlight 01</div>
+        <h3 class="highlight-title">Bespoke Reception Desk</h3>
+        <p class="highlight-body">The focal design piece features a higher upstand for privacy and space delineation with enhanced storage capabilities. Driven by staff requirements, the upstand creates a clear separation between client and staff areas while reducing visual clutter throughout the reception zone.</p>
+      </div>
+    </div>
+
+    <div class="highlight-block reverse">
+      <div class="highlight-img b"><span class="img-label">Seating Image</span></div>
+      <div class="highlight-text">
+        <div class="highlight-kicker">Highlight 02</div>
+        <h3 class="highlight-title">Seating Installation</h3>
+        <p class="highlight-body">Black and white artwork complemented comfortable bench seating with soft cushions, backrests, and open-bottom design. Design priorities included decluttering, privacy, safety, and support — ensuring patients feel at ease from the moment they arrive.</p>
+      </div>
+    </div>
+
+    <div class="highlight-block">
+      <div class="highlight-img c"><span class="img-label">Second Floor Image</span></div>
+      <div class="highlight-text">
+        <div class="highlight-kicker">Highlight 03</div>
+        <h3 class="highlight-title">Second Floor Integration</h3>
+        <p class="highlight-body">When the client acquired the upper floor, design elements were seamlessly integrated to ensure continuity in both the aesthetic and atmosphere — extending the same spatial language across both levels of the clinic.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIAL ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Client Testimonial</div>
+    <div class="testimonial-wrap">
+      <div class="testimonial-inner">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"The thought-to-execution process was seamless while keeping our space open during the refurbishment. The project justified our investment, and the result has received positive feedback from our clients. We are delighted with the outcome."</p>
+        <p class="test-attr">Dr. Pippa Rollitt &nbsp;·&nbsp; Co-Founder, Richmond Physiotherapy</p>
+        <a class="test-link" href="#">View all client testimonials →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BEFORE / AFTER (admin toggle) ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Before &amp; After</div>
+    <div class="admin-badge">Admin Toggle — This section is ON. Disable if no before/after photography available.</div>
+    <div class="ba-wrap">
+      <div class="ba-grid">
+        <div class="ba-panel">
+          <div class="ba-img before">
+            <span class="img-label">Before Photography</span>
+            <span class="ba-tag">Before</span>
+          </div>
+          <div class="ba-divider"><div class="ba-handle">⇄</div></div>
+        </div>
+        <div class="ba-panel">
+          <div class="ba-img after">
+            <span class="img-label">After Photography</span>
+            <span class="ba-tag">After</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DESIGN FEATURES ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="section-label">Design Features</div>
+    <div class="features-wrap">
+      <h3 class="features-heading">Materials &amp; Design Detail</h3>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-img"><span style="font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Feature Image</span></div>
+          <div class="feature-kicker">Wallpaper</div>
+          <div class="feature-name">Eco-Certified Texture</div>
+          <div class="feature-desc">Hand-crafted design featuring coloured petals — cornflowers, roses, sunflowers, moss — on a white base. Carbon-neutral production in Tyrol.</div>
+          <div class="feature-spec">STANDARD 100 OEKO TEX · White recycled cellulose</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-img"><span style="font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Feature Image</span></div>
+          <div class="feature-kicker">Colour Palette</div>
+          <div class="feature-name">Tonal Calm</div>
+          <div class="feature-desc">Curated soft tones inspired by the clinic's existing brand palette, selected to evoke a tranquil atmosphere using colour psychology principles.</div>
+          <div class="feature-spec">Colour psychology · Natural light mapped</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-img"><span style="font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Feature Image</span></div>
+          <div class="feature-kicker">Materials</div>
+          <div class="feature-name">Natural &amp; Sustainable</div>
+          <div class="feature-desc">Natural material selections prioritised throughout, emphasising sustainability alongside the tactile warmth essential to a healthcare environment.</div>
+          <div class="feature-spec">Sustainable sourcing · FSC certified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RELATED PROJECTS ── -->
+  <section class="section-block">
+    <div class="drag-handle">⠿</div>
+    <div class="related-wrap">
+      <div class="related-heading">Related Projects</div>
+      <div class="related-grid">
+        <div class="related-tile">
+          <div class="rt-fill r1"></div>
+          <div class="related-info">
+            <div class="ri-cat">Healthcare / General Practice</div>
+            <div class="ri-title">Kensington Clinic</div>
+          </div>
+        </div>
+        <div class="related-tile">
+          <div class="rt-fill r2"></div>
+          <div class="related-info">
+            <div class="ri-cat">Healthcare / Orthodontic</div>
+            <div class="ri-title">Albright Orthodontic Studio</div>
+          </div>
+        </div>
+        <div class="related-tile">
+          <div class="rt-fill r3"></div>
+          <div class="related-info">
+            <div class="ri-cat">Research &amp; Lab</div>
+            <div class="ri-title">Novus Lab Annex</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ── Pill / Tab interactions (shared) ──
+    document.querySelectorAll('.pill').forEach(p => {
+      p.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+      });
+    });
+
+    // ── Scroll-driven accordion (IntersectionObserver) ──
+    const items   = document.querySelectorAll('.accordion-item');
+    const nImages = document.querySelectorAll('.n-image');
+    const ticks   = document.querySelectorAll('.chapter-tick');
+
+    function activateChapter(idx) {
+      items.forEach((item, i) => {
+        item.classList.toggle('active', i === idx);
+      });
+      nImages.forEach((img, i) => {
+        img.classList.toggle('active', i === idx);
+      });
+      ticks.forEach((tick, i) => {
+        tick.classList.toggle('active', i === idx);
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activateChapter(parseInt(entry.target.dataset.index));
+        }
+      });
+    }, {
+      rootMargin: '-35% 0px -35% 0px',
+      threshold: 0
+    });
+
+    items.forEach(item => observer.observe(item));
+  </script>
+</body>
+</html>

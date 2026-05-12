@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remarcable Design — Smart Design For Business Growth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      background: var(--black);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 80px var(--pad-outer) 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content { display: flex; flex-direction: column; justify-content: center; max-width: 760px; }
+    .hero-eyebrow {
+      font-size: 10px; letter-spacing: 0.22em; font-weight: 500;
+      color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 32px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: rgba(255,255,255,0.3); }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 8vw, 104px);
+      font-weight: 400; color: var(--white);
+      line-height: 0.95; letter-spacing: -0.03em;
+      margin-bottom: 32px;
+    }
+    .hero-title em { font-style: italic; color: rgba(255,255,255,0.55); }
+    .hero-sub {
+      font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.55);
+      line-height: 1.75; max-width: 520px; margin-bottom: 48px;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 56px; }
+    .hero-cta-primary {
+      font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
+      background: var(--white); color: var(--black); padding: 18px 36px;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .hero-cta-primary:hover { opacity: 0.88; }
+    .hero-cta-secondary {
+      font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.8);
+      padding: 18px 36px; text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .hero-cta-secondary:hover { border-color: rgba(255,255,255,0.7); color: var(--white); }
+    .hero-segments {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .hero-seg {
+      font-size: 10px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.55);
+      padding: 8px 16px; cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .hero-seg:hover, .hero-seg.active {
+      border-color: rgba(255,255,255,0.7); color: var(--white);
+    }
+    .hero-bottom {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-stat { }
+    .hero-stat-num {
+      font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400;
+      color: var(--white); line-height: 1; margin-bottom: 6px;
+    }
+    .hero-stat-label { font-size: 10px; letter-spacing: 0.12em; font-weight: 500; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+    .hero-stats { display: flex; gap: 0; align-items: flex-start; }
+    .hero-stat {
+      padding-right: 48px; margin-right: 48px;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .hero-stat:last-child { padding-right: 0; margin-right: 0; border-right: none; }
+    .hero-stat--award { max-width: 140px; }
+    .hero-stat-award-label {
+      font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+      color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 6px;
+    }
+    .hero-stat-award-title {
+      font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.55);
+      line-height: 1.55;
+    }
+    .hero-scroll {
+      font-size: 10px; letter-spacing: 0.16em; font-weight: 500;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-scroll-line { width: 32px; height: 1px; background: rgba(255,255,255,0.2); }
+
+    /* ── SCROLL TEXT REVEAL ── */
+    .srt-section {
+      height: 320vh;
+      position: relative;
+      background: var(--white);
+    }
+    .srt-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 var(--pad-outer);
+    }
+    .srt-eyebrow {
+      font-size: 10px; letter-spacing: 0.2em; font-weight: 500;
+      text-transform: uppercase; color: var(--xlight);
+      margin-bottom: 40px;
+    }
+    .srt-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 4vw, 58px);
+      font-weight: 400;
+      line-height: 1.35;
+      text-align: center;
+      letter-spacing: -0.01em;
+      max-width: 960px;
+    }
+    .srt-word {
+      display: inline;
+      color: var(--black);
+      opacity: 0.1;
+    }
+    .srt-progress {
+      margin-top: 56px;
+      display: flex; gap: 6px; align-items: center;
+    }
+    .srt-pip {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--border); transition: background 0.3s;
+    }
+    .srt-pip.srt-pip-active { background: var(--black); }
+
+    /* ── FEATURED PROJECTS ── */
+    .featured-section { padding: 0 var(--pad-outer) 80px; background: var(--white); }
+    .featured-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 72px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 0;
+    }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .about-strip-text {
+      padding: 80px var(--pad-outer);
+      border-right: 1px solid var(--border);
+    }
+    .about-strip-img {
+      padding: 80px var(--pad-outer); background: #edeae4;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .about-lead {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(20px, 2.5vw, 28px); font-weight: 400;
+      line-height: 1.45; color: var(--black); margin-bottom: 24px;
+    }
+    .about-body {
+      font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); margin-bottom: 32px;
+    }
+    .about-strip-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(22px, 3vw, 34px); font-weight: 400; line-height: 1.3;
+      color: var(--black); margin-bottom: 20px;
+    }
+    .about-strip-attr { font-size: 11px; letter-spacing: 0.12em; font-weight: 500; color: var(--light); text-transform: uppercase; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { padding: 56px 24px 48px; min-height: auto; }
+      .hero-stats { gap: 32px; }
+      .hero-bottom { flex-direction: column; gap: 32px; }
+      .featured-section { padding: 0 24px 60px; }
+      .featured-header { padding: 48px 0 32px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .about-strip { grid-template-columns: 1fr; }
+      .about-strip-text { border-right: none; border-bottom: 1px solid var(--border); padding: 56px 24px; }
+      .about-strip-img { padding: 56px 24px; }
+      .about-strip-text, .about-strip-img { padding-left: 24px; padding-right: 24px; }
+    }
+  </style>
+</head>
+<body data-active-page="home">
+  <div id="site-header"></div>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Interior Design Studio · Est. 2016 · London</div>
+      <h1 class="hero-title">Smart Design<br>For <em>Business</em><br>Growth.</h1>
+      <p class="hero-sub">Human-centric interiors that inspire your teams, impress your clients, and deliver environments built to perform.</p>
+      <div class="hero-ctas">
+        <a class="hero-cta-primary" href="projects.html">View Our Projects</a>
+        <a class="hero-cta-secondary" href="contact.html">Book a Consultation</a>
+      </div>
+      <div class="hero-segments">
+        <a class="hero-seg active" href="projects.html">Healthcare &amp; Dental</a>
+        <a class="hero-seg" href="projects.html">Commercial &amp; Offices</a>
+        <a class="hero-seg" href="projects.html">Residential</a>
+      </div>
+    </div>
+    <div class="hero-bottom">
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">150+</div>
+          <div class="hero-stat-label">Projects Delivered</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5.0</div>
+          <div class="hero-stat-label">★ Client Rating</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">9+</div>
+          <div class="hero-stat-label">Years in Practice</div>
+        </div>
+        <div class="hero-stat hero-stat--award">
+          <div class="hero-stat-award-label">Build Awards 2021</div>
+          <div class="hero-stat-award-title">Leading Interior Architecture &amp; Design Firm, London</div>
+        </div>
+        <div class="hero-stat hero-stat--award">
+          <div class="hero-stat-award-label">SME News 2020</div>
+          <div class="hero-stat-award-title">Best Wellbeing-Focused Office Interior Design Company</div>
+        </div>
+      </div>
+      <div class="hero-scroll">
+        <span class="hero-scroll-line"></span>
+        Scroll to explore
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCROLL TEXT REVEAL ── -->
+  <section class="srt-section" id="srtSection">
+    <div class="srt-sticky">
+      <div class="srt-eyebrow">Our Approach</div>
+      <p class="srt-text" id="srtText">Design and guidance to help you make the right choices when scaling up, to solve workspace challenges and create high growth environments that inspire your teams and clients.</p>
+      <div class="srt-progress" id="srtProgress"></div>
+    </div>
+  </section>
+
+  <!-- ── FEATURED PROJECTS ── -->
+  <section class="featured-section">
+    <div class="featured-header">
+      <div>
+        <div class="rd-eyebrow">Selected Work</div>
+        <h2 class="rd-section-title">Recent Projects</h2>
+      </div>
+      <a class="rd-more-link" href="projects.html">View all projects →</a>
+    </div>
+    <div id="featured-projects-mount"></div>
+  </section>
+
+  <!-- ── VIDEO CAROUSEL ── -->
+  <div id="video-carousel-mount"></div>
+
+  <!-- ── TESTIMONIALS ── -->
+  <div id="testimonials-mount"></div>
+
+  <!-- ── SERVICES ── -->
+  <div id="services-mount"></div>
+
+  <!-- ── PROCESS ── -->
+  <div id="process-mount"></div>
+
+  <!-- ── ABOUT STRIP ── -->
+  <section class="about-strip">
+    <div class="about-strip-text">
+      <div class="rd-eyebrow">Who We Are</div>
+      <p class="about-lead">"How do you want your space to make you feel?"</p>
+      <p class="about-body">Led by founders Reni &amp; Marc, Remarcable is a result of passion for design and desire to inspire a positive change in work environments. We are a unique team of interior architects, artists, commercial and clinical design experts, skilled tradespeople, and wellbeing practitioners.</p>
+      <p class="about-body">Our designs are inspired by world travels and the balance we find in nature. We ask the most important question first — and let the answer shape everything that follows.</p>
+      <a class="rd-more-link" href="about.html">Our story →</a>
+    </div>
+    <div class="about-strip-img">
+      <p class="about-strip-quote">"Design and guidance to help you make the right choices when scaling up."</p>
+      <div class="about-strip-attr">Reni &amp; Marc — Co-Founders, Remarcable Design</div>
+    </div>
+  </section>
+
+  <!-- ── GUARANTEES ── -->
+  <div id="guarantees-mount"></div>
+
+  <!-- ── KEY ELEMENTS ── -->
+  <div id="key-elements-mount"></div>
+
+  <!-- ── RESOURCES ── -->
+  <div id="resources-mount"></div>
+
+  <div id="site-footer"></div>
+
+  <script src="components.js"></script>
+  <script>
+    RD.render.featuredProjects(document.getElementById('featured-projects-mount'));
+    RD.render.videoCarousel(document.getElementById('video-carousel-mount'));
+    RD.render.testimonials(document.getElementById('testimonials-mount'));
+    RD.render.servicesBlocks(document.getElementById('services-mount'));
+    RD.render.processSteps(document.getElementById('process-mount'));
+    RD.render.guarantees(document.getElementById('guarantees-mount'));
+    RD.render.keyElements(document.getElementById('key-elements-mount'));
+    RD.render.resourcesTeaser(document.getElementById('resources-mount'));
+
+    // Scroll-driven word reveal
+    (function() {
+      const section = document.getElementById('srtSection');
+      const textEl = document.getElementById('srtText');
+      const progressEl = document.getElementById('srtProgress');
+      if (!section || !textEl) return;
+
+      const sentence = textEl.textContent.trim();
+      const words = sentence.split(/\s+/);
+      textEl.innerHTML = words.map((w, i) => `<span class="srt-word" data-i="${i}">${w}</span>`).join(' ');
+      const spans = textEl.querySelectorAll('.srt-word');
+
+      const PIPS = 5;
+      for (let i = 0; i < PIPS; i++) {
+        const pip = document.createElement('div');
+        pip.className = 'srt-pip';
+        progressEl.appendChild(pip);
+      }
+      const pips = progressEl.querySelectorAll('.srt-pip');
+
+      function update() {
+        const rect = section.getBoundingClientRect();
+        const sectionH = section.offsetHeight;
+        const progress = Math.max(0, Math.min(1, -rect.top / (sectionH - window.innerHeight)));
+
+        const revealIndex = progress * words.length;
+        spans.forEach((span, i) => {
+          if (i < revealIndex - 1) {
+            span.style.opacity = 1;
+          } else if (i < revealIndex) {
+            span.style.opacity = 0.1 + 0.9 * (revealIndex - i);
+          } else {
+            span.style.opacity = 0.1;
+          }
+        });
+
+        const pipActive = Math.floor(progress * PIPS);
+        pips.forEach((pip, i) => pip.classList.toggle('srt-pip-active', i <= pipActive && progress > 0));
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    document.querySelectorAll('.hero-seg').forEach(s => {
+      s.addEventListener('click', function(e) {
+        document.querySelectorAll('.hero-seg').forEach(x => x.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

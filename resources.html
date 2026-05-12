@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── PAGE HEADER (sticky, collapses to compact strip) ── */
+    .page-header {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      position: sticky; top: var(--nav-h, 72px); z-index: 90;
+      transition: box-shadow 0.25s ease;
+    }
+    .page-header.is-compact { box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+
+    /* full hero — collapses when sticky kicks in */
+    .ph-hero {
+      padding: 64px var(--pad-outer) 0; overflow: hidden;
+      max-height: 600px; opacity: 1; margin-bottom: 48px;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1),
+                  opacity 0.2s ease, margin-bottom 0.3s ease, padding-top 0.3s ease;
+    }
+    .page-header.is-compact .ph-hero { max-height: 0; opacity: 0; margin-bottom: 0; padding-top: 0; }
+
+    /* full filter tabs row — collapses */
+    .ph-full-tabs { overflow: hidden; max-height: 60px; opacity: 1; padding: 0 var(--pad-outer); transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.15s ease; }
+    .page-header.is-compact .ph-full-tabs { max-height: 0; opacity: 0; }
+
+    /* compact bar — expands in */
+    .ph-compact-bar {
+      display: flex; align-items: stretch; padding: 0 var(--pad-outer);
+      overflow: hidden; max-height: 0; opacity: 0;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+    }
+    .page-header.is-compact .ph-compact-bar { max-height: 100px; opacity: 1; }
+    .ph-compact-title {
+      font-size: 13px; font-weight: 400; letter-spacing: -0.01em; white-space: nowrap;
+      display: flex; align-items: center;
+      padding-right: 28px; border-right: 1px solid var(--border); flex-shrink: 0;
+    }
+    .ph-compact-tabs {
+      flex: 1; display: flex; overflow-x: auto; scrollbar-width: none; padding-left: 4px;
+    }
+    .ph-compact-tabs::-webkit-scrollbar { display: none; }
+    .ph-compact-tabs .tab {
+      padding: 0 16px; margin-right: 0; height: 52px;
+      display: flex; align-items: center; flex-shrink: 0;
+      font-size: 10px; border-bottom: 2px solid transparent;
+    }
+    .ph-compact-calc {
+      flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+      padding-left: 24px; border-left: 1px solid var(--border);
+      font-size: 10px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase;
+      color: var(--black); text-decoration: none; white-space: nowrap; transition: opacity 0.2s;
+    }
+    .ph-compact-calc:hover { opacity: 0.6; }
+
+    .page-header-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 48px; }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 400; line-height: 0.95; letter-spacing: -0.02em;
+    }
+    /* ── CALCULATOR TILE ── */
+    .calc-hero-tile {
+      align-self: end; background: var(--white);
+      border: 1px solid var(--border); padding: 28px 32px;
+      display: flex; flex-direction: column; gap: 0;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative; text-decoration: none; color: inherit;
+    }
+    .calc-hero-tile::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--black);
+    }
+    .calc-hero-tile:hover { border-color: var(--black); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .calc-tile-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .calc-tile-eyebrow {
+      font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+      text-transform: uppercase; color: var(--light);
+    }
+    .calc-tile-badges { display: flex; gap: 6px; }
+    .calc-tile-badge {
+      font-size: 9px; letter-spacing: 0.08em; font-weight: 600;
+      text-transform: uppercase; padding: 3px 8px;
+      border: 1px solid var(--border); color: var(--mid);
+    }
+    .calc-tile-title {
+      font-size: 20px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 10px;
+    }
+    .calc-tile-desc {
+      font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.65; margin-bottom: 24px;
+    }
+    .calc-tile-cta {
+      display: inline-block; font-size: 11px; letter-spacing: 0.1em; font-weight: 500;
+      color: var(--black); text-decoration: none;
+      border-bottom: 1px solid var(--black); padding-bottom: 2px;
+      align-self: flex-start; transition: opacity 0.2s;
+    }
+    .calc-tile-cta:hover { opacity: 0.6; }
+    .tabs { display: flex; border-bottom: 1px solid var(--border); }
+    .tab {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      padding: 14px 0; margin-right: 40px; cursor: pointer; color: var(--light);
+      border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+    }
+    .tab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    /* ── FEATURED RESOURCE ── */
+    .featured-res { padding: 0 var(--pad-outer); background: var(--white); }
+    .featured-res-inner {
+      display: grid; grid-template-columns: 1fr 480px; gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 64px 0;
+    }
+    .featured-res-text { padding-right: 80px; display: flex; flex-direction: column; justify-content: center; }
+    .featured-badge {
+      display: inline-block; font-size: 9px; letter-spacing: 0.14em; font-weight: 600;
+      text-transform: uppercase; background: var(--black); color: var(--white);
+      padding: 4px 10px; margin-bottom: 24px; width: fit-content;
+    }
+    .featured-res-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 3.5vw, 44px); font-weight: 400;
+      letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 20px;
+    }
+    .featured-res-desc { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); margin-bottom: 32px; }
+    .featured-res-img { background: #d0cdc6; min-height: 320px; position: relative; overflow: hidden; }
+    .featured-res-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+
+    /* ── RESOURCE GRID ── */
+    .resources-grid-section { padding: 72px var(--pad-outer) 100px; }
+    .grid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .res-count { font-size: 12px; font-weight: 300; color: var(--mid); }
+
+    .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    /* ── TOOLS / CALCULATORS ── */
+    .tools-section { padding: 100px var(--pad-outer); background: var(--bg); }
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+    .tool-card {
+      background: var(--white); border: 1px solid var(--border); padding: 48px 40px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .tool-card:hover { border-color: var(--black); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .tool-icon { font-size: 24px; }
+    .tool-title { font-size: 22px; font-weight: 300; letter-spacing: -0.01em; }
+    .tool-desc { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--mid); flex: 1; }
+    .tool-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 600; text-transform: uppercase;
+      color: var(--black); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      width: fit-content; transition: border-color 0.2s;
+    }
+    .tool-cta:hover { border-color: var(--black); }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-section { padding: 80px var(--pad-outer); background: var(--white); border-top: 1px solid var(--border); }
+    .newsletter-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+    .newsletter-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 400; letter-spacing: -0.01em; margin-bottom: 16px; }
+    .newsletter-desc { font-size: 14px; font-weight: 300; color: var(--mid); line-height: 1.75; margin-bottom: 36px; }
+    .newsletter-form { display: flex; gap: 0; border: 1px solid var(--border); }
+    .newsletter-form input {
+      flex: 1; border: none; outline: none; padding: 18px 24px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300;
+      background: var(--bg); color: var(--black);
+    }
+    .newsletter-form input::placeholder { color: var(--light); }
+    .newsletter-form button {
+      background: var(--black); color: var(--white); border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; font-weight: 600;
+      text-transform: uppercase; padding: 18px 28px; transition: opacity 0.2s; white-space: nowrap;
+    }
+    .newsletter-form button:hover { opacity: 0.8; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .ph-hero { padding: 40px 24px 0; margin-bottom: 32px; }
+      .page-header-grid { grid-template-columns: 1fr; gap: 24px; }
+      /* compact bar: two rows on mobile */
+      .page-header.is-compact .ph-compact-bar { max-height: 200px; }
+      .ph-compact-bar { flex-wrap: wrap; padding: 0 24px; }
+      .ph-compact-title {
+        flex: 1; height: 44px; padding-right: 0; border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .ph-compact-calc { height: 44px; border-left: 1px solid var(--border); padding-left: 16px; border-bottom: 1px solid var(--border); }
+      .ph-compact-tabs { width: 100%; padding-left: 0; border-top: none; }
+      .ph-compact-tabs .tab { height: 44px; padding: 0 14px; font-size: 9px; }
+      .featured-res { padding: 0 24px; }
+      .featured-res-inner { grid-template-columns: 1fr; gap: 0; }
+      .featured-res-text { padding-right: 0; padding-bottom: 40px; }
+      .resources-grid-section { padding: 48px 24px 72px; }
+      .res-grid { grid-template-columns: 1fr; }
+      .tools-section { padding: 64px 24px; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .newsletter-section { padding: 64px 24px; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form button { padding: 16px; }
+    }
+  </style>
+</head>
+<body data-active-page="resources">
+  <div id="site-header"></div>
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="page-header" id="pageHeader">
+
+    <!-- full hero: big title + calc tile (collapses when sticky) -->
+    <div class="ph-hero">
+      <div class="page-header-grid">
+        <h1 class="page-title">Knowledge &amp; Insight</h1>
+        <a class="calc-hero-tile" href="cost-calculator.html">
+          <div class="calc-tile-top">
+            <span class="calc-tile-eyebrow">Cost Calculator</span>
+            <div class="calc-tile-badges">
+              <span class="calc-tile-badge">Dental</span>
+              <span class="calc-tile-badge">Workspace</span>
+            </div>
+          </div>
+          <div class="calc-tile-title">Estimate your project budget</div>
+          <p class="calc-tile-desc">Get a ballpark investment range for your dental surgery or office refurbishment. Set your spec level and see an estimate in seconds.</p>
+          <span class="calc-tile-cta">Open calculator →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- full filter tabs (collapses when sticky) -->
+    <div class="ph-full-tabs">
+      <div class="tabs" id="resTabs">
+        <div class="tab active" data-tab="all">All Resources</div>
+        <div class="tab" data-tab="articles">Articles</div>
+        <div class="tab" data-tab="guides">Guides &amp; Checklists</div>
+        <div class="tab" data-tab="tools">Tools &amp; Calculators</div>
+      </div>
+    </div>
+
+    <!-- compact strip (appears when sticky) -->
+    <div class="ph-compact-bar">
+      <span class="ph-compact-title">Knowledge &amp; Insight</span>
+      <div class="ph-compact-tabs">
+        <div class="tab active" data-tab="all">All Resources</div>
+        <div class="tab" data-tab="articles">Articles</div>
+        <div class="tab" data-tab="guides">Guides &amp; Checklists</div>
+        <div class="tab" data-tab="tools">Tools &amp; Calculators</div>
+      </div>
+      <a class="ph-compact-calc" href="cost-calculator.html">Cost Calculator <span>→</span></a>
+    </div>
+
+  </div>
+
+  <!-- ── FEATURED RESOURCE ── -->
+  <div class="featured-res">
+    <div class="featured-res-inner">
+      <div class="featured-res-text">
+        <span class="featured-badge">Featured Guide</span>
+        <h2 class="featured-res-title">The Complete Brief Template for Commercial Interior Projects</h2>
+        <p class="featured-res-desc">Download our step-by-step brief template used on over 50 commercial projects. Covers space requirements, budget framework, timeline planning, and stakeholder sign-off — a practical tool your team can use from day one.</p>
+        <a class="rd-more-link" href="#">Download free PDF →</a>
+      </div>
+      <div class="featured-res-img">
+        <span class="featured-res-ph">Image Placeholder</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RESOURCE GRID ── -->
+  <section class="resources-grid-section">
+    <div class="grid-header">
+      <div>
+        <div class="rd-eyebrow">All Resources</div>
+      </div>
+      <span class="res-count">6 resources</span>
+    </div>
+    <div id="res-grid-mount" class="res-grid"></div>
+  </section>
+
+  <!-- ── TOOLS ── -->
+  <section class="tools-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">Tools &amp; Calculators</div>
+        <h2 class="rd-section-title">Plan before you commit.</h2>
+      </div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">◎</div>
+        <h3 class="tool-title">Dental Practice Cost Calculator</h3>
+        <p class="tool-desc">Estimate the cost of your dental surgery or reception refurbishment based on square footage, number of treatment rooms, and finish level. Updated for 2026 material and labour rates.</p>
+        <a class="tool-cta" href="cost-calculator.html">Use calculator →</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">◷</div>
+        <h3 class="tool-title">Office Refurbishment Budget Planner</h3>
+        <p class="tool-desc">Input your floor plate, headcount, and ambition level. Get a ballpark cost breakdown across Cat A fitout, furniture, lighting, and project management to take to your budget conversation.</p>
+        <a class="tool-cta" href="cost-calculator.html?type=workspace">Use planner →</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">◈</div>
+        <h3 class="tool-title">Project Timeline Builder</h3>
+        <p class="tool-desc">Map your project from first consultation to handover. Set your target opening date and work backwards through design, procurement, construction, and snagging phases.</p>
+        <a class="tool-cta" href="#">Build timeline →</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">◉</div>
+        <h3 class="tool-title">Interior Brief Questionnaire</h3>
+        <p class="tool-desc">Answer 12 questions about your space, your team, and your goals. We'll generate a structured brief document you can share directly with any designer or contractor.</p>
+        <a class="tool-cta" href="#">Start questionnaire →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NEWSLETTER ── -->
+  <section class="newsletter-section">
+    <div class="newsletter-inner">
+      <div class="rd-eyebrow" style="text-align:center;margin-bottom:20px">Stay Informed</div>
+      <h2 class="newsletter-title">Insights for ambitious spaces</h2>
+      <p class="newsletter-desc">Monthly articles, sector guides, and design thinking from the Remarcable studio. Practical, direct, and worth reading.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email address">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    // Render all resource cards directly (skip the full-section wrapper)
+    const mount = document.getElementById('res-grid-mount');
+    mount.innerHTML = RD.data.resources.map(r => `
+      <a class="rd-rc-card" href="#">
+        <div class="rd-rc-thumb">
+          <div class="rd-rc-fill ${r.tone}"></div>
+          <span class="rd-rc-type-badge">${r.type}</span>
+        </div>
+        <div class="rd-rc-body">
+          <div class="rd-rc-title">${r.title}</div>
+          <div class="rd-rc-meta">${r.readTime}${r.date ? ' &nbsp;·&nbsp; ' + r.date : ''}</div>
+        </div>
+      </a>`).join('');
+
+    // Tab filtering — sync all tabs (full + compact) by data-tab value
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const val = this.dataset.tab;
+        document.querySelectorAll('.tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.tab === val);
+        });
+      });
+    });
+
+    // Sticky compact header — triggers when hero scrolls out of view
+    const pageHeader = document.getElementById('pageHeader');
+    const phHero = document.querySelector('.ph-hero');
+    let threshold = 0;
+
+    function updateThreshold() {
+      // measure the hero height before any compact state is applied
+      if (!pageHeader.classList.contains('is-compact')) {
+        threshold = phHero.offsetHeight;
+      }
+    }
+    updateThreshold();
+    window.addEventListener('resize', updateThreshold, { passive: true });
+
+    window.addEventListener('scroll', () => {
+      pageHeader.classList.toggle('is-compact', window.scrollY >= threshold);
+    }, { passive: true });
+  </script>
+</body>
+</html>

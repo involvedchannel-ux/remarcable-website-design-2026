@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How We Work — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    .breadcrumb {
+      padding: 20px var(--pad-outer); background: var(--white); border-bottom: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--light);
+      text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+    }
+    .breadcrumb a { color: var(--light); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb-sep { color: var(--xlight); }
+
+    /* ── HERO ── */
+    .how-hero { padding: 96px var(--pad-outer) 80px; background: var(--white); border-bottom: 1px solid var(--border); }
+    .how-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; }
+    .how-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(48px, 6.5vw, 80px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em;
+    }
+    .how-hero-right { padding-bottom: 4px; }
+    .how-hero-lead { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+
+    /* ── STAGES — DETAILED ── */
+    .stages-detail { padding: 0 var(--pad-outer) 80px; background: var(--white); }
+    .stage-detail-block {
+      display: grid; grid-template-columns: 100px 1fr 1fr; gap: 60px;
+      padding: 72px 0; border-top: 1px solid var(--border); align-items: start;
+    }
+    .stage-detail-block:first-child { border-top: none; }
+    .stage-num-large {
+      font-family: 'DM Serif Display', serif; font-size: 72px; font-weight: 400;
+      color: var(--border); line-height: 1; margin-top: -8px;
+    }
+    .stage-detail-left {}
+    .stage-detail-title { font-size: 30px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 16px; }
+    .stage-detail-desc { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); }
+    .stage-detail-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .stage-detail-list li {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 20px; border: 1px solid var(--border);
+      font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.5;
+    }
+    .stage-detail-list li::before { content: '→'; color: var(--xlight); flex-shrink: 0; }
+
+    /* ── WHAT TO EXPECT ── */
+    .expect-section { padding: 100px var(--pad-outer); background: var(--bg); }
+    .expect-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 56px; }
+    .expect-item {
+      padding: 48px 40px; border-top: 1px solid var(--border); border-left: 1px solid var(--border);
+    }
+    .expect-item:last-child { border-right: 1px solid var(--border); }
+    .expect-icon { font-size: 22px; margin-bottom: 24px; }
+    .expect-title { font-size: 18px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 12px; }
+    .expect-desc { font-size: 13px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+
+    /* ── TIMELINE OVERVIEW ── */
+    .timeline-section { padding: 100px var(--pad-outer); background: var(--white); }
+    .timeline { display: flex; gap: 0; margin-top: 56px; }
+    .timeline-step { flex: 1; padding: 36px 32px; border-top: 3px solid var(--border); position: relative; }
+    .timeline-step.active { border-top-color: var(--black); }
+    .timeline-week { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; color: var(--light); text-transform: uppercase; margin-bottom: 14px; }
+    .timeline-title { font-size: 16px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 8px; }
+    .timeline-desc { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      :root { --pad-h: 24px; }
+      .breadcrumb, .how-hero, .stages-detail, .expect-section, .timeline-section { padding-left: 24px; padding-right: 24px; }
+      .how-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .stages-detail { padding-bottom: 56px; }
+      .stage-detail-block { grid-template-columns: 1fr; gap: 24px; padding: 48px 0; }
+      .expect-grid { grid-template-columns: 1fr; }
+      .expect-item { border-right: 1px solid var(--border); }
+      .timeline { flex-direction: column; }
+      .timeline-step { border-top: none; border-left: 3px solid var(--border); }
+      .timeline-step.active { border-left-color: var(--black); }
+    }
+  </style>
+</head>
+<body data-active-page="about">
+  <div id="site-header"></div>
+
+  <nav class="breadcrumb">
+    <a href="about.html">About</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>How We Work</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="how-hero">
+    <div class="rd-eyebrow">About · How We Work</div>
+    <div class="how-hero-grid" style="margin-top:24px">
+      <h1 class="how-hero-title">Three stages. Full transparency.</h1>
+      <div class="how-hero-right">
+        <p class="how-hero-lead">Our process has been refined over 150+ projects. It's built for clarity — so you always know what's happening, what's next, and what it costs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STAGES DETAILED ── -->
+  <div class="stages-detail">
+    <div class="stage-detail-block">
+      <div class="stage-num-large">01</div>
+      <div class="stage-detail-left">
+        <h2 class="stage-detail-title">Discovery</h2>
+        <p class="stage-detail-desc">We begin every project by listening. A no-obligation consultation is followed by a site visit and practical evaluation. We're not pitching — we're learning. The output is a design brief that reflects exactly what you need.</p>
+      </div>
+      <ul class="stage-detail-list">
+        <li>Initial consultation to understand your goals, ambitions, and timeline</li>
+        <li>On-site survey and space assessment by our senior design team</li>
+        <li>Competitor and precedent analysis for your sector and location</li>
+        <li>Design brief and scope document issued for your sign-off</li>
+        <li>Ballpark budget guidance based on brief and site findings</li>
+      </ul>
+    </div>
+
+    <div class="stage-detail-block">
+      <div class="stage-num-large">02</div>
+      <div class="stage-detail-left">
+        <h2 class="stage-detail-title">Design</h2>
+        <p class="stage-detail-desc">Your vision takes shape. We work through spatial planning, material selection, lighting, furniture, and bespoke joinery — iterating until every detail is right. Nothing progresses without your explicit approval.</p>
+      </div>
+      <ul class="stage-detail-list">
+        <li>Concept presentation: mood boards, spatial layouts, 3D visualisations</li>
+        <li>Material and finish schedule with sourced samples available to review</li>
+        <li>Furniture, lighting, and bespoke joinery specifications</li>
+        <li>Fixed-price proposal with phased payment schedule</li>
+        <li>Contractor selection and pre-construction coordination</li>
+      </ul>
+    </div>
+
+    <div class="stage-detail-block">
+      <div class="stage-num-large">03</div>
+      <div class="stage-detail-left">
+        <h2 class="stage-detail-title">Delivery</h2>
+        <p class="stage-detail-desc">We manage the complete build. Our site teams coordinate contractors, suppliers, and all installations — minimising disruption and communicating progress every step of the way. Many clients trade throughout.</p>
+      </div>
+      <ul class="stage-detail-list">
+        <li>Full project management and contractor coordination</li>
+        <li>Weekly written progress updates and site access throughout</li>
+        <li>Phased delivery plans to maintain business continuity</li>
+        <li>Snagging inspection and sign-off before formal handover</li>
+        <li>2-year workmanship warranty and aftercare package</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── WHAT TO EXPECT ── -->
+  <section class="expect-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">Working With Us</div>
+        <h2 class="rd-section-title">What to expect</h2>
+      </div>
+    </div>
+    <div class="expect-grid">
+      <div class="expect-item">
+        <div class="expect-icon">◎</div>
+        <h3 class="expect-title">A dedicated point of contact</h3>
+        <p class="expect-desc">You'll have one lead designer and one project manager throughout. No hand-offs, no confusion about who to call. The same people who hear your brief are the same people who deliver it.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">◷</div>
+        <h3 class="expect-title">Weekly progress reporting</h3>
+        <p class="expect-desc">Every week during your build phase, you'll receive a structured progress report covering completed work, next steps, and any decisions needed from you. You're always informed, never chasing.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">◈</div>
+        <h3 class="expect-title">No surprises on cost</h3>
+        <p class="expect-desc">Our fixed-price proposals cover everything agreed in scope. If something changes, we discuss it before it's instructed. You never receive an invoice for work you didn't expect or approve.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ILLUSTRATIVE TIMELINE ── -->
+  <section class="timeline-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">Typical Project Timeline</div>
+        <h2 class="rd-section-title">From consultation to handover</h2>
+      </div>
+      <p class="rd-body" style="max-width:300px">Timelines vary by project size and scope. This is a typical medium-scale commercial project.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step active">
+        <div class="timeline-week">Week 1–2</div>
+        <div class="timeline-title">Consultation &amp; Site Visit</div>
+        <div class="timeline-desc">Initial meeting, site survey, and brief development.</div>
+      </div>
+      <div class="timeline-step active">
+        <div class="timeline-week">Week 3–6</div>
+        <div class="timeline-title">Concept Design</div>
+        <div class="timeline-desc">Spatial layouts, mood boards, and concept presentation.</div>
+      </div>
+      <div class="timeline-step active">
+        <div class="timeline-week">Week 7–10</div>
+        <div class="timeline-title">Technical Design</div>
+        <div class="timeline-desc">Detailed specifications, materials, furniture, and joinery.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-week">Week 11–12</div>
+        <div class="timeline-title">Procurement</div>
+        <div class="timeline-desc">Contractor selection, ordering, and pre-build coordination.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-week">Week 13–20</div>
+        <div class="timeline-title">On-Site Delivery</div>
+        <div class="timeline-desc">Build phase with weekly progress updates and site visits.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-week">Week 21</div>
+        <div class="timeline-title">Handover</div>
+        <div class="timeline-desc">Snagging, sign-off, and 2-year warranty begins.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROCESS STEPS (shared) ── -->
+  <div id="process-mount"></div>
+
+  <!-- ── GUARANTEES (shared) ── -->
+  <div id="guarantees-mount"></div>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    RD.render.processSteps(document.getElementById('process-mount'));
+    RD.render.guarantees(document.getElementById('guarantees-mount'));
+  </script>
+</body>
+</html>

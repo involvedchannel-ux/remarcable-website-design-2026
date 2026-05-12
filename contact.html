@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── HERO ── */
+    .contact-hero {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 560px;
+    }
+    .contact-hero-text {
+      padding: 96px 64px 96px var(--pad-outer); background: var(--white);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contact-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 88px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 32px;
+    }
+    .contact-hero-title em { font-style: italic; color: var(--mid); }
+    .contact-hero-lead { font-size: 17px; font-weight: 300; color: var(--mid); line-height: 1.75; margin-bottom: 40px; max-width: 420px; }
+    .contact-info { display: flex; flex-direction: column; gap: 24px; }
+    .contact-info-item { display: flex; flex-direction: column; gap: 6px; }
+    .contact-info-label { font-size: 10px; letter-spacing: 0.18em; font-weight: 600; color: var(--light); text-transform: uppercase; }
+    .contact-info-value { font-size: 16px; font-weight: 300; color: var(--black); text-decoration: none; }
+    a.contact-info-value:hover { opacity: 0.6; }
+    .contact-hero-img { background: #edeae4; position: relative; overflow: hidden; }
+    .contact-hero-img-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(0,0,0,0.2); text-transform: uppercase; }
+    .contact-hero-img-caption {
+      position: absolute; bottom: 40px; left: 40px; right: 40px;
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 22px; font-weight: 400; color: rgba(0,0,0,0.6); line-height: 1.4;
+    }
+
+    /* ── MAIN FORM ── */
+    .contact-form-section { padding: 100px var(--pad-outer); background: var(--white); }
+    .contact-form-grid { display: grid; grid-template-columns: 1fr 480px; gap: 80px; align-items: start; }
+    .contact-form-left {}
+    .contact-form-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 400; letter-spacing: -0.01em; margin-bottom: 20px; }
+    .contact-form-desc { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--mid); margin-bottom: 40px; }
+    .contact-guarantees { display: flex; flex-direction: column; gap: 16px; }
+    .contact-guarantee { display: flex; align-items: flex-start; gap: 14px; }
+    .contact-guarantee-icon { font-size: 14px; color: var(--light); flex-shrink: 0; margin-top: 1px; }
+    .contact-guarantee-text { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.5; }
+    .contact-guarantee-text strong { color: var(--black); font-weight: 500; }
+
+    /* ── FORM ITSELF ── */
+    .contact-form { display: flex; flex-direction: column; gap: 0; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .form-field {
+      display: flex; flex-direction: column;
+      border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+    .form-field:last-of-type { border-right: none; }
+    .form-row:first-child .form-field { border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
+    .form-row:first-child .form-field:last-child { border-left: none; }
+    .form-field-full {
+      display: flex; flex-direction: column;
+      border-bottom: 1px solid var(--border);
+      border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+    .form-label { font-size: 9px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; color: var(--light); margin-bottom: 8px; }
+    .form-input, .form-textarea, .form-select {
+      border: none; outline: none; font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 300; color: var(--black); background: transparent;
+      padding: 0; -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--xlight); }
+    .form-textarea { resize: none; min-height: 120px; line-height: 1.6; }
+    .form-select { cursor: pointer; }
+    .form-select option { font-size: 14px; }
+    .form-submit {
+      background: var(--black); color: var(--white); border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.18em; font-weight: 600;
+      text-transform: uppercase; padding: 24px 36px; width: 100%; text-align: left;
+      display: flex; justify-content: space-between; align-items: center;
+      border: 1px solid var(--black); transition: opacity 0.2s; margin-top: 4px;
+    }
+    .form-submit:hover { opacity: 0.85; }
+    .form-submit-arrow { font-size: 16px; }
+    .form-note { font-size: 11px; font-weight: 300; color: var(--light); line-height: 1.6; margin-top: 16px; }
+
+    /* ── OFFICE / MAP STRIP ── */
+    .office-section { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--border); }
+    .office-info { padding: 80px 64px 80px var(--pad-outer); background: var(--bg); border-right: 1px solid var(--border); }
+    .office-map { background: #dbd9d4; min-height: 400px; position: relative; overflow: hidden; }
+    .office-map-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(0,0,0,0.3); text-transform: uppercase; }
+    .office-detail { display: flex; flex-direction: column; gap: 32px; margin-top: 40px; }
+    .office-detail-item {}
+    .office-detail-label { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; color: var(--light); text-transform: uppercase; margin-bottom: 8px; }
+    .office-detail-value { font-size: 15px; font-weight: 300; color: var(--black); line-height: 1.6; }
+    .office-detail-value a { color: var(--black); text-decoration: none; transition: opacity 0.2s; }
+    .office-detail-value a:hover { opacity: 0.55; }
+
+    /* ── PROCESS PREVIEW ── */
+    .process-preview { padding: 100px var(--pad-outer); background: var(--white); border-top: 1px solid var(--border); }
+    .process-preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .process-preview-img { background: #c8c4bd; min-height: 440px; position: relative; }
+    .process-preview-img-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(0,0,0,0.2); text-transform: uppercase; }
+    .process-preview-steps { display: flex; flex-direction: column; gap: 0; }
+    .process-preview-step { padding: 28px 0; border-bottom: 1px solid var(--border); display: flex; gap: 24px; }
+    .process-preview-step:first-child { border-top: 1px solid var(--border); }
+    .process-preview-num { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; color: var(--xlight); flex-shrink: 0; width: 32px; padding-top: 2px; }
+    .process-preview-title { font-size: 17px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 8px; }
+    .process-preview-desc { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .contact-hero { grid-template-columns: 1fr; min-height: auto; }
+      .contact-hero-text { padding: 64px 24px; border-right: none; }
+      .contact-hero-img { min-height: 300px; }
+      .contact-form-section { padding: 64px 24px; }
+      .contact-form-grid { grid-template-columns: 1fr; gap: 56px; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-field { border-right: 1px solid var(--border); }
+      .form-row:first-child .form-field { border-left: 1px solid var(--border); }
+      .form-row:first-child .form-field:last-child { border-left: 1px solid var(--border); border-top: none; }
+      .office-section { grid-template-columns: 1fr; }
+      .office-info { padding: 64px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+      .office-map { min-height: 280px; }
+      .process-preview { padding: 64px 24px; }
+      .process-preview-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+  </style>
+</head>
+<body data-active-page="contact">
+  <div id="site-header"></div>
+
+  <!-- ── HERO ── -->
+  <section class="contact-hero">
+    <div class="contact-hero-text">
+      <div class="rd-eyebrow">Get in Touch</div>
+      <h1 class="contact-hero-title">Let's talk about your <em>space</em>.</h1>
+      <p class="contact-hero-lead">Whether you have a clear brief or just an ambition, we'd love to hear about your project. Start with a no-obligation conversation.</p>
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <span class="contact-info-label">Email</span>
+          <a class="contact-info-value" href="mailto:hello@remarcable.co.uk">hello@remarcable.co.uk</a>
+        </div>
+        <div class="contact-info-item">
+          <span class="contact-info-label">Phone</span>
+          <a class="contact-info-value" href="tel:+442012345678">+44 (0)20 1234 5678</a>
+        </div>
+        <div class="contact-info-item">
+          <span class="contact-info-label">Studio</span>
+          <span class="contact-info-value">London, UK — with projects across Britain</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-hero-img">
+      <span class="contact-hero-img-ph">Studio / Welcome Image</span>
+      <div class="contact-hero-img-caption">"How do you want your space to make you feel?"</div>
+    </div>
+  </section>
+
+  <!-- ── FORM + INFO ── -->
+  <section class="contact-form-section">
+    <div class="contact-form-grid">
+      <div class="contact-form-left">
+        <div class="rd-eyebrow">Book a Consultation</div>
+        <h2 class="contact-form-title">Start the conversation</h2>
+        <p class="contact-form-desc">Fill in your details and we'll come back to you within one working day to schedule your free 30-minute consultation. No commitment, no pressure — just a conversation about your space.</p>
+        <div class="contact-guarantees">
+          <div class="contact-guarantee">
+            <span class="contact-guarantee-icon">◎</span>
+            <span class="contact-guarantee-text"><strong>Free 30-minute consultation</strong> — no obligation, no pitch</span>
+          </div>
+          <div class="contact-guarantee">
+            <span class="contact-guarantee-icon">◷</span>
+            <span class="contact-guarantee-text"><strong>Response within one working day</strong> — usually the same day</span>
+          </div>
+          <div class="contact-guarantee">
+            <span class="contact-guarantee-icon">◈</span>
+            <span class="contact-guarantee-text"><strong>Clear pricing from the outset</strong> — we'll give you a ballpark at consultation</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">First name</label>
+            <input class="form-input" type="text" placeholder="Your first name" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Last name</label>
+            <input class="form-input" type="text" placeholder="Your last name" required>
+          </div>
+        </div>
+        <div class="form-field-full">
+          <label class="form-label">Email address</label>
+          <input class="form-input" type="email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-field-full">
+          <label class="form-label">Phone number</label>
+          <input class="form-input" type="tel" placeholder="+44 (0)">
+        </div>
+        <div class="form-field-full">
+          <label class="form-label">Project type</label>
+          <select class="form-select form-input">
+            <option value="" disabled selected>Select a sector</option>
+            <option value="healthcare">Healthcare &amp; Dental</option>
+            <option value="commercial">Commercial &amp; Offices</option>
+            <option value="residential">Residential</option>
+            <option value="other">Other / Mixed</option>
+          </select>
+        </div>
+        <div class="form-field-full">
+          <label class="form-label">Project location</label>
+          <input class="form-input" type="text" placeholder="City, UK">
+        </div>
+        <div class="form-field-full">
+          <label class="form-label">Tell us about your project</label>
+          <textarea class="form-textarea" placeholder="Brief description of your space, what you're hoping to achieve, and your rough timeline…"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          Book my consultation
+          <span class="form-submit-arrow">→</span>
+        </button>
+        <p class="form-note">By submitting this form you agree to us contacting you about your project. We never share your details with third parties.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── OFFICE ── -->
+  <div class="office-section">
+    <div class="office-info">
+      <div class="rd-eyebrow">Find Us</div>
+      <h2 class="rd-section-title-sm">Our studio</h2>
+      <div class="office-detail">
+        <div class="office-detail-item">
+          <div class="office-detail-label">Address</div>
+          <div class="office-detail-value">
+            Remarcable Design<br>
+            Studio Address, Floor N<br>
+            London, UK<br>
+            EC1A 1BB
+          </div>
+        </div>
+        <div class="office-detail-item">
+          <div class="office-detail-label">Studio Hours</div>
+          <div class="office-detail-value">
+            Monday – Friday · 9:00am – 6:00pm<br>
+            Saturday by appointment
+          </div>
+        </div>
+        <div class="office-detail-item">
+          <div class="office-detail-label">Direct Contact</div>
+          <div class="office-detail-value">
+            <a href="tel:+442012345678">+44 (0)20 1234 5678</a><br>
+            <a href="mailto:hello@remarcable.co.uk">hello@remarcable.co.uk</a>
+          </div>
+        </div>
+        <div class="office-detail-item">
+          <div class="office-detail-label">Project Coverage</div>
+          <div class="office-detail-value">
+            We deliver projects across the UK from our London studio. Site visits available nationwide.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="office-map">
+      <span class="office-map-ph">Map Placeholder</span>
+    </div>
+  </div>
+
+  <!-- ── PROCESS PREVIEW ── -->
+  <section class="process-preview">
+    <div class="process-preview-grid">
+      <div class="process-preview-img">
+        <span class="process-preview-img-ph">Consultation Image</span>
+      </div>
+      <div>
+        <div class="rd-eyebrow">What Happens Next</div>
+        <h2 class="rd-section-title" style="margin-bottom:36px">From conversation to completion</h2>
+        <div class="process-preview-steps">
+          <div class="process-preview-step">
+            <div class="process-preview-num">01</div>
+            <div>
+              <div class="process-preview-title">We respond within a day</div>
+              <div class="process-preview-desc">One of our senior team will be in touch to schedule your free 30-minute consultation — by phone or video call, whichever suits you.</div>
+            </div>
+          </div>
+          <div class="process-preview-step">
+            <div class="process-preview-num">02</div>
+            <div>
+              <div class="process-preview-title">Site visit &amp; brief development</div>
+              <div class="process-preview-desc">If we're a good fit, we arrange a site visit to see your space in person. This is where the real project begins — listening, asking, understanding.</div>
+            </div>
+          </div>
+          <div class="process-preview-step">
+            <div class="process-preview-num">03</div>
+            <div>
+              <div class="process-preview-title">Design proposal with clear pricing</div>
+              <div class="process-preview-desc">We present our design concept, scope of work, and a fixed-price proposal. No hidden costs, no ambiguous estimates — just a clear decision for you to make.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:36px">
+          <a class="rd-more-link" href="about-how-we-work.html">How we work in detail →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = 'Message sent — we\'ll be in touch shortly';
+      btn.style.background = '#444';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>

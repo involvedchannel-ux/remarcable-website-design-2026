@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4 Key Elements — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    .breadcrumb {
+      padding: 20px var(--pad-outer); background: var(--white); border-bottom: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--light);
+      text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+    }
+    .breadcrumb a { color: var(--light); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb-sep { color: var(--xlight); }
+
+    /* ── HERO ── */
+    .ke-hero {
+      padding: 96px var(--pad-outer) 0; background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .ke-hero-inner { max-width: 720px; margin-bottom: 64px; }
+    .ke-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(48px, 7vw, 88px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 32px;
+    }
+    .ke-hero-lead { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+    .ke-hero-index {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border-top: 1px solid var(--border);
+    }
+    .ke-hero-idx-item {
+      padding: 24px 28px; border-left: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .ke-hero-idx-item:last-child { border-right: 1px solid var(--border); }
+    .ke-hero-idx-num { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; color: var(--xlight); margin-bottom: 6px; }
+    .ke-hero-idx-name { font-size: 14px; font-weight: 300; letter-spacing: -0.01em; }
+
+    /* ── ELEMENT SECTIONS ── */
+    .element-section {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .element-section:nth-child(even) .element-img { order: -1; }
+    .element-text {
+      padding: 96px 64px; display: flex; flex-direction: column; justify-content: center;
+    }
+    /* odd = text is left col, outer edge is LEFT → pad-outer on left */
+    .element-section:nth-child(odd) .element-text { border-left: 1px solid var(--border); padding-left: var(--pad-outer); }
+    /* even = image moves left (order:-1), text is right col, outer edge is RIGHT → pad-outer on right */
+    .element-section:nth-child(even) .element-text { border-right: 1px solid var(--border); padding-left: 48px; padding-right: var(--pad-outer); }
+    .element-num { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; color: var(--xlight); margin-bottom: 24px; }
+    .element-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 4vw, 52px); font-weight: 400;
+      letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 24px;
+    }
+    .element-lead {
+      font-size: 18px; font-weight: 300; font-style: italic;
+      color: var(--black); line-height: 1.6; margin-bottom: 24px;
+      font-family: 'DM Serif Display', serif;
+    }
+    .element-body { font-size: 14px; font-weight: 300; line-height: 1.85; color: var(--mid); margin-bottom: 16px; }
+    .element-points { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+    .element-point {
+      display: flex; gap: 12px; font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.5;
+    }
+    .element-point::before { content: '→'; color: var(--xlight); flex-shrink: 0; }
+    .element-img { position: relative; overflow: hidden; min-height: 560px; }
+    .element-img-fill { position: absolute; inset: 0; }
+    .element-img-ph {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-size: 9px; letter-spacing: 0.14em; font-weight: 600;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+    }
+
+    /* ── DOWNLOAD CTA ── */
+    .download-cta { padding: 80px var(--pad-outer); background: #edeae4; }
+    .download-cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .download-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 400; letter-spacing: -0.01em; margin-bottom: 16px; }
+    .download-desc { font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--mid); margin-bottom: 28px; }
+    .download-btn {
+      display: inline-block; background: var(--black); color: var(--white);
+      font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
+      padding: 18px 36px; text-decoration: none; transition: opacity 0.2s;
+    }
+    .download-btn:hover { opacity: 0.8; }
+    .download-img { background: var(--border); min-height: 280px; position: relative; }
+    .download-img-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(0,0,0,0.2); text-transform: uppercase; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      :root { --pad-h: 24px; }
+      .breadcrumb { padding: 20px 24px; }
+      .ke-hero { padding: 64px 24px 0; }
+      .ke-hero-index { grid-template-columns: repeat(2, 1fr); }
+      .ke-hero-idx-item:nth-child(2) { border-right: 1px solid var(--border); }
+      .ke-hero-idx-item:nth-child(3), .ke-hero-idx-item:nth-child(4) { border-top: 1px solid var(--border); }
+      .element-section { grid-template-columns: 1fr; }
+      .element-section:nth-child(even) .element-img { order: 0; }
+      .element-section:nth-child(odd) .element-text,
+      .element-section:nth-child(even) .element-text { border: none; padding: 56px 24px; }
+      .element-img { min-height: 320px; }
+      .download-cta { padding: 64px 24px; }
+      .download-cta-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body data-active-page="about">
+  <div id="site-header"></div>
+
+  <nav class="breadcrumb">
+    <a href="about.html">About</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>4 Key Elements</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="ke-hero">
+    <div class="ke-hero-inner">
+      <div class="rd-eyebrow">About · 4 Key Elements</div>
+      <h1 class="ke-hero-title">The pillars of every space we design</h1>
+      <p class="ke-hero-lead">Every Remarcable project is built on four evidence-based design pillars. Not aesthetic preferences — tools that actively shape how people feel, think, and perform in a space.</p>
+    </div>
+    <div class="ke-hero-index">
+      <div class="ke-hero-idx-item"><div class="ke-hero-idx-num">01</div><div class="ke-hero-idx-name">Light &amp; Atmosphere</div></div>
+      <div class="ke-hero-idx-item"><div class="ke-hero-idx-num">02</div><div class="ke-hero-idx-name">Nature &amp; Plants</div></div>
+      <div class="ke-hero-idx-item"><div class="ke-hero-idx-num">03</div><div class="ke-hero-idx-name">Bespoke Furniture &amp; Branding</div></div>
+      <div class="ke-hero-idx-item"><div class="ke-hero-idx-num">04</div><div class="ke-hero-idx-name">Colours &amp; Mood</div></div>
+    </div>
+  </section>
+
+  <!-- ── 01 LIGHT & ATMOSPHERE ── -->
+  <div class="element-section">
+    <div class="element-text">
+      <div class="element-num">01 / 04</div>
+      <h2 class="element-title">Light &amp; Atmosphere</h2>
+      <p class="element-lead">"Light is the first material of every great space."</p>
+      <p class="element-body">Lighting design is among the most powerful — and most overlooked — tools in interior design. The quality, direction, temperature, and intensity of light shapes how a space feels emotionally before anyone has consciously registered a single design decision.</p>
+      <p class="element-body">We design lighting across three layers: ambient, task, and accent. In healthcare environments, we use circadian-aware lighting to support patient recovery and staff performance. In offices, we layer natural light with adjustable artificial sources to accommodate focus work and collaboration throughout the day.</p>
+      <div class="element-points">
+        <span class="element-point">Regulates circadian rhythm and supports natural sleep patterns</span>
+        <span class="element-point">Impacts mood, alertness, and emotional response directly</span>
+        <span class="element-point">Creates balance and draws the eye to focal points</span>
+        <span class="element-point">Dramatically affects how materials, colours, and surfaces are perceived</span>
+      </div>
+    </div>
+    <div class="element-img">
+      <div class="element-img-fill tone-a"></div>
+      <span class="element-img-ph">Image Placeholder</span>
+    </div>
+  </div>
+
+  <!-- ── 02 NATURE & PLANTS ── -->
+  <div class="element-section" style="background:var(--bg)">
+    <div class="element-img">
+      <div class="element-img-fill tone-f"></div>
+      <span class="element-img-ph">Image Placeholder</span>
+    </div>
+    <div class="element-text">
+      <div class="element-num">02 / 04</div>
+      <h2 class="element-title">Nature &amp; Plants</h2>
+      <p class="element-lead">"We are designed to be in nature. When we bring it inside, something fundamental shifts."</p>
+      <p class="element-body">Biophilic design — the practice of integrating natural elements into built environments — is one of the most robustly researched areas of environmental psychology. Study after study confirms that proximity to natural elements reduces cortisol levels, improves cognitive performance, and enhances general wellbeing.</p>
+      <p class="element-body">We don't add plants as decoration. We integrate nature through material choices (stone, timber, natural textiles), view lines to external greenery, water features where appropriate, and living plant walls calibrated for the specific environment and maintenance constraints of each space.</p>
+      <div class="element-points">
+        <span class="element-point">Reconnects occupants with the natural world and reduces stress</span>
+        <span class="element-point">Measurably increases productivity and focus in office environments</span>
+        <span class="element-point">Actively purifies air quality through biological filtration</span>
+        <span class="element-point">Signals care and quality to clients and visitors on first arrival</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 BESPOKE FURNITURE & BRANDING ── -->
+  <div class="element-section">
+    <div class="element-text">
+      <div class="element-num">03 / 04</div>
+      <h2 class="element-title">Bespoke Furniture &amp; Branding</h2>
+      <p class="element-lead">"Off-the-shelf says you picked from a catalogue. Bespoke says you thought about this."</p>
+      <p class="element-body">Generic furniture in a designed interior is a contradiction. We design and source bespoke pieces that serve the specific spatial, functional, and brand requirements of every project. For healthcare clients, this means clinical furniture that is also beautiful. For commercial clients, it means workstations that reflect culture — not just accommodate headcount.</p>
+      <p class="element-body">Brand integration is not about adding a logo to a wall. It's about creating spatial experiences that embody the values of the organisation — so that clients feel what your business stands for before a word is spoken.</p>
+      <div class="element-points">
+        <span class="element-point">Personalises the space and reflects company culture and values</span>
+        <span class="element-point">Maximises utility while maintaining aesthetic coherence</span>
+        <span class="element-point">Creates lasting impressions on visitors and prospective clients</span>
+        <span class="element-point">Signals investment and professionalism through craft and quality</span>
+      </div>
+    </div>
+    <div class="element-img">
+      <div class="element-img-fill tone-c"></div>
+      <span class="element-img-ph">Image Placeholder</span>
+    </div>
+  </div>
+
+  <!-- ── 04 COLOURS & MOOD ── -->
+  <div class="element-section" style="background:var(--bg)">
+    <div class="element-img">
+      <div class="element-img-fill tone-i"></div>
+      <span class="element-img-ph">Image Placeholder</span>
+    </div>
+    <div class="element-text">
+      <div class="element-num">04 / 04</div>
+      <h2 class="element-title">Colours &amp; Mood</h2>
+      <p class="element-lead">"Colour is the most immediate emotional signal a space can send."</p>
+      <p class="element-body">Colour psychology is complex — and too often reduced to cliché. We don't apply blanket rules ("use blue for calm, green for growth"). We build bespoke colour strategies for each project, based on the emotional response we're designing for, the light conditions of the space, the existing brand palette, and the sector-specific expectations of the people who will use it.</p>
+      <p class="element-body">A dental practice that makes patients feel relaxed requires a very different palette to a law firm that needs to project authority, or a residential development that should feel like home the moment you step inside. Getting this right is a matter of expertise, not personal preference.</p>
+      <div class="element-points">
+        <span class="element-point">Creates the right atmospheric tone for each space and function</span>
+        <span class="element-point">Positively impacts mood and emotional response from first arrival</span>
+        <span class="element-point">Establishes coherent spatial identity across all zones</span>
+        <span class="element-point">Works in concert with lighting to define depth, warmth, and focus</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DOWNLOAD CTA ── -->
+  <section class="download-cta">
+    <div class="download-cta-inner">
+      <div>
+        <div class="rd-eyebrow">Free Guide</div>
+        <h2 class="download-title">Material Selection Guide for Healthcare Environments</h2>
+        <p class="download-desc">Our practical guide to choosing finishes, fabrics, and surfaces for clinical spaces — balancing HTM compliance, infection control, and patient experience. Used by 200+ practices across the UK.</p>
+        <a class="download-btn" href="resources.html">Download free →</a>
+      </div>
+      <div class="download-img">
+        <span class="download-img-ph">Guide Cover Preview</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── KEY ELEMENTS (shared component for overview) ── -->
+  <div id="key-elements-mount"></div>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    RD.render.keyElements(document.getElementById('key-elements-mount'));
+  </script>
+</body>
+</html>

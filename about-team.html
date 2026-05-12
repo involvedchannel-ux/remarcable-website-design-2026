@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team &amp; Story — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    .breadcrumb {
+      padding: 20px var(--pad-outer); background: var(--white); border-bottom: 1px solid var(--border);
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--light);
+      text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+    }
+    .breadcrumb a { color: var(--light); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb-sep { color: var(--xlight); }
+
+    /* ── HERO ── */
+    .team-hero {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 560px;
+    }
+    .team-hero-text {
+      padding: 96px 64px 96px var(--pad-outer); background: var(--white);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .team-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(44px, 6vw, 72px); font-weight: 400;
+      line-height: 1; letter-spacing: -0.02em; margin-bottom: 28px;
+    }
+    .team-hero-lead { font-size: 16px; font-weight: 300; line-height: 1.75; color: var(--mid); margin-bottom: 40px; max-width: 420px; }
+    .team-hero-img { background: var(--black); position: relative; overflow: hidden; }
+    .team-hero-img-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.25); text-transform: uppercase; }
+
+    /* ── FOUNDERS FULL ── */
+    .founders-section { padding: 0 var(--pad-outer) 80px; background: var(--white); }
+    .founder-full {
+      display: grid; grid-template-columns: 360px 1fr; gap: 72px; align-items: start;
+      padding: 72px 0; border-top: 1px solid var(--border);
+    }
+    .founder-portrait { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #c8c4bd; }
+    .founder-portrait-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(0,0,0,0.2); text-transform: uppercase; }
+    .founder-full-name { font-family: 'DM Serif Display', serif; font-size: 40px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 8px; }
+    .founder-full-role { font-size: 11px; letter-spacing: 0.12em; font-weight: 500; color: var(--light); text-transform: uppercase; margin-bottom: 32px; }
+    .founder-full-bio { font-size: 15px; font-weight: 300; line-height: 1.85; color: var(--mid); margin-bottom: 20px; }
+    .founder-full-quote {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 22px; font-weight: 400; line-height: 1.5; color: var(--black);
+      margin: 32px 0; padding-left: 24px; border-left: 2px solid var(--border);
+    }
+
+    /* ── COMPANY STORY ── */
+    .story-section { padding: 100px var(--pad-outer); background: var(--bg); }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .story-text-col {}
+    .story-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 400; letter-spacing: -0.01em; margin-bottom: 32px; }
+    .story-p { font-size: 15px; font-weight: 300; line-height: 1.85; color: var(--mid); margin-bottom: 20px; }
+    .story-timeline { display: flex; flex-direction: column; gap: 0; }
+    .story-milestone {
+      display: grid; grid-template-columns: 80px 1fr; gap: 24px;
+      padding: 28px 0; border-bottom: 1px solid var(--border);
+    }
+    .story-milestone:first-child { border-top: 1px solid var(--border); }
+    .story-year { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; color: var(--light); padding-top: 2px; }
+    .story-event-title { font-size: 16px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 6px; }
+    .story-event-desc { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+    /* ── TEAM GRID ── */
+    .team-grid-section { padding: 100px var(--pad-outer); background: var(--white); }
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; }
+    .team-member { }
+    .team-member-img { aspect-ratio: 3/4; background: #dbd9d4; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .team-member-img-fill { position: absolute; inset: 0; }
+    .team-member-img-ph { position: absolute; bottom: 12px; left: 12px; font-size: 9px; letter-spacing: 0.12em; font-weight: 600; color: rgba(0,0,0,0.2); text-transform: uppercase; }
+    .team-member-name { font-size: 16px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .team-member-role { font-size: 11px; letter-spacing: 0.1em; font-weight: 500; color: var(--light); text-transform: uppercase; }
+
+    /* ── CULTURE ── */
+    .culture-section { padding: 100px var(--pad-outer); background: #edeae4; }
+    .culture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .culture-card { background: var(--white); padding: 40px 36px; border: 1px solid var(--border); }
+    .culture-icon { font-size: 22px; margin-bottom: 20px; }
+    .culture-title { font-size: 18px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 12px; }
+    .culture-desc { font-size: 13px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .breadcrumb { padding: 20px 24px; }
+      .team-hero { grid-template-columns: 1fr; min-height: auto; }
+      .team-hero-text { padding: 64px 24px; border-right: none; }
+      .team-hero-img { min-height: 300px; }
+      .founders-section { padding: 0 24px 56px; }
+      .founder-full { grid-template-columns: 1fr; gap: 40px; }
+      .story-section { padding: 64px 24px; }
+      .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .team-grid-section { padding: 64px 24px; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .culture-section { padding: 64px 24px; }
+      .culture-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-active-page="about">
+  <div id="site-header"></div>
+
+  <nav class="breadcrumb">
+    <a href="about.html">About</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Team &amp; Story</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="team-hero">
+    <div class="team-hero-text">
+      <div class="rd-eyebrow">About · Team &amp; Story</div>
+      <h1 class="team-hero-title">The people behind every space</h1>
+      <p class="team-hero-lead">A unique team of interior architects, artists, clinical design specialists, tradespeople, and wellbeing practitioners — united by a shared conviction that design should improve lives.</p>
+      <a class="rd-more-link" href="contact.html">Work with us →</a>
+    </div>
+    <div class="team-hero-img">
+      <span class="team-hero-img-ph">Studio Photograph</span>
+    </div>
+  </section>
+
+  <!-- ── FOUNDERS ── -->
+  <section class="founders-section">
+    <div style="padding-top: 80px; margin-bottom: 0;">
+      <div class="rd-eyebrow">The Founders</div>
+    </div>
+
+    <div class="founder-full">
+      <div class="founder-portrait">
+        <span class="founder-portrait-ph">Portrait</span>
+      </div>
+      <div class="founder-full-content">
+        <h2 class="founder-full-name">Reni</h2>
+        <div class="founder-full-role">Co-Founder &amp; Creative Director</div>
+        <p class="founder-full-bio">Reni leads creative direction across all Remarcable projects. With a background in fine art, environmental psychology, and extensive time spent studying interior and architectural design across Europe and Asia, she brings a rare fusion of instinct and evidence to every brief.</p>
+        <p class="founder-full-bio">Her particular interest is in the emotional and psychological effects of the built environment — how spatial decisions shape the feelings and behaviours of the people inside. This conviction that design is not decorative but fundamentally therapeutic is the philosophical core of every Remarcable project.</p>
+        <blockquote class="founder-full-quote">"How do you want your space to make you feel? That's always the first question. Every decision that follows is in service of the answer."</blockquote>
+        <p class="founder-full-bio">When not on site or in the studio, Reni is most likely travelling — drawing inspiration from the built environments, natural landscapes, and cultural contexts that inform her material palette and spatial sensibility.</p>
+      </div>
+    </div>
+
+    <div class="founder-full">
+      <div class="founder-portrait" style="background:#d5d2cb">
+        <span class="founder-portrait-ph">Portrait</span>
+      </div>
+      <div class="founder-full-content">
+        <h2 class="founder-full-name">Marc</h2>
+        <div class="founder-full-role">Co-Founder &amp; Project Director</div>
+        <p class="founder-full-bio">Marc oversees the delivery, project management, and client relationships that bring Reni's creative vision to life on site. With a background in architecture and construction project management, he has spent over fifteen years learning how ambitious design is actually built — on time, to budget, and without compromising the vision.</p>
+        <p class="founder-full-bio">His particular focus is the operational reality of each project: how to deliver a complete refurbishment while a dental practice continues to trade, how to phase a multi-floor office transformation without losing a single productive day, how to communicate clearly with clients who are trusting you with a significant investment.</p>
+        <blockquote class="founder-full-quote">"Design and guidance to help you make the right choices when scaling up. That's the promise — and the process is how we keep it."</blockquote>
+        <p class="founder-full-bio">Marc's systems, relationships, and instincts for delivery are the reason Remarcable has a 100% on-time, on-budget track record across 150+ projects — and why clients return for every new site.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMPANY STORY ── -->
+  <section class="story-section">
+    <div class="rd-section-header" style="margin-bottom:0">
+      <div>
+        <div class="rd-eyebrow">Our History</div>
+        <h2 class="rd-section-title">Nine years of purposeful design</h2>
+      </div>
+    </div>
+    <div class="story-grid" style="margin-top:56px">
+      <div class="story-text-col">
+        <p class="story-p">Remarcable was founded in 2016 by Reni and Marc, two design professionals who shared a conviction that the interior environments of businesses — clinics, offices, residences — were being treated as an afterthought when they should be a strategic priority.</p>
+        <p class="story-p">Starting with a small network of healthcare clients in London, they built a reputation for clinical precision, genuine creativity, and a delivery model that never left clients guessing. Word spread quickly.</p>
+        <p class="story-p">By 2020, Remarcable had expanded into commercial offices, residential developments, and care environments. The team grew — always selectively, always around craft and conviction — to include architects, artists, tradespeople, and wellbeing specialists.</p>
+        <p class="story-p">Today, having delivered over 150 projects across the UK, Remarcable is recognised as one of the leading interior design studios for healthcare, commercial, and residential environments — a reputation built entirely on the work, and the people it serves.</p>
+      </div>
+      <div class="story-timeline">
+        <div class="story-milestone">
+          <div class="story-year">2016</div>
+          <div>
+            <div class="story-event-title">Studio founded</div>
+            <div class="story-event-desc">Reni &amp; Marc establish Remarcable Design in London, focusing initially on healthcare environments.</div>
+          </div>
+        </div>
+        <div class="story-milestone">
+          <div class="story-year">2018</div>
+          <div>
+            <div class="story-event-title">Commercial expansion</div>
+            <div class="story-event-desc">First major commercial office project delivered. Team grows to 8, including dedicated project management function.</div>
+          </div>
+        </div>
+        <div class="story-milestone">
+          <div class="story-year">2020</div>
+          <div>
+            <div class="story-event-title">50 projects milestone</div>
+            <div class="story-event-desc">50th project delivered. Residential studio launched. First award shortlisting for Meridian Health Plaza.</div>
+          </div>
+        </div>
+        <div class="story-milestone">
+          <div class="story-year">2023</div>
+          <div>
+            <div class="story-event-title">Award-winning work</div>
+            <div class="story-event-desc">Fenwick Residences wins Best Residential Interior. Remarcable named among top 10 UK commercial interior studios.</div>
+          </div>
+        </div>
+        <div class="story-milestone">
+          <div class="story-year">2025</div>
+          <div>
+            <div class="story-event-title">150+ projects delivered</div>
+            <div class="story-event-desc">Studio celebrates 150 project milestone. Team of 18 across design, project management, and trades. Expanding into care village design.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEAM GRID ── -->
+  <section class="team-grid-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">The Team</div>
+        <h2 class="rd-section-title">Craft and conviction,<br>across every discipline</h2>
+      </div>
+    </div>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-a"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">Reni</div>
+        <div class="team-member-role">Creative Director</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-b"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">Marc</div>
+        <div class="team-member-role">Project Director</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-c"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">Sophia K.</div>
+        <div class="team-member-role">Senior Interior Architect</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-d"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">James R.</div>
+        <div class="team-member-role">Lead Project Manager</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-e"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">Nina P.</div>
+        <div class="team-member-role">Clinical Design Specialist</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-f"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">Tom W.</div>
+        <div class="team-member-role">Lighting Designer</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-g"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">Aisha M.</div>
+        <div class="team-member-role">Biophilic Design Lead</div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img"><div class="team-member-img-fill tone-h"></div><span class="team-member-img-ph">Portrait</span></div>
+        <div class="team-member-name">David C.</div>
+        <div class="team-member-role">Senior Site Manager</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CULTURE ── -->
+  <section class="culture-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">How We Think</div>
+        <h2 class="rd-section-title">What makes us different</h2>
+      </div>
+    </div>
+    <div class="culture-grid">
+      <div class="culture-card">
+        <div class="culture-icon">◎</div>
+        <h3 class="culture-title">Multidisciplinary by design</h3>
+        <p class="culture-desc">Our team spans interior architecture, environmental psychology, clinical compliance, construction management, and artisanal crafts. The breadth of expertise within a single studio is unusual — and it shows in the quality of the work.</p>
+      </div>
+      <div class="culture-card">
+        <div class="culture-icon">◷</div>
+        <h3 class="culture-title">Inspired by travel and nature</h3>
+        <p class="culture-desc">Our design thinking is shaped by the built environments we encounter in our travels and the balance we find in the natural world. Every project brings something back from that exploration — a material, a proportion, a quality of light.</p>
+      </div>
+      <div class="culture-card">
+        <div class="culture-icon">◈</div>
+        <h3 class="culture-title">Selective and committed</h3>
+        <p class="culture-desc">We take on a defined number of projects per quarter. Not because we can't handle more, but because we believe in giving every client our full attention. Our relationships are long-term — many clients have worked with us across five or more sites.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+</body>
+</html>

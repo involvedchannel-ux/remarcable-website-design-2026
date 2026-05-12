@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── PAGE HERO ── */
+    .svc-hero {
+      padding: 80px var(--pad-outer) 96px; background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .svc-hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 96px;
+      align-items: end; margin-top: 24px;
+    }
+    .svc-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 88px); font-weight: 400;
+      line-height: 0.95; letter-spacing: -0.02em;
+    }
+    .svc-hero-right { padding-bottom: 4px; }
+    .svc-hero-lead {
+      font-size: 18px; font-weight: 300; line-height: 1.7; color: var(--mid); margin-bottom: 32px;
+    }
+    .svc-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .svc-hero-tag {
+      font-size: 10px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      border: 1px solid var(--border); padding: 9px 18px; cursor: pointer;
+      color: var(--mid); transition: all 0.18s; background: transparent; font-family: inherit;
+    }
+    .svc-hero-tag.active, .svc-hero-tag:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    /* ── THREE STAGE MODEL ── */
+    .stage-section { padding: 100px var(--pad-outer); background: var(--bg); }
+    .stage-grid { display: grid; grid-template-columns: 280px 1fr; gap: 80px; margin-top: 64px; }
+    .stage-nav { position: sticky; top: calc(var(--nav-h) + 32px); height: fit-content; }
+    .stage-nav-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 0; border-top: 1px solid var(--border);
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .stage-nav-item:last-child { border-bottom: 1px solid var(--border); }
+    .stage-nav-num { font-size: 11px; letter-spacing: 0.12em; font-weight: 600; color: var(--xlight); width: 28px; }
+    .stage-nav-label { font-size: 13px; font-weight: 400; color: var(--mid); transition: color 0.2s; }
+    .stage-nav-item.active .stage-nav-label { color: var(--black); font-weight: 500; }
+    .stage-nav-item.active .stage-nav-num { color: var(--black); }
+    .stage-nav-line {
+      width: 0; height: 1.5px; background: var(--black);
+      transition: width 0.3s; margin-left: auto;
+    }
+    .stage-nav-item.active .stage-nav-line { width: 32px; }
+
+    .stage-content { display: flex; flex-direction: column; gap: 0; }
+    .stage-block { padding: 64px 0; border-top: 1px solid var(--border); }
+    .stage-block:first-child { padding-top: 0; border-top: none; }
+    .stage-num {
+      font-family: 'DM Serif Display', serif; font-size: 80px; font-weight: 400;
+      color: var(--border); line-height: 1; margin-bottom: 24px;
+    }
+    .stage-title {
+      font-size: 32px; font-weight: 300; letter-spacing: -0.01em; margin-bottom: 20px;
+    }
+    .stage-desc { font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--mid); margin-bottom: 32px; max-width: 540px; }
+    .stage-deliverables { display: flex; flex-direction: column; gap: 10px; }
+    .stage-deliverable {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 20px; background: var(--white); border: 1px solid var(--border);
+    }
+    .stage-d-icon { font-size: 12px; color: var(--xlight); flex-shrink: 0; margin-top: 1px; }
+    .stage-d-text { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.5; }
+
+    /* ── SEGMENT SPECIALISMS ── */
+    .specialism-section { padding: 100px var(--pad-outer); background: var(--white); }
+    .specialism-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 56px; gap: 0; }
+    .specialism-tab {
+      font-size: 11px; letter-spacing: 0.1em; font-weight: 500; text-transform: uppercase;
+      padding: 16px 0; margin-right: 40px; cursor: pointer; color: var(--light);
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+    }
+    .specialism-tab.active { color: var(--black); border-bottom-color: var(--black); }
+    .specialism-panel { display: none; }
+    .specialism-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .specialism-text { padding: 0 64px 0 0; border-right: 1px solid var(--border); }
+    .specialism-img { background: #edeae4; min-height: 380px; display: flex; align-items: flex-end; padding: 36px; }
+    .specialism-img-label { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(0,0,0,0.35); text-transform: uppercase; }
+    .specialism-title {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 400; letter-spacing: -0.01em; margin-bottom: 20px; margin-top: 32px;
+    }
+    .specialism-body { font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--mid); margin-bottom: 24px; }
+    .specialism-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 32px; }
+    .specialism-tag {
+      font-size: 9px; letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase;
+      padding: 4px 10px; border: 1px solid var(--border); color: var(--mid);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .svc-hero { padding: 56px 24px 72px; }
+      .svc-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stage-section { padding: 64px 24px; }
+      .stage-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stage-nav { position: static; }
+      .specialism-section { padding: 64px 24px; }
+      .specialism-text { padding-left: 0; padding-right: 0; }
+      .specialism-panel.active { grid-template-columns: 1fr; }
+      .specialism-text { padding: 0 0 40px 0; border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body data-active-page="services">
+  <div id="site-header"></div>
+
+  <!-- ── HERO ── -->
+  <section class="svc-hero">
+    <div class="rd-eyebrow">What We Do</div>
+    <div class="svc-hero-grid">
+      <h1 class="svc-hero-title">Design That Delivers Results</h1>
+      <div class="svc-hero-right">
+        <p class="svc-hero-lead">From initial consultation to final handover, we manage every stage of your interior project — with clear processes, fixed pricing, and a track record you can verify.</p>
+        <div class="svc-hero-tags">
+          <button class="svc-hero-tag active">Healthcare &amp; Dental</button>
+          <button class="svc-hero-tag">Commercial &amp; Offices</button>
+          <button class="svc-hero-tag">Residential</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── THREE STAGE MODEL ── -->
+  <section class="stage-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">Our Process</div>
+        <h2 class="rd-section-title">Three stages.<br>Zero surprises.</h2>
+      </div>
+      <p class="rd-body" style="max-width:360px">A straightforward model built around your timeline, your budget, and your vision.</p>
+    </div>
+
+    <div class="stage-grid">
+      <nav class="stage-nav" id="stageNav">
+        <div class="stage-nav-item active" data-stage="0">
+          <span class="stage-nav-num">01</span>
+          <span class="stage-nav-label">Discovery</span>
+          <span class="stage-nav-line"></span>
+        </div>
+        <div class="stage-nav-item" data-stage="1">
+          <span class="stage-nav-num">02</span>
+          <span class="stage-nav-label">Design</span>
+          <span class="stage-nav-line"></span>
+        </div>
+        <div class="stage-nav-item" data-stage="2">
+          <span class="stage-nav-num">03</span>
+          <span class="stage-nav-label">Delivery</span>
+          <span class="stage-nav-line"></span>
+        </div>
+      </nav>
+
+      <div class="stage-content">
+        <div class="stage-block" data-stage-block="0">
+          <div class="stage-num">01</div>
+          <h3 class="stage-title">Discovery</h3>
+          <p class="stage-desc">We begin by understanding your world — your clients, your team, your ambitions. A no-obligation consultation is followed by a site visit to evaluate your space, constraints, and opportunity.</p>
+          <div class="stage-deliverables">
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Initial consultation — understanding your goals, timeline, and budget envelope</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">On-site survey and space assessment by our senior design team</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Competitor and precedent analysis for your sector and location</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Design brief and scope document issued for your approval</span></div>
+          </div>
+        </div>
+
+        <div class="stage-block" data-stage-block="1">
+          <div class="stage-num">02</div>
+          <h3 class="stage-title">Design</h3>
+          <p class="stage-desc">Your concept takes shape. We work through spatial planning, materials, furniture, lighting, and branding — iterating until every detail is exactly right. Nothing progresses without your sign-off.</p>
+          <div class="stage-deliverables">
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Concept presentation: mood boards, spatial layouts, and 3D visualisations</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Material and finish schedule with sourced samples</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Furniture, lighting, and bespoke joinery specifications</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Fixed-price proposal with phased payment schedule</span></div>
+          </div>
+        </div>
+
+        <div class="stage-block" data-stage-block="2">
+          <div class="stage-num">03</div>
+          <h3 class="stage-title">Delivery</h3>
+          <p class="stage-desc">We project-manage the complete build, coordinating contractors, suppliers, and installations. Our site teams work to minimise disruption — many projects are delivered while clients continue to trade.</p>
+          <div class="stage-deliverables">
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Full project management and contractor coordination</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Weekly progress updates and site visit access throughout</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Snagging, handover, and aftercare package</span></div>
+            <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">2-year workmanship warranty on all completed work</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SEGMENT SPECIALISMS ── -->
+  <section class="specialism-section">
+    <div class="rd-section-header">
+      <div>
+        <div class="rd-eyebrow">Sectors</div>
+        <h2 class="rd-section-title">Specialist knowledge,<br>sector by sector.</h2>
+      </div>
+    </div>
+
+    <div class="specialism-tabs" id="specialismTabs">
+      <div class="specialism-tab active" data-panel="healthcare">Healthcare &amp; Dental</div>
+      <div class="specialism-tab" data-panel="commercial">Commercial &amp; Offices</div>
+      <div class="specialism-tab" data-panel="residential">Residential</div>
+    </div>
+
+    <div class="specialism-panel active" id="panel-healthcare">
+      <div class="specialism-text">
+        <div class="rd-eyebrow">Healthcare &amp; Dental</div>
+        <h3 class="specialism-title">Spaces that heal and inspire confidence</h3>
+        <p class="specialism-body">We've delivered over 80 healthcare environments across GP practices, orthodontic clinics, surgical centres, and multi-disciplinary health hubs. Our clinical design team understands HTM compliance, infection control requirements, and the psychological impact of the built environment on patient experience.</p>
+        <p class="specialism-body">Our most common result? Patients who remark on the space before they've even sat down.</p>
+        <div class="specialism-tags">
+          <span class="specialism-tag">Dental</span>
+          <span class="specialism-tag">GP Practice</span>
+          <span class="specialism-tag">Surgical</span>
+          <span class="specialism-tag">Orthodontic</span>
+          <span class="specialism-tag">Physiotherapy</span>
+          <span class="specialism-tag">Care Villages</span>
+        </div>
+        <a class="rd-more-link" href="projects.html">View healthcare projects →</a>
+      </div>
+      <div class="specialism-img">
+        <span class="specialism-img-label">Image Placeholder</span>
+      </div>
+    </div>
+
+    <div class="specialism-panel" id="panel-commercial">
+      <div class="specialism-text">
+        <div class="rd-eyebrow">Commercial &amp; Offices</div>
+        <h3 class="specialism-title">Workspaces that attract and retain talent</h3>
+        <p class="specialism-body">From boutique studios to multi-floor corporate campuses, we design commercial interiors that strengthen culture, boost productivity, and reflect the ambition of the businesses inside them. We've worked with start-ups scaling fast and established firms repositioning their brands.</p>
+        <p class="specialism-body">Every commercial project starts with the same question: how do you want your team to feel the moment they walk in?</p>
+        <div class="specialism-tags">
+          <span class="specialism-tag">Offices</span>
+          <span class="specialism-tag">Studios</span>
+          <span class="specialism-tag">Mixed-Use</span>
+          <span class="specialism-tag">Research &amp; Lab</span>
+          <span class="specialism-tag">Retail</span>
+        </div>
+        <a class="rd-more-link" href="projects.html">View commercial projects →</a>
+      </div>
+      <div class="specialism-img" style="background:#d5d2cb">
+        <span class="specialism-img-label">Image Placeholder</span>
+      </div>
+    </div>
+
+    <div class="specialism-panel" id="panel-residential">
+      <div class="specialism-text">
+        <div class="rd-eyebrow">Residential</div>
+        <h3 class="specialism-title">Homes with intention and atmosphere</h3>
+        <p class="specialism-body">Our residential work is selective and deeply personal. We work with homeowners and developers on bespoke apartments, private residences, and lifestyle-led developments where material quality and spatial narrative are non-negotiable.</p>
+        <p class="specialism-body">Inspired by world travel and balance found in nature, our residential designs are never generic and always deeply considered.</p>
+        <div class="specialism-tags">
+          <span class="specialism-tag">Private Residences</span>
+          <span class="specialism-tag">Luxury Apartments</span>
+          <span class="specialism-tag">Developer Partnerships</span>
+        </div>
+        <a class="rd-more-link" href="projects.html">View residential projects →</a>
+      </div>
+      <div class="specialism-img" style="background:#c8c4bd">
+        <span class="specialism-img-label">Image Placeholder</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROCESS STEPS (shared) ── -->
+  <div id="process-mount"></div>
+
+  <!-- ── GUARANTEES (shared) ── -->
+  <div id="guarantees-mount"></div>
+
+  <!-- ── KEY ELEMENTS (shared) ── -->
+  <div id="key-elements-mount"></div>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    RD.render.processSteps(document.getElementById('process-mount'));
+    RD.render.guarantees(document.getElementById('guarantees-mount'));
+    RD.render.keyElements(document.getElementById('key-elements-mount'));
+
+    // Segment tag filter (hero)
+    document.querySelectorAll('.svc-hero-tag').forEach(tag => {
+      tag.addEventListener('click', function() {
+        document.querySelectorAll('.svc-hero-tag').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Specialism tabs
+    document.querySelectorAll('.specialism-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const panel = this.dataset.panel;
+        document.querySelectorAll('.specialism-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.specialism-panel').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('panel-' + panel).classList.add('active');
+      });
+    });
+
+    // Stage nav highlight on scroll
+    const stageBlocks = document.querySelectorAll('[data-stage-block]');
+    const stageNavItems = document.querySelectorAll('[data-stage]');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.stageBlock;
+          stageNavItems.forEach(n => n.classList.remove('active'));
+          const active = document.querySelector('[data-stage="' + idx + '"]');
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+    stageBlocks.forEach(b => io.observe(b));
+  </script>
+</body>
+</html>

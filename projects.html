@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── PAGE HEADER ── */
+    .page-header { padding: 64px var(--pad-outer) 0; background: var(--white); border-bottom: 1px solid var(--border); }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 48px;
+    }
+    .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+    .tab {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase;
+      padding: 14px 0; margin-right: 40px; cursor: pointer; color: var(--light);
+      border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; user-select: none;
+    }
+    .tab.active { color: var(--black); border-bottom-color: var(--black); }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; padding-bottom: 40px; }
+    .pill {
+      font-size: 11px; letter-spacing: 0.08em; font-weight: 500;
+      padding: 8px 18px; border: 1px solid var(--border); cursor: pointer;
+      transition: all 0.18s; color: var(--mid); background: transparent; font-family: inherit;
+    }
+    .pill.active, .pill:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    /* ── BENTO GRID ── */
+    .grid-wrap { padding: 0 var(--pad-outer) 0; }
+    .bento {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px; gap: 24px;
+    }
+    .span-c2 { grid-column: span 2; } .span-c3 { grid-column: span 3; }
+    .tile {
+      position: relative; overflow: hidden; background: #dbd9d4;
+      cursor: pointer; display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+    }
+    .tile:hover .tile-img { transform: scale(1.04); }
+    .tile-img { flex: 1; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .tile-ph { position: absolute; top: 38%; left: 50%; transform: translate(-50%,-50%); font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: rgba(255,255,255,0.35); text-transform: uppercase; white-space: nowrap; pointer-events: none; }
+    .tile-info { padding: 14px 18px 16px; background: var(--white); flex-shrink: 0; }
+    .tile.span-r2 .tile-info { padding: 18px 22px 20px; }
+    .span-r2 { grid-row: span 2; }
+    .tile-cat { font-size: 9px; letter-spacing: 0.14em; font-weight: 600; color: var(--light); text-transform: uppercase; margin-bottom: 5px; }
+    .tile-title { font-size: 15px; font-weight: 300; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 4px; }
+    .tile.span-r2 .tile-title { font-size: 19px; margin-bottom: 8px; }
+    .tile-desc { font-size: 12px; color: var(--mid); font-weight: 300; line-height: 1.55; margin-bottom: 8px; }
+    .tile-meta { font-size: 9px; letter-spacing: 0.1em; color: var(--light); font-weight: 500; text-transform: uppercase; }
+    .bento + .bento { margin-top: 24px; }
+
+    /* ── LOAD MORE ── */
+    .load-more-wrap { text-align: center; padding: 64px 0 72px; }
+    .load-more-btn {
+      display: inline-flex; align-items: center; gap: 14px;
+      font-family: inherit; font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
+      border: 1px solid var(--border); padding: 20px 48px; cursor: pointer;
+      background: transparent; color: var(--black); transition: all 0.2s;
+    }
+    .load-more-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .load-more-count { font-size: 10px; font-weight: 400; color: var(--light); letter-spacing: 0.06em; }
+    .load-more-btn:hover .load-more-count { color: rgba(255,255,255,0.55); }
+    .all-loaded { font-size: 11px; letter-spacing: 0.1em; color: var(--light); font-weight: 500; text-transform: uppercase; }
+    .bento-set3 { display: none; }
+    .bento-set3.visible { display: grid; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px 0; }
+      .grid-wrap { padding: 0 24px; }
+      .bento { grid-template-columns: repeat(2, 1fr); }
+      .span-c3 { grid-column: span 2; }
+    }
+    @media (max-width: 540px) {
+      .bento { grid-template-columns: 1fr; grid-auto-rows: 280px; }
+      .span-c2, .span-c3 { grid-column: span 1; }
+      .span-r2 { grid-row: span 1; }
+    }
+  </style>
+</head>
+<body data-active-page="projects">
+  <div id="site-header"></div>
+
+  <div class="page-header">
+    <h1 class="page-title">Selected Works</h1>
+    <div class="tabs">
+      <div class="tab active">Healthcare &amp; Dental</div>
+      <div class="tab">Commercial &amp; Offices</div>
+      <div class="tab">Residential</div>
+    </div>
+    <div class="filters">
+      <button class="pill active">All Specialties</button>
+      <button class="pill">Orthodontic</button>
+      <button class="pill">Surgical</button>
+      <button class="pill">General Practice</button>
+      <button class="pill">Laboratory</button>
+    </div>
+  </div>
+
+  <div class="grid-wrap">
+    <!-- SET 1 -->
+    <div class="bento">
+      <a class="tile span-c2 span-r2" href="project-detail.html">
+        <div class="tile-img tone-a"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Commercial / Medical</div><div class="tile-title">Meridian Health Plaza</div><div class="tile-desc">A multi-disciplinary health hub where structural integrity meets wellness-focused interior design.</div><div class="tile-meta">Manchester, UK &nbsp;·&nbsp; Shortlisted 2023</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-b"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Research &amp; Lab</div><div class="tile-title">Novus Lab Annex</div><div class="tile-meta">London, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-c"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Residential / Luxury</div><div class="tile-title">Vertex Tower Suites</div><div class="tile-meta">London, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-d"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / GP</div><div class="tile-title">Kensington Clinic</div><div class="tile-meta">Birmingham, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-e"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / Orthodontic</div><div class="tile-title">Albright Orthodontic</div><div class="tile-meta">Leeds, UK</div></div>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- VIDEO CAROUSEL (shared component) -->
+  <div id="vc-mount" style="margin:48px 0"></div>
+
+  <div class="grid-wrap">
+    <!-- SET 2 -->
+    <div class="bento">
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-h"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / Surgical</div><div class="tile-title">Morrow Surgical</div><div class="tile-meta">Bristol, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-i"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Commercial / Mixed</div><div class="tile-title">Harlow Quarter</div><div class="tile-meta">Sheffield, UK</div></div>
+      </a>
+      <a class="tile span-c2 span-r2" href="project-detail.html">
+        <div class="tile-img tone-a"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Residential / Luxury</div><div class="tile-title">The Fenwick Residences</div><div class="tile-desc">Twelve bespoke apartments with hand-crafted joinery and a restrained material palette of stone, oak, and aged brass.</div><div class="tile-meta">Edinburgh, UK &nbsp;·&nbsp; Award Winner 2025</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-c"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / GP</div><div class="tile-title">Ashford Practice</div><div class="tile-meta">Kent, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-d"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Commercial / Offices</div><div class="tile-title">Sable Studio</div><div class="tile-meta">London, UK</div></div>
+      </a>
+    </div>
+
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="load-more-btn" id="loadMoreBtn">Load More Projects <span class="load-more-count">12 more</span></button>
+    </div>
+
+    <!-- SET 3 -->
+    <div class="bento bento-set3" id="set3">
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-j"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / Dental</div><div class="tile-title">Uxbridge Dental Suite</div><div class="tile-meta">London, UK</div></div>
+      </a>
+      <a class="tile span-c3" href="project-detail.html">
+        <div class="tile-img tone-k"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Commercial / Offices</div><div class="tile-title">Harbour Point Offices</div><div class="tile-desc">A riverfront workspace that draws the outside in — raw concrete, warm timber, and floor-to-ceiling glazing throughout.</div><div class="tile-meta">Bristol, UK &nbsp;·&nbsp; Completed 2025</div></div>
+      </a>
+      <a class="tile span-c2 span-r2" href="project-detail.html">
+        <div class="tile-img tone-f"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / Residential</div><div class="tile-title">Elmwood Care Village</div><div class="tile-desc">A dementia-forward care campus where wayfinding, light quality, and material texture are used as therapeutic tools.</div><div class="tile-meta">Oxford, UK &nbsp;·&nbsp; In Progress</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-l"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Healthcare / Surgical</div><div class="tile-title">Northgate Surgical Centre</div><div class="tile-meta">Leeds, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-i"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Residential / Luxury</div><div class="tile-title">The Grange</div><div class="tile-meta">Surrey, UK</div></div>
+      </a>
+      <a class="tile" href="project-detail.html">
+        <div class="tile-img tone-b"></div><span class="tile-ph">Image / Video</span>
+        <div class="tile-info"><div class="tile-cat">Research &amp; Lab</div><div class="tile-title">Blackwood Labs</div><div class="tile-meta">Cambridge, UK</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+  <script src="components.js"></script>
+  <script>
+    RD.render.videoCarousel(document.getElementById('vc-mount'));
+
+    document.querySelectorAll('.pill').forEach(p => {
+      p.addEventListener('click', () => { document.querySelectorAll('.pill').forEach(x => x.classList.remove('active')); p.classList.add('active'); });
+    });
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => { document.querySelectorAll('.tab').forEach(x => x.classList.remove('active')); t.classList.add('active'); });
+    });
+    document.getElementById('loadMoreBtn').addEventListener('click', function () {
+      const set3 = document.getElementById('set3');
+      set3.classList.add('visible');
+      set3.style.opacity = '0'; set3.style.transition = 'opacity 0.4s ease';
+      requestAnimationFrame(() => requestAnimationFrame(() => { set3.style.opacity = '1'; }));
+      document.getElementById('loadMoreWrap').innerHTML = '<p class="all-loaded">All projects shown</p>';
+    });
+  </script>
+</body>
+</html>

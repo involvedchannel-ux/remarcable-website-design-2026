@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Remarcable Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--black); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px var(--pad-outer) 56px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 48px;
+    }
+    .hero-kicker {
+      font-size: 10px; letter-spacing: 0.22em; font-weight: 500;
+      text-transform: uppercase; color: var(--xlight);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .hero-kicker::before { content: ''; display: block; width: 24px; height: 1px; background: var(--border); }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(44px, 6vw, 80px);
+      line-height: 0.97; letter-spacing: -0.02em; font-weight: 400;
+      margin-bottom: 24px;
+    }
+    .hero-sub {
+      max-width: 560px; font-size: 15px; line-height: 1.8;
+      color: var(--mid); font-weight: 300;
+    }
+    .hero-contact {
+      flex-shrink: 0; text-align: right;
+    }
+    .hero-contact-label {
+      font-size: 10px; letter-spacing: 0.16em; font-weight: 500;
+      text-transform: uppercase; color: var(--xlight); margin-bottom: 10px;
+    }
+    .hero-contact-link {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 18px; color: var(--black); text-decoration: none;
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .hero-contact-link:hover { border-color: var(--black); }
+
+    /* ── FAQ list ── */
+    .faq-wrap {
+      padding: 0 var(--pad-outer) 100px;
+      max-width: calc(1440px + 2 * var(--pad-outer));
+      margin: 0 auto;
+    }
+    .faq-list {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item {
+      border-top: 1px solid var(--border);
+    }
+    .faq-question {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: grid; grid-template-columns: 1fr 32px;
+      align-items: center; gap: 24px;
+      padding: 28px 0; text-align: left;
+    }
+    .faq-q-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(18px, 2vw, 24px); font-weight: 400;
+      letter-spacing: -0.01em; color: var(--black); line-height: 1.3;
+    }
+    .faq-icon {
+      width: 32px; height: 32px; border: 1px solid var(--border);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: border-color 0.2s, background 0.2s;
+    }
+    .faq-icon svg {
+      width: 12px; height: 12px; stroke: var(--mid);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.2s;
+    }
+    .faq-item.open .faq-icon { background: var(--black); border-color: var(--black); }
+    .faq-item.open .faq-icon svg { transform: rotate(45deg); stroke: var(--white); }
+    .faq-item.open .faq-q-text { color: var(--black); }
+
+    .faq-answer {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-answer-inner {
+      overflow: hidden;
+    }
+    .faq-answer-body {
+      padding-bottom: 32px;
+      max-width: 680px;
+      font-size: 14px; font-weight: 300; line-height: 1.9;
+      color: var(--mid);
+    }
+
+    /* ── CTA strip ── */
+    .faq-cta {
+      margin-top: 80px;
+      padding: 48px 56px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; gap: 40px;
+    }
+    .faq-cta-left {}
+    .faq-cta-eyebrow {
+      font-size: 10px; letter-spacing: 0.2em; font-weight: 500;
+      text-transform: uppercase; color: var(--xlight); margin-bottom: 10px;
+    }
+    .faq-cta-heading {
+      font-family: 'DM Serif Display', serif; font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 400; letter-spacing: -0.01em; color: var(--black);
+    }
+    .faq-cta-btn {
+      font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
+      background: var(--black); color: var(--white); padding: 16px 32px;
+      text-decoration: none; flex-shrink: 0; transition: opacity 0.2s;
+    }
+    .faq-cta-btn:hover { opacity: 0.82; }
+
+    @media (max-width: 900px) {
+      .hero { padding: 56px 24px 40px; grid-template-columns: 1fr; }
+      .hero-contact { text-align: left; }
+      .faq-wrap { padding: 0 24px 72px; }
+      .faq-cta { padding: 36px 24px; flex-direction: column; align-items: flex-start; gap: 24px; }
+    }
+  </style>
+</head>
+<body data-active-page="faq">
+  <div id="site-header"></div>
+
+  <section class="hero">
+    <div>
+      <p class="hero-kicker">Support</p>
+      <h1 class="hero-title">Frequently Asked Questions</h1>
+      <p class="hero-sub">Everything you need to know about working with Remarcable Design — from process and pricing to insurance and location.</p>
+    </div>
+    <div class="hero-contact">
+      <div class="hero-contact-label">Still have a question?</div>
+      <a class="hero-contact-link" href="contact.html">Book a free consultation</a>
+    </div>
+  </section>
+
+  <div class="faq-wrap">
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">Will my teams really be happier and more productive?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">When commercial interior design and space planning formulas incorporating key elements are followed, we consistently see positive results. We maintain 100% client retention and are happy to arrange recommendations from previous clients across healthcare, dental, and office spaces.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">What if I am unhappy with the design?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">We prioritise client satisfaction through frequent review stages and sign-off throughout the design and fit-out processes. We offer a no-quibble satisfaction guarantee and have been creating exceptional spaces for over 20 years.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">What if I have problems with my space after you finish?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">Drawing from our backgrounds in high-end construction, fine carpentry, and joinery, we provide a minimum 2-year guarantee on all bespoke creations. Our aim is to be a long-term partner for our clients, not just a one-off contractor.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">What are your opening hours?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">We are open Monday to Friday, 9am–5pm. We are closed on Saturdays, Sundays, and public holidays, though hours may occasionally differ around bank holidays.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">How are you insured?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">Yes — we are fully insured for both public liability and professional indemnity. Our insurance is provided through Policy Bee and Hiscox.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">What size of office or space designs do you take on?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">Our minimum project size is 1,500 sq. ft., though we do consider exceptions on a case-by-case basis. If your project falls outside this scope, please contact us on 0203 5030771 to discuss further.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">Where are you based?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">We are based in Putney, South West London. We primarily serve clients within the M25 but we also accept projects outside London and internationally.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">How much will it cost?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">You determine the total budget under our guidance, and our prices are always fixed with no hidden costs. To help you plan, we have cost calculators available for both office and healthcare projects — <a href="cost-calculator.html" style="color:inherit;text-decoration:underline;text-underline-offset:3px">use our calculator here</a>.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">Who needs to be involved in the project?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">A Director-level single point of contact manages the project from your side. We use a needs assessment questionnaire with your wider team, and the resulting data generates data-driven presentations that form the brief.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">Do you do fit-out? What exactly do you do?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">Yes — we offer full turnkey solutions from concept and design through to construction and completion. We handle the entire process in-house. Please note we do not build other companies' designs; we only deliver our own.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-q-text">Can you provide recommendations from past clients?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner"><div class="faq-answer-body">Absolutely — with potential site visits arrangeable upon request. References are available via our Google reviews and on our testimonials page.</div></div></div>
+      </div>
+
+    </div>
+
+    <div class="faq-cta">
+      <div class="faq-cta-left">
+        <div class="faq-cta-eyebrow">Ready to get started?</div>
+        <div class="faq-cta-heading">Book a free, no-obligation consultation.</div>
+      </div>
+      <a class="faq-cta-btn" href="contact.html">Book a Consultation</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="components.js"></script>
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const item = this.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item.open').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        // Open this one if it was closed
+        if (!isOpen) {
+          item.classList.add('open');
+          this.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
