@@ -203,26 +203,18 @@
     }
     .cc-tier-item::before { content: '→'; color: var(--xlight); flex-shrink: 0; margin-top: 1px; }
 
-    /* ── CTA STRIP ── */
-    .cc-cta-strip {
-      padding: 80px var(--pad-outer); background: var(--black);
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    /* ── P.S. SECTION ── */
+    .cc-ps-section { padding: 80px var(--pad-outer); background: var(--white); border-top: 1px solid var(--border); }
+    .cc-ps-label {
+      font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 80px);
+      font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--black);
     }
-    .cc-cta-quote {
-      font-family: 'DM Serif Display', serif; font-style: italic;
-      font-size: clamp(24px, 3.5vw, 44px); font-weight: 400;
-      color: var(--white); line-height: 1.2; letter-spacing: -0.01em;
+    .cc-ps-text {
+      font-size: clamp(15px, 1.4vw, 18px); font-weight: 300; line-height: 1.8;
+      color: var(--mid); max-width: 720px;
     }
-    .cc-cta-desc {
-      font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.55);
-      line-height: 1.75; margin-bottom: 28px;
-    }
-    .cc-cta-btn {
-      display: inline-block; background: var(--white); color: var(--black);
-      font-size: 11px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase;
-      padding: 18px 36px; text-decoration: none; transition: opacity 0.2s;
-    }
-    .cc-cta-btn:hover { opacity: 0.85; }
+    .cc-ps-text a { color: var(--black); font-weight: 400; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; transition: text-decoration-color 0.15s; }
+    .cc-ps-text a:hover { text-decoration-color: var(--black); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
@@ -233,7 +225,7 @@
       .cc-filter-bar { padding: 0 24px; }
       .cc-section { padding: 48px 24px 72px; }
       .cc-layout { grid-template-columns: 1fr; gap: 48px; }
-      .cc-cta-strip { padding: 64px 24px; grid-template-columns: 1fr; gap: 32px; }
+      .cc-ps-section { padding: 56px 24px; }
     }
   </style>
 </head>
@@ -275,13 +267,12 @@
       <!-- LEFT: inputs -->
       <div>
         <div class="cc-input-group">
-          <label class="cc-input-label">Number of treatment rooms</label>
-          <div class="cc-qty-wrap">
-            <button class="cc-qty-btn" id="dental-minus">−</button>
-            <input class="cc-qty-input" id="dental-rooms" type="number" value="3" min="1" max="20">
-            <button class="cc-qty-btn" id="dental-plus">+</button>
-            <span class="cc-qty-unit">treatment rooms</span>
+          <label class="cc-input-label">Floor area (square metres)</label>
+          <div class="cc-sqft-display">
+            <span id="dental-sqm-val">80</span> <span class="cc-sqft-unit">m²</span>
           </div>
+          <input class="cc-slider" id="dental-sqm" type="range" min="20" max="600" step="10" value="80">
+          <div class="cc-slider-labels"><span>20 m²</span><span>600 m²</span></div>
         </div>
 
         <div class="cc-input-group">
@@ -324,7 +315,7 @@
               <span class="cc-tier-symbol">£</span>
               <span class="cc-tier-name">Basic</span>
             </div>
-            <span class="cc-tier-range">£8k – £12k per room</span>
+            <span class="cc-tier-range">£700 – £950 per m²</span>
           </div>
           <div class="cc-tier-items">
             <span class="cc-tier-item">Space planning and clinical layout optimisation</span>
@@ -341,7 +332,7 @@
               <span class="cc-tier-symbol">££</span>
               <span class="cc-tier-name">Mid spec</span>
             </div>
-            <span class="cc-tier-range">£15k – £22k per room</span>
+            <span class="cc-tier-range">£1,200 – £1,600 per m²</span>
           </div>
           <div class="cc-tier-items">
             <span class="cc-tier-item">Everything in Basic, plus:</span>
@@ -359,7 +350,7 @@
               <span class="cc-tier-symbol">£££</span>
               <span class="cc-tier-name">Premium</span>
             </div>
-            <span class="cc-tier-range">£28k – £40k per room</span>
+            <span class="cc-tier-range">£2,000 – £2,800 per m²</span>
           </div>
           <div class="cc-tier-items">
             <span class="cc-tier-item">Everything in Mid, plus:</span>
@@ -481,13 +472,10 @@
     </div>
   </section>
 
-  <!-- ── CTA STRIP ── -->
-  <section class="cc-cta-strip">
-    <div class="cc-cta-quote">"Numbers help. A conversation makes them real."</div>
-    <div>
-      <p class="cc-cta-desc">These figures are a starting point. A free 30-minute consultation with our team turns an estimate into a plan — with a scope, a timeline, and a fixed-price proposal you can take to budget sign-off.</p>
-      <a class="cc-cta-btn" href="contact.html">Book your free consultation →</a>
-    </div>
+  <!-- ── P.S. SECTION ── -->
+  <section class="cc-ps-section">
+    <div class="cc-ps-label">P.S.</div>
+    <p class="cc-ps-text">"Visit our <a href="services.html">services page</a> to find out what we can do for you or begin by <a href="contact.html">booking your free consultation</a> with one of our interior design experts &amp; project fit out coordinators."</p>
   </section>
 
   <div id="site-footer"></div>
@@ -503,9 +491,24 @@
       });
     });
 
+    /* ── Pre-select tab from URL param (?tab=dental or ?tab=workspace) ── */
+    (function() {
+      const tab = new URLSearchParams(window.location.search).get('tab');
+      if (tab) {
+        const target = document.querySelector('.cc-filter-tab[data-calc="' + tab + '"]');
+        if (target) target.click();
+      }
+    })();
+
     /* ── Dental ── */
-    const DENTAL = { basic: [8000, 12000], mid: [15000, 22000], premium: [28000, 40000] };
+    const DENTAL = { basic: [700, 950], mid: [1200, 1600], premium: [2000, 2800] };
     let dentalSpec = 'basic';
+
+    const dentalSlider = document.getElementById('dental-sqm');
+    const dentalSqmVal = document.getElementById('dental-sqm-val');
+    dentalSlider.addEventListener('input', () => {
+      dentalSqmVal.textContent = parseInt(dentalSlider.value).toLocaleString('en-GB');
+    });
 
     document.querySelectorAll('#dental-spec .cc-spec-btn').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -516,21 +519,12 @@
       });
     });
 
-    document.getElementById('dental-minus').addEventListener('click', () => {
-      const inp = document.getElementById('dental-rooms');
-      if (+inp.value > 1) inp.value = +inp.value - 1;
-    });
-    document.getElementById('dental-plus').addEventListener('click', () => {
-      const inp = document.getElementById('dental-rooms');
-      if (+inp.value < 20) inp.value = +inp.value + 1;
-    });
-
     document.getElementById('dental-calc-btn').addEventListener('click', () => {
-      const rooms = Math.max(1, parseInt(document.getElementById('dental-rooms').value) || 3);
+      const sqm = parseInt(dentalSlider.value);
       const [lo, hi] = DENTAL[dentalSpec];
-      document.getElementById('dental-range').textContent = '£' + fmt(lo * rooms) + ' – £' + fmt(hi * rooms);
+      document.getElementById('dental-range').textContent = '£' + fmt(lo * sqm) + ' – £' + fmt(hi * sqm);
       document.getElementById('dental-basis').textContent =
-        rooms + ' treatment room' + (rooms !== 1 ? 's' : '') + ' · ' + label(dentalSpec) + ' specification';
+        sqm + ' m² floor area · ' + label(dentalSpec) + ' specification';
       document.getElementById('dental-result').classList.add('visible');
     });
 

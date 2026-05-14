@@ -147,7 +147,7 @@
       <nav class="stage-nav" id="stageNav">
         <div class="stage-nav-item active" data-stage="0">
           <span class="stage-nav-num">01</span>
-          <span class="stage-nav-label">Discovery</span>
+          <span class="stage-nav-label">First Steps</span>
           <span class="stage-nav-line"></span>
         </div>
         <div class="stage-nav-item" data-stage="1">
@@ -157,7 +157,7 @@
         </div>
         <div class="stage-nav-item" data-stage="2">
           <span class="stage-nav-num">03</span>
-          <span class="stage-nav-label">Delivery</span>
+          <span class="stage-nav-label">Supply &amp; Install</span>
           <span class="stage-nav-line"></span>
         </div>
       </nav>
@@ -165,8 +165,8 @@
       <div class="stage-content">
         <div class="stage-block" data-stage-block="0">
           <div class="stage-num">01</div>
-          <h3 class="stage-title">Discovery</h3>
-          <p class="stage-desc">We begin by understanding your world — your clients, your team, your ambitions. A no-obligation consultation is followed by a site visit to evaluate your space, constraints, and opportunity.</p>
+          <h3 class="stage-title">First Steps</h3>
+          <p class="stage-desc">Book your no-obligation consultation and have a phone call with our experts, who will ask you a few questions to best understand your needs.</p>
           <div class="stage-deliverables">
             <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Initial consultation — understanding your goals, timeline, and budget envelope</span></div>
             <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">On-site survey and space assessment by our senior design team</span></div>
@@ -189,7 +189,7 @@
 
         <div class="stage-block" data-stage-block="2">
           <div class="stage-num">03</div>
-          <h3 class="stage-title">Delivery</h3>
+          <h3 class="stage-title">Supply &amp; Install</h3>
           <p class="stage-desc">We project-manage the complete build, coordinating contractors, suppliers, and installations. Our site teams work to minimise disruption — many projects are delivered while clients continue to trade.</p>
           <div class="stage-deliverables">
             <div class="stage-deliverable"><span class="stage-d-icon">→</span><span class="stage-d-text">Full project management and contractor coordination</span></div>
@@ -302,15 +302,29 @@
     });
 
     // Specialism tabs
+    function activateSpecialism(panelId) {
+      document.querySelectorAll('.specialism-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.specialism-panel').forEach(p => p.classList.remove('active'));
+      const tab = document.querySelector('.specialism-tab[data-panel="' + panelId + '"]');
+      const panel = document.getElementById('panel-' + panelId);
+      if (tab) tab.classList.add('active');
+      if (panel) panel.classList.add('active');
+    }
+
     document.querySelectorAll('.specialism-tab').forEach(tab => {
       tab.addEventListener('click', function() {
-        const panel = this.dataset.panel;
-        document.querySelectorAll('.specialism-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.specialism-panel').forEach(p => p.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById('panel-' + panel).classList.add('active');
+        activateSpecialism(this.dataset.panel);
+        sessionStorage.setItem('rd-panel', this.dataset.panel);
       });
     });
+
+    // Pre-select panel from sessionStorage (saved by any segment click across the site)
+    (function() {
+      const panel = sessionStorage.getItem('rd-panel');
+      if (panel && ['healthcare', 'commercial', 'residential'].includes(panel)) {
+        activateSpecialism(panel);
+      }
+    })();
 
     // Stage nav highlight on scroll
     const stageBlocks = document.querySelectorAll('[data-stage-block]');

@@ -586,9 +586,9 @@
     ],
 
     processSteps: [
-      { num: '01', title: 'Consultation', desc: 'Book your no-obligation consultation. Our experts ask a few questions to understand your needs, ambitions, and timeline — no pressure, no pitch.' },
-      { num: '02', title: 'Site Visit', desc: 'We visit your space together and discuss requirements, priorities, and budget. This practical evaluation forms the basis of your bespoke design solution.' },
-      { num: '03', title: 'Design Proposal', desc: 'We present our design analysis: scope of work, concepts, and a clear proposal. You choose from tailored packages with full cost transparency.' },
+      { num: '01', title: 'First Steps', desc: 'Book your no-obligation consultation. Our experts ask a few questions to understand your needs, ambitions, and timeline — no pressure, no pitch.' },
+      { num: '02', title: 'Design', desc: 'We visit your space and discuss requirements, priorities, and budget. This leads to our design proposal: scope of work, concepts, and a clear fixed-price offer.' },
+      { num: '03', title: 'Supply & Install', desc: 'Our team manages the full build — procurement, delivery, installation, and snagging — so you can stay focused on your business while we handle every detail.' },
     ],
 
     guarantees: [

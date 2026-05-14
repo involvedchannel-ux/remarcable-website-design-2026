@@ -154,11 +154,11 @@
       background: var(--white);
     }
     .about-strip-text {
-      padding: 80px var(--pad-outer);
+      padding: 80px var(--pad-h) 80px var(--pad-outer);
       border-right: 1px solid var(--border);
     }
     .about-strip-img {
-      padding: 80px var(--pad-outer); background: #edeae4;
+      padding: 80px var(--pad-outer) 80px var(--pad-h); background: #edeae4;
       display: flex; flex-direction: column; justify-content: flex-end;
     }
     .about-lead {
@@ -197,7 +197,7 @@
   <section class="hero" id="home-hero">
     <div class="hero-content">
       <div class="hero-eyebrow">Interior Design Studio · Est. 2016 · London</div>
-      <h1 class="hero-title">Smart Design<br>For <em>Business</em><br>Growth.</h1>
+      <h1 class="hero-title">Human-centric<br><em>Design</em> For<br>Business.</h1>
       <p class="hero-sub">Human-centric interiors that inspire your teams, impress your clients, and deliver environments built to perform.</p>
       <div class="hero-ctas">
         <a class="hero-cta-primary" href="projects.html">View Our Projects</a>
@@ -242,7 +242,7 @@
   <!-- ── SCROLL TEXT REVEAL ── -->
   <section class="srt-section" id="srtSection">
     <div class="srt-sticky">
-      <div class="srt-eyebrow">Our Approach</div>
+      <div class="srt-eyebrow">Why Go Remarcable</div>
       <p class="srt-text" id="srtText">Design and guidance to help you make the right choices when scaling up, to solve workspace challenges and create high growth environments that inspire your teams and clients.</p>
       <div class="srt-progress" id="srtProgress"></div>
     </div>
@@ -357,7 +357,19 @@
       s.addEventListener('click', function(e) {
         document.querySelectorAll('.hero-seg').forEach(x => x.classList.remove('active'));
         this.classList.add('active');
+        const txt = this.textContent.trim().toLowerCase();
+        const panel = txt.includes('commercial') ? 'commercial' : txt.includes('residential') ? 'residential' : 'healthcare';
+        sessionStorage.setItem('rd-panel', panel);
       });
+    });
+
+    // Services block cards → save segment before navigating to services.html
+    document.addEventListener('click', function(e) {
+      const block = e.target.closest('.rd-sv-block');
+      if (!block) return;
+      const name = block.querySelector('.rd-sv-name')?.textContent.trim().toLowerCase() || '';
+      const panel = name.includes('commercial') ? 'commercial' : name.includes('residential') ? 'residential' : 'healthcare';
+      sessionStorage.setItem('rd-panel', panel);
     });
   </script>
 </body>
