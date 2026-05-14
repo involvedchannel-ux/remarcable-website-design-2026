@@ -8,6 +8,10 @@
 2. Copy the **Production** URL from Vercel (shape: `https://<project>.vercel.app`).
 3. Treat that URL as the **source of truth** for spacing, rhythm, and interaction intent.
 
+## Client reference — current campaign landing
+
+**Live baseline (to be superseded by one new reusable template in scope):** [https://designs.remarcable.co.uk/](https://designs.remarcable.co.uk/) — Remarcable’s existing Webflow campaign / lead-gen landing. Use for conversion structure and content patterns until the new template is signed off in Figma.
+
 **In-repo link map (clickable on the deployed site):** open **`/handoff`** (serves `handoff.html`) for the same routing table with working relative links and deep-link examples.
 
 ## How deep links work
